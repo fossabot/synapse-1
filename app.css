@@ -22,12 +22,12 @@ body {
 }
 
 .canvas:not(.active):not(.ctrl) {
-	cursor: crosshair;
+	cursor: grabbing;
 }
 
 path.link {
 	fill: none;
-	stroke: #fff;
+	stroke: #50E3C2;
 	stroke-width: 4px;
 	cursor: default;
 }
@@ -53,11 +53,6 @@ circle.node {
 	cursor: pointer;
 }
 
-circle.node.reflexive {
-	stroke: #000 !important;
-	stroke-width: 2.5px;
-}
-
 text {
 	font: 12px sans-serif;
 	pointer-events: none;
@@ -66,10 +61,6 @@ text {
 text.id {
 	text-anchor: middle;
 	font-weight: bold;
-}
-
-.card {
-	box-shadow: 3px 3px 5px red;
 }
 
 .body-blurred {
@@ -95,8 +86,16 @@ text.id {
 	opacity: 1;
 }
 
+.node {
+	transition: 0.3s;
+}
 
+.syn:hover .node {
+	transform: scale(3.5);
+}
 
+.card {
+}
 
 
 

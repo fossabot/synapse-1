@@ -68,7 +68,7 @@ svg.append('svg:defs').append('svg:marker')
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M0,-5L10,0L0,5')
-    .attr('fill', '#fff');
+    .attr('fill', '#50E3C2');
 
 svg.append('svg:defs').append('svg:marker')
     .attr('id', 'start-arrow')
@@ -79,7 +79,7 @@ svg.append('svg:defs').append('svg:marker')
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M10,-5L0,0L10,5')
-    .attr('fill', '#fff');
+    .attr('fill', '#50E3C2');
 
 // line displayed when dragging new nodes
 var drag_line = container.append('svg:path')
@@ -172,20 +172,35 @@ function restart() {
   // add new nodes
   var g = circle.enter().append('svg:g')
     .call(drag)
+    .classed('syn', true)
     .on('mousedown', function() {
       d3.event.stopPropagation();
     });
 
-  var rect = g.append('svg:rect')
-  .attr('fill', 'rgba(255,255,255, 0.95)')
-  .attr('width', 186)
-  .attr('height', 100)
-  .attr('ry', 3)
-  .attr('rx', 3)
-  .classed('card', true)
-  .on('dblclick', rectClick);
+  var card = g.append('svg:rect')
+    .attr('fill', 'rgba(255, 255, 255, 1)')
+    .attr('width', 186)
+    .attr('height', 100)
+    .attr('ry', 5)
+    .attr('rx', 5)
+    .attr('x', -165)
+    .attr('y', -85)
+    .classed('card', true)
+    .on('dblclick', carcClick);
 
-  function rectClick() {
+var rect = svg.append("path")
+    .attr("d", );
+
+// Returns path data for a rectangle with rounded right corners.
+// Note: it’s probably easier to use a <rect> element with rx and ry attributes!
+// The top-left corner is ⟨x,y⟩.
+
+  var cardMarker = g.append('svg:path')
+    .attr('fill', '#50E3C2')
+    .attr('d', 'M0,4.99429749 C0,2.23602315 2.24419519,0 5,0 L10,0 L10,99 L5,99 C2.23857625,99 0,96.7698963 0,94.0057025 L0,4.99429749 Z')
+    .attr('transform', 'translate(-165 -85)')
+
+  function carcClick() {
 
     d3.select('svg').classed('body-blurred', d3.select('svg')
       .classed("body-blurred") ? false : true);
@@ -199,14 +214,13 @@ function restart() {
         .classed("full-node-expanded") ? false : true);
   }
 
-  g.append('svg:circle')
+  var fab = g.append('svg:circle')
     .attr('class', 'node')
-    .attr('r', 20)
-    // figure out deltaX and deltaY pos first
-    // .attr('cx', 180)
-    // .attr('cy', 90)
-    .style('fill', '#0C0')
-    .classed('reflexive', function(d) { return d.reflexive; })
+    .attr('r', 8)
+    .attr('cx', 0)
+    .attr('cy', 0)
+    .style('fill', '#50E3C2')
+    .classed('fab', function(d) { return d.reflexive; })
 
     .on('mouseover', function(d) {
       if(!mousedown_node || d === mousedown_node) return;

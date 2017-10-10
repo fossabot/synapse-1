@@ -11,9 +11,6 @@ var zoom = d3.behavior.zoom()
 var body = d3.select('body')
   .call(zoom)
 
-
-
-
 var fullNode = document.querySelector('.full-node')
 
 var svg = d3.select('body')
@@ -28,7 +25,6 @@ var container = d3.select('svg')
   .attr('width', width)
   .attr('height', height)
   .classed('container', true)
-
 
 
 // set up initial nodes and links
@@ -177,18 +173,27 @@ function restart() {
       d3.event.stopPropagation();
     });
 
+  var shadowCard = g.append('svg:rect')
+    .attr('fill', 'rgba(0, 17, 49, 0.1)')
+    .attr('width', 194)
+    .attr('height', 108)
+    .attr('ry', 8)
+    .attr('rx', 8)
+    .attr('x', (-170-4))
+    .attr('y', (-85-4))
+
   var card = g.append('svg:rect')
     .attr('fill', 'rgba(255, 255, 255, 1)')
     .attr('width', 186)
     .attr('height', 100)
     .attr('ry', 5)
     .attr('rx', 5)
-    .attr('x', -165)
+    .attr('x', -170)
     .attr('y', -85)
     .classed('card', true)
     .on('dblclick', carcClick);
 
-var rect = svg.append("path")
+  var rect = svg.append("path")
     .attr("d", );
 
 // Returns path data for a rectangle with rounded right corners.
@@ -197,8 +202,8 @@ var rect = svg.append("path")
 
   var cardMarker = g.append('svg:path')
     .attr('fill', '#50E3C2')
-    .attr('d', 'M0,4.99429749 C0,2.23602315 2.24419519,0 5,0 L10,0 L10,99 L5,99 C2.23857625,99 0,96.7698963 0,94.0057025 L0,4.99429749 Z')
-    .attr('transform', 'translate(-165 -85)')
+    .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
+    .attr('transform', 'translate(-170 -90)')
 
   function carcClick() {
 
@@ -214,9 +219,16 @@ var rect = svg.append("path")
         .classed("full-node-expanded") ? false : true);
   }
 
+  var fabShadow = g.append('svg:circle')
+    .attr('r', 7)
+    .attr('cx', -1)
+    .attr('cy', -1)
+    .style('fill', 'rgba(0,0,0,0.07')
+    .classed('fabShadow', true)
+
   var fab = g.append('svg:circle')
     .attr('class', 'node')
-    .attr('r', 8)
+    .attr('r', 6)
     .attr('cx', 0)
     .attr('cy', 0)
     .style('fill', '#50E3C2')

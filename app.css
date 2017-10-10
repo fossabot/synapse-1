@@ -5,12 +5,11 @@ body {
 }
 
 body {
-	background-color: #001131;
+	background-color: #fff;
 }
 
 .canvas {
 	background-color: #001134;
-	border: 1px dashed rgba(255, 255, 255, 0.3);
 	cursor: default;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -49,7 +48,6 @@ path.link.hidden {
 }
 
 circle.node {
-	stroke-width: 1.5px;
 	cursor: pointer;
 }
 
@@ -86,15 +84,23 @@ text.id {
 	opacity: 1;
 }
 
-.node {
+.node,
+.fabShadow {
 	transition: 0.3s;
+	transform-origin: center;
 }
 
-.syn:hover .node {
-	transform: scale(3.5);
+.syn:hover .node,
+.syn:hover .fabShadow  {
+	transform: scale(4.5);
 }
 
-.card {
+.fabShadow {
+	opacity: 0;
+}
+
+.syn:hover .fabShadow {
+	opacity: 1;
 }
 
 

@@ -20,9 +20,6 @@ body {
 	display: block;
 }
 
-.canvas:not(.active):not(.ctrl) {
-	cursor: grabbing;
-}
 
 path.link {
 	fill: none;
@@ -47,8 +44,28 @@ path.link.hidden {
 	stroke-width: 0;
 }
 
-circle.node {
+/* cursors */
+
+.card-node {
 	cursor: pointer;
+}
+
+.card-input:hover {
+	cursor: pointer;
+}
+
+.syn:active,
+.syn:active .card-input {
+	cursor: -webkit-grabbing;
+}
+
+.card-input:focus {
+	cursor: text;
+}
+
+.card-node:active,
+.dragline:active {
+	cursor: -webkit-grabbing;
 }
 
 text {
@@ -82,6 +99,10 @@ text.id {
 .full-node.full-node-expanded {
 	transform: scale(1);
 	opacity: 1;
+}
+
+.syn {
+	animation: card-appear 0.3s;
 }
 
 .card-node,
@@ -118,5 +139,16 @@ text.id {
 	outline: none;
 }
 
+
+@keyframes card-appear {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1);
+	}
+
+}
 
 

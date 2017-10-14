@@ -173,28 +173,49 @@ function restart() {
       d3.event.stopPropagation();
     });
 
+  var cardOffsetX = -170,
+      cardOffsetY = -85;
+
+  var cardWidth = 186,
+      cardHeight = 100;
+
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
     .attr('width', 194)
     .attr('height', 108)
     .attr('ry', 8)
     .attr('rx', 8)
-    .attr('x', (-170-4))
-    .attr('y', (-85-4))
+    .attr('x', (cardOffsetX -4))
+    .attr('y', (cardOffsetY -4))
 
   var card = g.append('svg:rect')
     .attr('fill', 'rgba(255, 255, 255, 1)')
-    .attr('width', 186)
-    .attr('height', 100)
+    .attr('width', cardWidth)
+    .attr('height', cardHeight)
     .attr('ry', 5)
     .attr('rx', 5)
-    .attr('x', -170)
-    .attr('y', -85)
+    .attr('x', cardOffsetX)
+    .attr('y', cardOffsetY)
     .classed('card', true)
-    .on('dblclick', carcClick);
+    .on('dblclick', cardClick);
 
-  var rect = svg.append("path")
-    .attr("d", );
+var cardTextAreaWrap = g.append('svg:foreignObject')
+  .attr('width', cardWidth)
+  .attr('height', cardHeight)
+  .attr('x', cardOffsetX)
+  .attr('y', cardOffsetY)
+
+// var bodyWtf = inputWrap.append('xhtml:body')
+//     .attr("xmlns","http://www.w3.org/1999/xhtml")
+
+var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
+  .attr('width', 100)
+  .attr('height', 50)
+  .attr('type', 'text')
+  .attr('rows', 4)
+  .attr('cols', 15)
+  .attr('spellcheck', false)
+  .classed('card-input', true)
 
 // Returns path data for a rectangle with rounded right corners.
 // Note: it’s probably easier to use a <rect> element with rx and ry attributes!
@@ -205,7 +226,7 @@ function restart() {
     .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
     .attr('transform', 'translate(-170 -90)')
 
-  function carcClick() {
+  function cardClick() {
 
     d3.select('svg').classed('body-blurred', d3.select('svg')
       .classed("body-blurred") ? false : true);
@@ -219,20 +240,20 @@ function restart() {
         .classed("full-node-expanded") ? false : true);
   }
 
-  var fabShadow = g.append('svg:circle')
+  var cardNodeShadow = g.append('svg:circle')
     .attr('r', 7)
     .attr('cx', -1)
     .attr('cy', -1)
     .style('fill', 'rgba(0,0,0,0.07')
-    .classed('fabShadow', true)
+    .classed('card-node-shadow', true)
 
-  var fab = g.append('svg:circle')
-    .attr('class', 'node')
+  var cardNode = g.append('svg:circle')
+    .attr('class', 'card-node')
     .attr('r', 6)
     .attr('cx', 0)
     .attr('cy', 0)
     .style('fill', '#50E3C2')
-    .classed('fab', function(d) { return d.reflexive; })
+    // .classed('fab', function(d) { return d.reflexive; })
 
     .on('mouseover', function(d) {
       if(!mousedown_node || d === mousedown_node) return;

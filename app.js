@@ -20,6 +20,21 @@ var svg = d3.select('body')
   .attr('height', height)
   .classed('canvas', true)
 
+// fiters
+
+// var filterDefs = d3.select('svg')
+//   .append('defs')
+
+// var blurFilterWrap = d3.select('svg')
+//   .append('filter')
+//   .attr('id', 'blurFilter')
+
+// var blurFilter = d3.select('blurFilterWrap')
+//   .append('feGaussianBlur')
+//   .attr('in', 'SourceGraphic')
+//   .attr('stdDeviation', 5)
+
+
 var container = d3.select('svg')
   .append("svg:g")
   .attr('width', width)
@@ -168,10 +183,12 @@ function restart() {
   // add new nodes
   var g = circle.enter().append('svg:g')
     .call(drag)
-    .classed('syn', true)
+    .on('click', synExpand)
     .on('mousedown', function() {
       d3.event.stopPropagation();
-    });
+    })
+    .classed('syn', true)
+
 
   var cardOffsetX = -170,
       cardOffsetY = -85;
@@ -187,6 +204,7 @@ function restart() {
     .attr('rx', 8)
     .attr('x', (cardOffsetX -4))
     .attr('y', (cardOffsetY -4))
+    .classed('card-shadow', true)
 
   var card = g.append('svg:rect')
     .attr('fill', 'rgba(255, 255, 255, 1)')
@@ -197,16 +215,63 @@ function restart() {
     .attr('x', cardOffsetX)
     .attr('y', cardOffsetY)
     .classed('card', true)
-    .on('dblclick', cardClick);
 
-var cardTextAreaWrap = g.append('svg:foreignObject')
-  .attr('width', cardWidth)
-  .attr('height', cardHeight)
-  .attr('x', cardOffsetX)
-  .attr('y', cardOffsetY)
+  var cardTextAreaWrap = g.append('svg:foreignObject')
+    .attr('width', cardWidth)
+    .attr('height', cardHeight)
+    .attr('x', cardOffsetX)
+    .attr('y', cardOffsetY)
+    ;
 
 // var bodyWtf = inputWrap.append('xhtml:body')
 //     .attr("xmlns","http://www.w3.org/1999/xhtml")
+
+
+  function synExpand() {
+    var currentSyn = d3.select(this);
+    var currentCard = currentSyn.select('.syn .card')
+
+    currentSyn
+      .on('click', function(){
+          d3.event.stopPropagation();
+      })
+
+    currentSyn.select('.syn .card')
+      .attr('width', 500)
+      .attr('height', 300)
+      ;
+
+    currentSyn.select('.syn .card-shadow')
+      .attr('width', 300 + 8)
+      .attr('height', 500 + 8)
+      ;
+
+    currentSyn.append('svg:circle')
+      .attr('r', 5)
+      .on('click', synCollapse)
+      .classed('node-action', true)
+
+    d3.select(this).select('.syn .card-marker')
+      .remove()
+      ;
+
+    d3.select(this).select('.syn .card-node-shadow')
+      .remove()
+      ;
+
+    d3.select(this).select('.syn .card-node')
+      .remove()
+      ;
+
+    function synCollapse () {
+      
+      currentCard.attr('width', 100);
+      currentSyn
+        .on('click', synExpand);
+    }
+
+
+  }
 
 var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
   .attr('width', 100)
@@ -225,11 +290,14 @@ var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
     .attr('fill', '#50E3C2')
     .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
     .attr('transform', 'translate(-170 -90)')
+    .classed('card-marker', true)
 
   function cardClick() {
 
-    d3.select('svg').classed('body-blurred', d3.select('svg')
-      .classed("body-blurred") ? false : true);
+    d3.selectAll('.card').classed('blurred', true)
+
+    // d3.select('svg').classed('body-blurred', d3.select('svg')
+    //   .classed("body-blurred") ? false : true);
   
     d3.select('.full-node')
       .attr('style', 'transform: translate(' + d3.mouse(this)[0] + 'px,' + d3.mouse(this)[1] + 'px) scale(1);')
@@ -281,6 +349,7 @@ var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
       
       drag_line
         .style('marker-end', 'url(#end-arrow)')
+        .style('cursor', '-webkit-grabbing')
         .classed('hidden', false)
         .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
 
@@ -425,5 +494,8 @@ svg.on('mousedown', mousedown)
   .on('contextmenu', rightclick);
 
 
-
 restart();
+
+
+
+

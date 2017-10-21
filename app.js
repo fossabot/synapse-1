@@ -41,6 +41,8 @@ var container = d3.select('svg')
   .attr('height', height)
   .classed('container', true)
 
+var currentSynColor = '#50E3C2'
+
 
 // set up initial nodes and links
 //  - nodes are known by 'id', not by index in array.
@@ -79,7 +81,7 @@ svg.append('svg:defs').append('svg:marker')
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M0,-5L10,0L0,5')
-    .attr('fill', '#50E3C2');
+    .attr('fill', currentSynColor);
 
 svg.append('svg:defs').append('svg:marker')
     .attr('id', 'start-arrow')
@@ -90,7 +92,7 @@ svg.append('svg:defs').append('svg:marker')
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M10,-5L0,0L10,5')
-    .attr('fill', '#50E3C2');
+    .attr('fill', currentSynColor);
 
 // line displayed when dragging new nodes
 var drag_line = container.append('svg:path')
@@ -221,6 +223,7 @@ function restart() {
     .attr('height', cardHeight)
     .attr('x', cardOffsetX)
     .attr('y', cardOffsetY)
+    .classed('card-input-wrap', true)
     ;
 
 // var bodyWtf = inputWrap.append('xhtml:body')
@@ -231,25 +234,34 @@ function restart() {
     var currentSyn = d3.select(this);
     var currentCard = currentSyn.select('.syn .card')
 
-    currentSyn
-      .on('click', function(){
-          d3.event.stopPropagation();
-      })
+    var cardExpandedWidth = 480;
+    var cardExpandedHeight = 360;
 
     currentSyn.select('.syn .card')
-      .attr('width', 500)
-      .attr('height', 300)
+      .attr('width', cardExpandedWidth)
+      .attr('height', cardExpandedHeight)
       ;
 
+    currentSyn.select('.card-input-wrap')
+      .attr('width', cardExpandedWidth)
+      .attr('height', cardExpandedHeight)
+
     currentSyn.select('.syn .card-shadow')
-      .attr('width', 300 + 8)
-      .attr('height', 500 + 8)
+      // numbers are just margins, not magic
+      .attr('width', cardExpandedWidth + 8)
+      .attr('height', cardExpandedHeight + 8)
       ;
 
     currentSyn.append('svg:circle')
-      .attr('r', 5)
+      .attr('r', 25)
+      .attr('cx', cardExpandedWidth - cardWidth + 8)
+      .attr('cy', cardExpandedHeight - cardHeight + 8)
+      .attr('fill', currentSynColor)
       .on('click', synCollapse)
       .classed('node-action', true)
+
+    currentSyn.select('.card-input')
+      // .attr('rows', 15)
 
     d3.select(this).select('.syn .card-marker')
       .remove()
@@ -263,22 +275,39 @@ function restart() {
       .remove()
       ;
 
-    function synCollapse () {
-      
-      currentCard.attr('width', 100);
-      currentSyn
-        .on('click', synExpand);
-    }
+    // disable event listner on card container (syn)
+    currentSyn
+      .on('click', null)
+      .classed('syn-expanded', true)
 
+    function synCollapse () {
+
+      // prevents propagation fuckery
+      d3.event.stopPropagation();
+
+      currentCard
+        .attr('width', cardWidth)
+        .attr('height', cardHeight)
+        ;
+
+      currentSyn.select('.syn .card-shadow')
+        .attr('width', cardWidth - 4)
+        .attr('height', cardHeight - 4)
+        ;
+
+      currentSyn.select('.node-action')
+        .remove()
+        ;
+
+      currentSyn
+        .on('click', synExpand)
+        .classed('syn-expanded', false)
+    }
 
   }
 
 var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
-  .attr('width', 100)
-  .attr('height', 50)
   .attr('type', 'text')
-  .attr('rows', 4)
-  .attr('cols', 15)
   .attr('spellcheck', false)
   .classed('card-input', true)
 
@@ -287,7 +316,7 @@ var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
 // The top-left corner is ⟨x,y⟩.
 
   var cardMarker = g.append('svg:path')
-    .attr('fill', '#50E3C2')
+    .attr('fill', currentSynColor)
     .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
     .attr('transform', 'translate(-170 -90)')
     .classed('card-marker', true)
@@ -320,7 +349,7 @@ var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
     .attr('r', 6)
     .attr('cx', 0)
     .attr('cy', 0)
-    .style('fill', '#50E3C2')
+    .style('fill', currentSynColor)
     // .classed('fab', function(d) { return d.reflexive; })
 
     .on('mouseover', function(d) {

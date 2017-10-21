@@ -131,12 +131,18 @@ text.id {
 .card-input {
 	margin-left: 15px;
 	margin-top: 10px;
-	height: 75px;
+	height: 70px;
+	width: 150px;
 	resize: none;
-	font-size: 18px;
+	font-size: 17px;
 	overflow: hidden;
 	border: none;
 	font-weight: lighter;
+}
+
+.syn-expanded .card-input {
+	height: 170px;
+	width: 350px;
 }
 
 .card-input:focus {

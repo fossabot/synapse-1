@@ -204,8 +204,8 @@ function restart() {
     .attr('height', 108)
     .attr('ry', 8)
     .attr('rx', 8)
-    .attr('x', (cardOffsetX -4))
-    .attr('y', (cardOffsetY -4))
+    .attr('x', cardOffsetX - 4)
+    .attr('y', cardOffsetY - 4)
     .classed('card-shadow', true)
 
   var card = g.append('svg:rect')
@@ -218,7 +218,7 @@ function restart() {
     .attr('y', cardOffsetY)
     .classed('card', true)
 
-  var cardTextAreaWrap = g.append('svg:foreignObject')
+  var cardInputWrap = g.append('svg:foreignObject')
     .attr('width', cardWidth)
     .attr('height', cardHeight)
     .attr('x', cardOffsetX)
@@ -237,17 +237,21 @@ function restart() {
     var cardExpandedWidth = 480;
     var cardExpandedHeight = 360;
 
-    currentSyn.select('.syn .card')
+    currentCard
+      .attr('x', cardOffsetX * 2)
+      .attr('y', cardOffsetY * 2)
       .attr('width', cardExpandedWidth)
       .attr('height', cardExpandedHeight)
       ;
 
     currentSyn.select('.card-input-wrap')
-      .attr('width', cardExpandedWidth)
-      .attr('height', cardExpandedHeight)
+      .attr('x', cardOffsetX * 2)
+      .attr('y', cardOffsetY * 2)
 
     currentSyn.select('.syn .card-shadow')
       // numbers are just margins, not magic
+      .attr('x', cardOffsetX - 4)
+      .attr('y', cardOffsetY - 4)
       .attr('width', cardExpandedWidth + 8)
       .attr('height', cardExpandedHeight + 8)
       ;
@@ -260,8 +264,6 @@ function restart() {
       .on('click', synCollapse)
       .classed('node-action', true)
 
-    currentSyn.select('.card-input')
-      // .attr('rows', 15)
 
     d3.select(this).select('.syn .card-marker')
       .remove()
@@ -282,17 +284,24 @@ function restart() {
 
     function synCollapse () {
 
-      // prevents propagation fuckery
+      // prevents propagation fuckery on expand / collapse events of syn
       d3.event.stopPropagation();
 
       currentCard
+        .attr('x', cardOffsetX)
+        .attr('y', cardOffsetY)
         .attr('width', cardWidth)
         .attr('height', cardHeight)
         ;
 
       currentSyn.select('.syn .card-shadow')
-        .attr('width', cardWidth - 4)
-        .attr('height', cardHeight - 4)
+        .attr('width', cardWidth + 8)
+        .attr('height', cardHeight + 8)
+        ;
+
+      currentSyn.select('.syn .card-input-wrap')
+        .attr('x', cardOffsetX)
+        .attr('y', cardOffsetY)
         ;
 
       currentSyn.select('.node-action')
@@ -306,7 +315,7 @@ function restart() {
 
   }
 
-var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
+  var cardInput = cardInputWrap.append('xhtml:textarea')
   .attr('type', 'text')
   .attr('spellcheck', false)
   .classed('card-input', true)
@@ -321,21 +330,6 @@ var cardTextArea = cardTextAreaWrap.append('xhtml:textarea')
     .attr('transform', 'translate(-170 -90)')
     .classed('card-marker', true)
 
-  function cardClick() {
-
-    d3.selectAll('.card').classed('blurred', true)
-
-    // d3.select('svg').classed('body-blurred', d3.select('svg')
-    //   .classed("body-blurred") ? false : true);
-  
-    d3.select('.full-node')
-      .attr('style', 'transform: translate(' + d3.mouse(this)[0] + 'px,' + d3.mouse(this)[1] + 'px) scale(1);')
-
-    // class toggle
-    d3.select('.full-node')
-      .classed("full-node-expanded", d3.select('.full-node')
-        .classed("full-node-expanded") ? false : true);
-  }
 
   var cardNodeShadow = g.append('svg:circle')
     .attr('r', 7)

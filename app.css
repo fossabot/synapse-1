@@ -128,6 +128,13 @@ text.id {
 	opacity: 1;
 }
 
+.card,
+.card-shadow,
+.card-input-wrap,
+.card-input {
+	transition: 0.3s;
+}
+
 .card-input {
 	margin-left: 15px;
 	margin-top: 10px;
@@ -137,12 +144,14 @@ text.id {
 	font-size: 17px;
 	overflow: hidden;
 	border: none;
-	font-weight: lighter;
+	font-weight: 300;
+
 }
 
 .syn-expanded .card-input {
-	height: 170px;
-	width: 350px;
+	height: 240px;
+	width: 450px;
+	font-size: 34px;
 }
 
 .card-input:focus {

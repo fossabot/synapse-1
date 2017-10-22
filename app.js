@@ -183,6 +183,7 @@ function restart() {
     .classed('reflexive', function(d) { return d.reflexive; });
 
   // add new nodes
+
   var g = circle.enter().append('svg:g')
     .call(drag)
     .on('click', synExpand)
@@ -250,16 +251,16 @@ function restart() {
 
     currentSyn.select('.syn .card-shadow')
       // numbers are just margins, not magic
-      .attr('x', cardOffsetX - 4)
-      .attr('y', cardOffsetY - 4)
+      .attr('x', (cardOffsetX * 2) - 4)
+      .attr('y', (cardOffsetY * 2) - 4)
       .attr('width', cardExpandedWidth + 8)
       .attr('height', cardExpandedHeight + 8)
       ;
 
     currentSyn.append('svg:circle')
       .attr('r', 25)
-      .attr('cx', cardExpandedWidth - cardWidth + 8)
-      .attr('cy', cardExpandedHeight - cardHeight + 8)
+      .attr('cx', (cardOffsetX * 2) + cardExpandedWidth + 8)
+      .attr('cy', (cardOffsetY * 2) + cardExpandedHeight + 8)
       .attr('fill', currentSynColor)
       .on('click', synCollapse)
       .classed('node-action', true)
@@ -269,13 +270,13 @@ function restart() {
       .remove()
       ;
 
-    d3.select(this).select('.syn .card-node-shadow')
-      .remove()
-      ;
+    // d3.select(this).select('.syn .card-node-shadow')
+    //   .remove()
+    //   ;
 
-    d3.select(this).select('.syn .card-node')
-      .remove()
-      ;
+    // d3.select(this).select('.syn .card-node')
+    //   .remove()
+    //   ;
 
     // disable event listner on card container (syn)
     currentSyn
@@ -297,6 +298,8 @@ function restart() {
       currentSyn.select('.syn .card-shadow')
         .attr('width', cardWidth + 8)
         .attr('height', cardHeight + 8)
+        .attr('x', cardOffsetX - 4)
+        .attr('y', cardOffsetY - 4)
         ;
 
       currentSyn.select('.syn .card-input-wrap')
@@ -311,6 +314,9 @@ function restart() {
       currentSyn
         .on('click', synExpand)
         .classed('syn-expanded', false)
+
+      // createCardNode();
+
     }
 
   }
@@ -338,92 +344,97 @@ function restart() {
     .style('fill', 'rgba(0,0,0,0.07')
     .classed('card-node-shadow', true)
 
-  var cardNode = g.append('svg:circle')
-    .attr('class', 'card-node')
-    .attr('r', 6)
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .style('fill', currentSynColor)
-    // .classed('fab', function(d) { return d.reflexive; })
+  function createCardNode() {
 
-    .on('mouseover', function(d) {
-      if(!mousedown_node || d === mousedown_node) return;
-      // enlarge target node
-      d3.select(this)
-        .attr('transform', 'scale(1.1)')
-        .attr('transform-origin', 'center');
-    })
-    .on('mouseout', function(d) {
-      if(!mousedown_node || d === mousedown_node) return;
-      // unenlarge target node
-      d3.select(this).attr('transform', '');
-    })
-    .on('mousedown', function(d) {
-      if(d3.event.ctrlKey) return;
-      d3.event.stopPropagation();
 
-      // select node
-      mousedown_node = d;
-      if(mousedown_node === selected_node) selected_node = null;
-      else selected_node = mousedown_node;
-      selected_link = null;
+    var cardNode = g.append('svg:circle')
+      .attr('class', 'card-node')
+      .attr('r', 6)
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .style('fill', currentSynColor)
+      // .classed('fab', function(d) { return d.reflexive; })
 
-      // reposition drag line
-      
-      drag_line
-        .style('marker-end', 'url(#end-arrow)')
-        .style('cursor', '-webkit-grabbing')
-        .classed('hidden', false)
-        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+      .on('mouseover', function(d) {
+        if(!mousedown_node || d === mousedown_node) return;
+        // enlarge target node
+        d3.select(this)
+          .attr('transform', 'scale(1.1)')
+          .attr('transform-origin', 'center');
+      })
+      .on('mouseout', function(d) {
+        if(!mousedown_node || d === mousedown_node) return;
+        // unenlarge target node
+        d3.select(this).attr('transform', '');
+      })
+      .on('mousedown', function(d) {
+        if(d3.event.ctrlKey) return;
+        d3.event.stopPropagation();
 
-    })
-    .on('mouseup', function(d) {
-      if(!mousedown_node) return;
+        // select node
+        mousedown_node = d;
+        if(mousedown_node === selected_node) selected_node = null;
+        else selected_node = mousedown_node;
+        selected_link = null;
 
-      // needed by FF
-      drag_line
-        .classed('hidden', true)
-        .style('marker-end', '');
+        // reposition drag line
+        
+        drag_line
+          .style('marker-end', 'url(#end-arrow)')
+          .style('cursor', '-webkit-grabbing')
+          .classed('hidden', false)
+          .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
 
-      // check for drag-to-self
-      mouseup_node = d;
-      if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
+      })
+      .on('mouseup', function(d) {
+        if(!mousedown_node) return;
 
-      // unenlarge target node
-      d3.select(this).attr('transform', '');
+        // needed by FF
+        drag_line
+          .classed('hidden', true)
+          .style('marker-end', '');
 
-      // add link to graph (update if exists)
-      // NB: links are strictly source < target; arrows separately specified by booleans
-      var source, target, direction;
-      if(mousedown_node.id < mouseup_node.id) {
-        source = mousedown_node;
-        target = mouseup_node;
-        direction = 'right';
-      } else {
-        source = mouseup_node;
-        target = mousedown_node;
-        direction = 'left';
-      }
+        // check for drag-to-self
+        mouseup_node = d;
+        if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
 
-      var link;
-      link = links.filter(function(l) {
-        return (l.source === source && l.target === target);
-      })[0];
+        // unenlarge target node
+        d3.select(this).attr('transform', '');
 
-      if(link) {
-        link[direction] = true;
-      } else {
-        link = {source: source, target: target, left: false, right: false};
-        link[direction] = true;
-        links.push(link);
-      }
+        // add link to graph (update if exists)
+        // NB: links are strictly source < target; arrows separately specified by booleans
+        var source, target, direction;
+        if(mousedown_node.id < mouseup_node.id) {
+          source = mousedown_node;
+          target = mouseup_node;
+          direction = 'right';
+        } else {
+          source = mouseup_node;
+          target = mousedown_node;
+          direction = 'left';
+        }
 
-      // select new link
-      selected_link = link;
-      selected_node = null;
+        var link;
+        link = links.filter(function(l) {
+          return (l.source === source && l.target === target);
+        })[0];
 
-      restart();
-    });
+        if(link) {
+          link[direction] = true;
+        } else {
+          link = {source: source, target: target, left: false, right: false};
+          link[direction] = true;
+          links.push(link);
+        }
+
+        // select new link
+        selected_link = link;
+        selected_node = null;
+
+        restart();
+      });
+    }
+    createCardNode();
 
   // show node IDs
   // g.append('svg:text')

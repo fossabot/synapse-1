@@ -55,7 +55,7 @@ path.link.hidden {
 }
 
 .card-input:hover {
-	cursor: pointer;
+	cursor: url("cursor.png") 20 15, pointer;
 }
 
 .syn:active,
@@ -113,6 +113,8 @@ text.id {
 .card-node-shadow {
 	transition: 0.3s;
 	transform-origin: center;
+	transform: scale(1);
+	opacity: 1;
 }
 
 .syn:hover .card-node,
@@ -120,6 +122,14 @@ text.id {
 	transform: scale(4.5);
 }
 
+/* hiding the main node, needs a more powerful selector */
+.syn.syn-expanded .card-node,
+.syn.syn-expanded .card-node-shadow {
+	transform: scale(0);
+	opacity: 0;
+}
+
+/* making the shadow invisible in main node mini-state */
 .card-node-shadow {
 	opacity: 0;
 }
@@ -136,12 +146,12 @@ text.id {
 }
 
 .card-input {
-	margin-left: 15px;
+	margin-left: 20px;
 	margin-top: 10px;
 	height: 70px;
 	width: 150px;
 	resize: none;
-	font-size: 17px;
+	font-size: 15px;
 	overflow: hidden;
 	border: none;
 	font-weight: 300;
@@ -152,6 +162,8 @@ text.id {
 	height: 240px;
 	width: 450px;
 	font-size: 34px;
+	margin-left: 25px;
+	margin-top: 20px;
 }
 
 .card-input:focus {

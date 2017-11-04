@@ -191,18 +191,19 @@ function restart() {
       d3.event.stopPropagation();
     })
     .classed('syn', true)
+    ;
 
   var cardWidth = 186,
-      cardHeight = 100;
+      cardHeight = 100
+      ;
 
   var cardOffsetX = -cardWidth,
-      cardOffsetY = -cardHeight;
+      cardOffsetY = -cardHeight
+      ;
 
   // var cardWrap = g.append('svg:foreignObject')
   //   // note that foreignObject may require body at some point...
   //   .classed('card-wrap', true)
-
-  // old card shadow 
 
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
@@ -213,6 +214,7 @@ function restart() {
     .attr('x', cardOffsetX - 4)
     .attr('y', cardOffsetY - 4)
     .classed('card-shadow', true)
+    ;
 
   var cardNodeShadow = g.append('svg:circle')
     .attr('r', 10)
@@ -220,6 +222,7 @@ function restart() {
     .attr('cy', 0)
     .style('fill', currentSynColor)
     .classed('card-node-shadow', true)
+    ;
 
   var card = g.append('svg:rect')
     .attr('fill', 'rgba(255,255,255,1')
@@ -230,19 +233,24 @@ function restart() {
     .attr('rx', 5)
     .attr('ry', 5)
     .classed('card', true)
+    ;
 
-  // var cardInputWrap = g.append('svg:foreignObject')
-  //   .attr('width', cardWidth)
-  //   .attr('height', cardHeight)
-  //   .attr('x', cardOffsetX)
-  //   .attr('y', cardOffsetY)
-  //   .classed('card-input-wrap', true)
-  //   ;
+  var cardHTMLWrap = g.append('svg:foreignObject')
+    .attr('width', cardWidth)
+    .attr('height', cardHeight)
+    .attr('x', cardOffsetX)
+    .attr('y', cardOffsetY)
+    .classed('card-html-wrap', true)
+    ;
 
-  var cardInput = g.append('xhtml:textarea')
+  var cardInput = cardHTMLWrap.append('xhtml:textarea')
     .attr('type', 'text')
     .attr('spellcheck', false)
     .classed('card-input', true)
+    ;
+
+  var cardCorner = cardHTMLWrap.append('xhtml:div')
+    .classed('card-corner', true)
 
   function synExpand() {
 

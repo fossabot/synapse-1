@@ -41,7 +41,7 @@ var container = d3.select('svg')
   .attr('height', height)
   .classed('container', true)
 
-var currentSynColor = '#50E3C2'
+var currentSynColor = '#4A90E2'
 
 
 // set up initial nodes and links
@@ -64,7 +64,7 @@ var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
     .size([width, height])
-    .linkDistance(350)
+    .linkDistance(550)
     .charge(-500)
     .on('tick', tick)
 
@@ -186,18 +186,23 @@ function restart() {
 
   var g = circle.enter().append('svg:g')
     .call(drag)
-    .on('click', synExpand)
+    // .on('click', synExpand)
     .on('mousedown', function() {
       d3.event.stopPropagation();
     })
     .classed('syn', true)
 
-
-  var cardOffsetX = -170,
-      cardOffsetY = -85;
-
   var cardWidth = 186,
       cardHeight = 100;
+
+  var cardOffsetX = -cardWidth,
+      cardOffsetY = -cardHeight;
+
+  // var cardWrap = g.append('svg:foreignObject')
+  //   // note that foreignObject may require body at some point...
+  //   .classed('card-wrap', true)
+
+  // old card shadow 
 
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
@@ -209,29 +214,38 @@ function restart() {
     .attr('y', cardOffsetY - 4)
     .classed('card-shadow', true)
 
+  var cardNodeShadow = g.append('svg:circle')
+    .attr('r', 10)
+    .attr('cx', 0)
+    .attr('cy', 0)
+    .style('fill', currentSynColor)
+    .classed('card-node-shadow', true)
+
   var card = g.append('svg:rect')
-    .attr('fill', 'rgba(255, 255, 255, 1)')
+    .attr('fill', 'rgba(255,255,255,1')
     .attr('width', cardWidth)
     .attr('height', cardHeight)
-    .attr('ry', 5)
-    .attr('rx', 5)
     .attr('x', cardOffsetX)
     .attr('y', cardOffsetY)
+    .attr('rx', 5)
+    .attr('ry', 5)
     .classed('card', true)
 
-  var cardInputWrap = g.append('svg:foreignObject')
-    .attr('width', cardWidth)
-    .attr('height', cardHeight)
-    .attr('x', cardOffsetX)
-    .attr('y', cardOffsetY)
-    .classed('card-input-wrap', true)
-    ;
+  // var cardInputWrap = g.append('svg:foreignObject')
+  //   .attr('width', cardWidth)
+  //   .attr('height', cardHeight)
+  //   .attr('x', cardOffsetX)
+  //   .attr('y', cardOffsetY)
+  //   .classed('card-input-wrap', true)
+  //   ;
 
-// var bodyWtf = inputWrap.append('xhtml:body')
-//     .attr("xmlns","http://www.w3.org/1999/xhtml")
-
+  var cardInput = g.append('xhtml:textarea')
+    .attr('type', 'text')
+    .attr('spellcheck', false)
+    .classed('card-input', true)
 
   function synExpand() {
+
     var currentSyn = d3.select(this);
     var currentCard = currentSyn.select('.syn .card')
 
@@ -257,9 +271,9 @@ function restart() {
       .attr('height', cardExpandedHeight + 8)
       ;
 
-    currentSyn.append('svg:circle')
+    var buttonSave = currentSyn.append('svg:circle')
       .attr('r', 25)
-      .attr('cx', (cardOffsetX * 2) + cardExpandedWidth + 8)
+      .attr('cx', cardOffsetX)
       .attr('cy', (cardOffsetY * 2) + cardExpandedHeight + 8)
       .attr('fill', currentSynColor)
       .on('click', synCollapse)
@@ -321,51 +335,34 @@ function restart() {
 
   }
 
-  var cardInput = cardInputWrap.append('xhtml:textarea')
-  .attr('type', 'text')
-  .attr('spellcheck', false)
-  .classed('card-input', true)
+
 
 // Returns path data for a rectangle with rounded right corners.
 // Note: it’s probably easier to use a <rect> element with rx and ry attributes!
 // The top-left corner is ⟨x,y⟩.
 
-  var cardMarker = g.append('svg:path')
-    .attr('fill', currentSynColor)
-    .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
-    .attr('transform', 'translate(-170 -90)')
-    .classed('card-marker', true)
+  // var cardMarker = g.append('svg:path')
+  //   .attr('fill', currentSynColor)
+  //   .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
+  //   .attr('transform', 'translate(-170 -90)')
+  //   .classed('card-marker', true)
 
-
-  var cardNodeShadow = g.append('svg:circle')
-    .attr('r', 7)
-    .attr('cx', -1)
-    .attr('cy', -1)
-    .style('fill', 'rgba(0,0,0,0.07')
-    .classed('card-node-shadow', true)
 
   function createCardNode() {
 
-
     var cardNode = g.append('svg:circle')
       .attr('class', 'card-node')
-      .attr('r', 6)
+      .attr('r', 10)
       .attr('cx', 0)
       .attr('cy', 0)
-      .style('fill', currentSynColor)
+      .style('fill', '#35649C')
       // .classed('fab', function(d) { return d.reflexive; })
 
       .on('mouseover', function(d) {
         if(!mousedown_node || d === mousedown_node) return;
-        // enlarge target node
-        d3.select(this)
-          .attr('transform', 'scale(1.1)')
-          .attr('transform-origin', 'center');
       })
       .on('mouseout', function(d) {
         if(!mousedown_node || d === mousedown_node) return;
-        // unenlarge target node
-        d3.select(this).attr('transform', '');
       })
       .on('mousedown', function(d) {
         if(d3.event.ctrlKey) return;

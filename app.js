@@ -201,16 +201,12 @@ function restart() {
       cardOffsetY = -cardHeight
       ;
 
-  // var cardWrap = g.append('svg:foreignObject')
-  //   // note that foreignObject may require body at some point...
-  //   .classed('card-wrap', true)
-
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
     .attr('width', 194)
     .attr('height', 108)
-    .attr('ry', 8)
-    .attr('rx', 8)
+    .attr('ry', 12)
+    .attr('rx', 12)
     .attr('x', cardOffsetX - 4)
     .attr('y', cardOffsetY - 4)
     .classed('card-shadow', true)
@@ -230,8 +226,8 @@ function restart() {
     .attr('height', cardHeight)
     .attr('x', cardOffsetX)
     .attr('y', cardOffsetY)
-    .attr('rx', 5)
-    .attr('ry', 5)
+    .attr('rx', 10)
+    .attr('ry', 10)
     .classed('card', true)
     ;
 
@@ -252,109 +248,114 @@ function restart() {
   var cardCorner = cardHTMLWrap.append('xhtml:div')
     .classed('card-corner', true)
 
-  function synExpand() {
+  var cardAction = g.append('svg:rect')
+    .attr('width', 25)
+    .attr('height', 25)
+    .attr('fill', currentSynColor)
+    .attr('x', -205)
+    .attr('y', -85)
+    .classed('card-action', true)
+    .on('click', synExpand)
+    ;
 
-    var currentSyn = d3.select(this);
-    var currentCard = currentSyn.select('.syn .card')
+    function synExpand () {
 
-    var cardExpandedWidth = 480;
-    var cardExpandedHeight = 360;
+      var currentSyn = this.closest(".syn");
 
-    currentCard
-      .attr('x', cardOffsetX * 2)
-      .attr('y', cardOffsetY * 2)
-      .attr('width', cardExpandedWidth)
-      .attr('height', cardExpandedHeight)
-      ;
-
-    currentSyn.select('.card-input-wrap')
-      .attr('x', cardOffsetX * 2)
-      .attr('y', cardOffsetY * 2)
-
-    currentSyn.select('.syn .card-shadow')
-      // numbers are just margins, not magic
-      .attr('x', (cardOffsetX * 2) - 4)
-      .attr('y', (cardOffsetY * 2) - 4)
-      .attr('width', cardExpandedWidth + 8)
-      .attr('height', cardExpandedHeight + 8)
-      ;
-
-    var buttonSave = currentSyn.append('svg:circle')
-      .attr('r', 25)
-      .attr('cx', cardOffsetX)
-      .attr('cy', (cardOffsetY * 2) + cardExpandedHeight + 8)
-      .attr('fill', currentSynColor)
-      .on('click', synCollapse)
-      .classed('node-action', true)
-
-
-    d3.select(this).select('.syn .card-marker')
-      .remove()
-      ;
-
-    // d3.select(this).select('.syn .card-node-shadow')
-    //   .remove()
-    //   ;
-
-    // d3.select(this).select('.syn .card-node')
-    //   .remove()
-    //   ;
-
-    // disable event listner on card container (syn)
-    currentSyn
-      .on('click', null)
-      .classed('syn-expanded', true)
-
-    function synCollapse () {
-
-      // prevents propagation fuckery on expand / collapse events of syn
-      d3.event.stopPropagation();
-
-      currentCard
-        .attr('x', cardOffsetX)
-        .attr('y', cardOffsetY)
-        .attr('width', cardWidth)
-        .attr('height', cardHeight)
-        ;
-
-      currentSyn.select('.syn .card-shadow')
-        .attr('width', cardWidth + 8)
-        .attr('height', cardHeight + 8)
-        .attr('x', cardOffsetX - 4)
-        .attr('y', cardOffsetY - 4)
-        ;
-
-      currentSyn.select('.syn .card-input-wrap')
-        .attr('x', cardOffsetX)
-        .attr('y', cardOffsetY)
-        ;
-
-      currentSyn.select('.node-action')
-        .remove()
-        ;
-
-      currentSyn
-        .on('click', synExpand)
-        .classed('syn-expanded', false)
-
-      // createCardNode();
+      console.log(currentSyn.querySelector(".card-input"))
 
     }
 
-  }
+  // function synExpand() {
+
+  //   var currentSyn = d3.select(this);
+  //   var currentCard = currentSyn.select('.syn .card')
+
+  //   var cardExpandedWidth = 480;
+  //   var cardExpandedHeight = 360;
+
+  //   currentCard
+  //     .attr('x', cardOffsetX * 2)
+  //     .attr('y', cardOffsetY * 2)
+  //     .attr('width', cardExpandedWidth)
+  //     .attr('height', cardExpandedHeight)
+  //     ;
+
+  //   currentSyn.select('.card-input-wrap')
+  //     .attr('x', cardOffsetX * 2)
+  //     .attr('y', cardOffsetY * 2)
+
+  //   currentSyn.select('.syn .card-shadow')
+  //     // numbers are just margins, not magic
+  //     .attr('x', (cardOffsetX * 2) - 4)
+  //     .attr('y', (cardOffsetY * 2) - 4)
+  //     .attr('width', cardExpandedWidth + 8)
+  //     .attr('height', cardExpandedHeight + 8)
+  //     ;
+
+  //   var buttonSave = currentSyn.append('svg:circle')
+  //     .attr('r', 25)
+  //     .attr('cx', cardOffsetX)
+  //     .attr('cy', (cardOffsetY * 2) + cardExpandedHeight + 8)
+  //     .attr('fill', currentSynColor)
+  //     .on('click', synCollapse)
+  //     .classed('node-action', true)
 
 
+  //   d3.select(this).select('.syn .card-marker')
+  //     .remove()
+  //     ;
 
-// Returns path data for a rectangle with rounded right corners.
-// Note: it’s probably easier to use a <rect> element with rx and ry attributes!
-// The top-left corner is ⟨x,y⟩.
+  //   // d3.select(this).select('.syn .card-node-shadow')
+  //   //   .remove()
+  //   //   ;
 
-  // var cardMarker = g.append('svg:path')
-  //   .attr('fill', currentSynColor)
-  //   .attr('d', 'M0,9.99322906 C0,7.2355448 2.24419519,5 5,5 L10,5 L10,105 L5,105 C2.23857625,105 0,102.77115 0,100.006771 L0,9.99322906 Z')
-  //   .attr('transform', 'translate(-170 -90)')
-  //   .classed('card-marker', true)
+  //   // d3.select(this).select('.syn .card-node')
+  //   //   .remove()
+  //   //   ;
 
+  //   // disable event listner on card container (syn)
+  //   currentSyn
+  //     .on('click', null)
+  //     .classed('syn-expanded', true)
+
+  //   function synCollapse () {
+
+  //     // prevents propagation fuckery on expand / collapse events of syn
+  //     d3.event.stopPropagation();
+
+  //     currentCard
+  //       .attr('x', cardOffsetX)
+  //       .attr('y', cardOffsetY)
+  //       .attr('width', cardWidth)
+  //       .attr('height', cardHeight)
+  //       ;
+
+  //     currentSyn.select('.syn .card-shadow')
+  //       .attr('width', cardWidth + 8)
+  //       .attr('height', cardHeight + 8)
+  //       .attr('x', cardOffsetX - 4)
+  //       .attr('y', cardOffsetY - 4)
+  //       ;
+
+  //     currentSyn.select('.syn .card-input-wrap')
+  //       .attr('x', cardOffsetX)
+  //       .attr('y', cardOffsetY)
+  //       ;
+
+  //     currentSyn.select('.node-action')
+  //       .remove()
+  //       ;
+
+  //     currentSyn
+  //       .on('click', synExpand)
+  //       .classed('syn-expanded', false)
+
+  //     // createCardNode();
+
+  //   }
+
+  // }
 
   function createCardNode() {
 

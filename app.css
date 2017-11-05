@@ -115,21 +115,12 @@ path.link.hidden {
 }
 
 .syn:hover .card-node {
-	transform: scale(1.3);
+	transform: scale(1.5);
 }
 
 .syn:hover .card-node-shadow {
-	transform: scale(2.1);
+	transform: scale(2.5);
 }
-
-/* hiding the main node, needs a more powerful selector */
-.syn.syn-expanded .card-node,
-.syn.syn-expanded .card-node-shadow {
-	transform: scale(1);
-	opacity: 1;
-}
-
-/* making the shadow invisible in main node mini-state */
 
 
 .card,
@@ -152,11 +143,7 @@ path.link.hidden {
 }
 
 .syn-expanded .card-input {
-	height: 240px;
-	width: 450px;
-	font-size: 34px;
-	margin-left: 25px;
-	margin-top: 20px;
+
 }
 
 .card-input:focus {
@@ -172,42 +159,25 @@ path.link.hidden {
 	box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2);
 }
 
+.syn-expanded .card-corner {
+	margin-top: 250px;
+}
+
 .card-action {
-	transform: scaleY(0.4) scaleX(1.1);
+	transform: scaleY(0.4) scaleX(1.2);
 	transform-origin: center;
-	transition: 0.5s;
+	transition: 0.3s;
 }
 
 .syn:hover .card-action {
-	animation: card-action-hover 15s infinite linear 0.3s, card-action-hover2 0.3s 1;
+	transform: scaleY(1.5) scaleX(1.5) translate(-10px, 0px) rotate(223deg);
 }
 
+.syn-expanded .card-action,
+.syn-expanded.syn:hover .card-action {
+	transform: none;
 
-@keyframes card-action-hover2 {
-	0% {
-		transform: scaleY(0.4) scaleX(1);
-	}
-
-	50% {
-		transform: scaleY(1.5) scaleX(1);
-	}
-
-	100% {
-		transform: scaleY(1.5) scaleX(1.5) ;
-	}
 }
-
-@keyframes card-action-hover {
-	0% {
-		transform: rotate(0deg) scaleY(1.5) scaleX(1.5);
-	}
-
-	100% {
-		transform: rotate(360deg) scaleY(1.5) scaleX(1.5);
-	}
-}
-
-
 
 @keyframes card-appear {
 	0% {

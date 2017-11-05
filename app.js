@@ -197,8 +197,8 @@ function restart() {
       cardHeight = 100
       ;
 
-  var cardOffsetX = -cardWidth,
-      cardOffsetY = -cardHeight
+  var cardOffsetX = -cardWidth -15,
+      cardOffsetY = -cardHeight -15
       ;
 
   var shadowCard = g.append('svg:rect')
@@ -252,17 +252,44 @@ function restart() {
     .attr('width', 25)
     .attr('height', 25)
     .attr('fill', currentSynColor)
-    .attr('x', -205)
-    .attr('y', -85)
+    .attr('x', -215)
+    .attr('y', -105)
     .classed('card-action', true)
     .on('click', synExpand)
     ;
 
     function synExpand () {
 
-      var currentSyn = this.closest(".syn");
+      var cardExpandedWidth = 380,
+          cardExpandedHeight = 260
+          ;
 
-      console.log(currentSyn.querySelector(".card-input"))
+      var currentSyn = d3.select(this.parentNode)
+          .classed('syn-expanded', true)
+          ;
+
+      var currentCard = currentSyn.select('.syn .card')
+        .attr('x', -(cardExpandedWidth +15))
+        .attr('y', -(cardExpandedHeight +15))
+        .attr('width', cardExpandedWidth)
+        .attr('height', cardExpandedHeight)
+        ;
+
+      var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
+        .attr('x', -(cardExpandedWidth +15))
+        .attr('y', -(cardExpandedHeight +15))
+        .attr('width', cardExpandedWidth)
+        .attr('height', cardExpandedHeight)
+        ;
+
+      var currentAction = currentSyn.select('.syn .card-action')
+        .attr('width', 50)
+        .attr('height', 50)
+        .attr('x', -455)
+        .attr('y', -260)
+        .attr('rx', 50)
+        .attr('ry', 50)
+        ;
 
     }
 

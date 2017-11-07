@@ -193,6 +193,13 @@ function restart() {
     .classed('syn', true)
     ;
 
+  var filter = svg.append("defs")
+    .append("filter")
+    .attr("id", "blur")
+    .append("feGaussianBlur")
+    .attr("stdDeviation", 5)
+    ;
+
   var cardWidth = 186,
       cardHeight = 100
       ;
@@ -200,6 +207,8 @@ function restart() {
   var cardOffsetX = -cardWidth -15,
       cardOffsetY = -cardHeight -15
       ;
+
+
 
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
@@ -276,15 +285,23 @@ function restart() {
     .classed('card-action-square', true)
     ;
 
-
     function synExpand () {
 
       var cardExpandedWidth = 380,
           cardExpandedHeight = 260
           ;
 
+      var currentCardAction = d3.select(this);
+      
+      d3.selectAll(".syn")
+        .attr("filter", "url(#blur)")
+        .attr("fill-opacity", 0.9)
+        ;
+      
       var currentSyn = d3.select(this.parentNode)
           .classed('syn-expanded', true)
+          .attr("filter", false)
+          .attr("fill-opacity", 1)
           ;
 
       var currentCard = currentSyn.select('.syn .card')
@@ -295,9 +312,7 @@ function restart() {
         ;
 
       var currentCardInput = currentSyn.select('.syn .card-input')
-        .transition()
-        .attr('x', -(cardExpandedWidth +15))
-        .attr('y', -(cardExpandedHeight +15))
+
 
       var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
         .attr('x', -(cardExpandedWidth +15))
@@ -313,100 +328,47 @@ function restart() {
         .attr('y', -260)
         .attr('rx', 50)
         .attr('ry', 50)
+        .on('click', synCollapse)
         ;
 
+      function synCollapse() {
+
+        currentSyn = d3.select(this.parentNode)
+          .classed('syn-expanded', false)
+          ;
+
+        d3.selectAll(".syn")
+          .attr("filter", false)
+          .attr("fill-opacity", 1)
+          ;
+
+        currentCard
+          .attr('width', cardWidth)
+          .attr('height', cardHeight)
+          .attr('x', cardOffsetX)
+          .attr('y', cardOffsetY)
+          ;
+
+        currentCardHTMLWrap
+          .attr('width', cardWidth)
+          .attr('height', cardHeight)
+          .attr('x', cardOffsetX)
+          .attr('y', cardOffsetY)
+          ;
+
+        currentCardAction
+          .attr('width', 25)
+          .attr('height', 25)
+          .attr('fill', currentSynColor)
+          .attr('x', -215)
+          .attr('y', -105)
+          .attr('rx', 0)
+          .attr('ry', 0)
+          .classed('card-action', true)
+          .on('click', synExpand)
+      }
+
     }
-
-  // function synExpand() {
-
-  //   var currentSyn = d3.select(this);
-  //   var currentCard = currentSyn.select('.syn .card')
-
-  //   var cardExpandedWidth = 480;
-  //   var cardExpandedHeight = 360;
-
-  //   currentCard
-  //     .attr('x', cardOffsetX * 2)
-  //     .attr('y', cardOffsetY * 2)
-  //     .attr('width', cardExpandedWidth)
-  //     .attr('height', cardExpandedHeight)
-  //     ;
-
-  //   currentSyn.select('.card-input-wrap')
-  //     .attr('x', cardOffsetX * 2)
-  //     .attr('y', cardOffsetY * 2)
-
-  //   currentSyn.select('.syn .card-shadow')
-  //     // numbers are just margins, not magic
-  //     .attr('x', (cardOffsetX * 2) - 4)
-  //     .attr('y', (cardOffsetY * 2) - 4)
-  //     .attr('width', cardExpandedWidth + 8)
-  //     .attr('height', cardExpandedHeight + 8)
-  //     ;
-
-  //   var buttonSave = currentSyn.append('svg:circle')
-  //     .attr('r', 25)
-  //     .attr('cx', cardOffsetX)
-  //     .attr('cy', (cardOffsetY * 2) + cardExpandedHeight + 8)
-  //     .attr('fill', currentSynColor)
-  //     .on('click', synCollapse)
-  //     .classed('node-action', true)
-
-
-  //   d3.select(this).select('.syn .card-marker')
-  //     .remove()
-  //     ;
-
-  //   // d3.select(this).select('.syn .card-node-shadow')
-  //   //   .remove()
-  //   //   ;
-
-  //   // d3.select(this).select('.syn .card-node')
-  //   //   .remove()
-  //   //   ;
-
-  //   // disable event listner on card container (syn)
-  //   currentSyn
-  //     .on('click', null)
-  //     .classed('syn-expanded', true)
-
-  //   function synCollapse () {
-
-  //     // prevents propagation fuckery on expand / collapse events of syn
-  //     d3.event.stopPropagation();
-
-  //     currentCard
-  //       .attr('x', cardOffsetX)
-  //       .attr('y', cardOffsetY)
-  //       .attr('width', cardWidth)
-  //       .attr('height', cardHeight)
-  //       ;
-
-  //     currentSyn.select('.syn .card-shadow')
-  //       .attr('width', cardWidth + 8)
-  //       .attr('height', cardHeight + 8)
-  //       .attr('x', cardOffsetX - 4)
-  //       .attr('y', cardOffsetY - 4)
-  //       ;
-
-  //     currentSyn.select('.syn .card-input-wrap')
-  //       .attr('x', cardOffsetX)
-  //       .attr('y', cardOffsetY)
-  //       ;
-
-  //     currentSyn.select('.node-action')
-  //       .remove()
-  //       ;
-
-  //     currentSyn
-  //       .on('click', synExpand)
-  //       .classed('syn-expanded', false)
-
-  //     // createCardNode();
-
-  //   }
-
-  // }
 
   function createCardNode() {
 

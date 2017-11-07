@@ -247,6 +247,7 @@ function restart() {
 
   var cardCorner = cardHTMLWrap.append('xhtml:div')
     .classed('card-corner', true)
+    ;
 
   var cardAction = g.append('svg:rect')
     .attr('width', 25)
@@ -257,6 +258,24 @@ function restart() {
     .classed('card-action', true)
     .on('click', synExpand)
     ;
+
+  var cardActionCircle =g.append('svg:circle')
+    .attr('r', 12)
+    .attr('cx', -255)
+    .attr('cy', -140)
+    .attr('fill', '#FF5E9C')
+    .classed('card-action-circle', true)
+    ;
+
+  var cardActionSquare =g.append('svg:rect')
+    .attr('width', 9)
+    .attr('height', 9)
+    .attr('x', -200)
+    .attr('y', -150)
+    .attr('fill', '#ffffff')
+    .classed('card-action-square', true)
+    ;
+
 
     function synExpand () {
 
@@ -274,6 +293,11 @@ function restart() {
         .attr('width', cardExpandedWidth)
         .attr('height', cardExpandedHeight)
         ;
+
+      var currentCardInput = currentSyn.select('.syn .card-input')
+        .transition()
+        .attr('x', -(cardExpandedWidth +15))
+        .attr('y', -(cardExpandedHeight +15))
 
       var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
         .attr('x', -(cardExpandedWidth +15))

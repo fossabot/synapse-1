@@ -20,21 +20,6 @@ var svg = d3.select('body')
   .attr('height', height)
   .classed('canvas', true)
 
-// fiters
-
-// var filterDefs = d3.select('svg')
-//   .append('defs')
-
-// var blurFilterWrap = d3.select('svg')
-//   .append('filter')
-//   .attr('id', 'blurFilter')
-
-// var blurFilter = d3.select('blurFilterWrap')
-//   .append('feGaussianBlur')
-//   .attr('in', 'SourceGraphic')
-//   .attr('stdDeviation', 5)
-
-
 var container = d3.select('svg')
   .append("svg:g")
   .attr('width', width)
@@ -48,16 +33,20 @@ var currentSynColor = '#4A90E2'
 //  - nodes are known by 'id', not by index in array.
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
+
+
 var nodes = [
-    {id: 0, reflexive: false},
-    {id: 1, reflexive: false},
-    {id: 2, reflexive: false}
-  ],
-  lastNodeId = 2,
-  links = [
-    {source: nodes[0], target: nodes[1], left: false, right: true },
-    {source: nodes[1], target: nodes[2], left: false, right: true }
-  ];
+      {id: 0, reflexive: false},
+      {id: 1, reflexive: false},
+      {id: 2, reflexive: false}
+    ],
+
+    lastNodeId = 2,
+
+    links = [
+      {source: nodes[0], target: nodes[1], left: false, right: true },
+      {source: nodes[1], target: nodes[2], left: false, right: true }
+    ];
 
 // init D3 force layout
 var force = d3.layout.force()
@@ -193,6 +182,9 @@ function restart() {
     .classed('syn', true)
     ;
 
+
+  function createCardNode() {
+
   var filter = svg.append("defs")
     .append("filter")
     .attr("id", "blur")
@@ -207,8 +199,6 @@ function restart() {
   var cardOffsetX = -cardWidth -15,
       cardOffsetY = -cardHeight -15
       ;
-
-
 
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
@@ -276,7 +266,7 @@ function restart() {
     .classed('card-action-circle', true)
     ;
 
-  var cardActionSquare =g.append('svg:rect')
+  var cardActionSquare = g.append('svg:rect')
     .attr('width', 9)
     .attr('height', 9)
     .attr('x', -200)
@@ -285,7 +275,10 @@ function restart() {
     .classed('card-action-square', true)
     ;
 
-    function synExpand () {
+    document.querySelector('.card-input').value = localStorage.getItem("nodeValue");
+
+
+    function synExpand(d) {
 
       var cardExpandedWidth = 380,
           cardExpandedHeight = 260
@@ -311,9 +304,6 @@ function restart() {
         .attr('height', cardExpandedHeight)
         ;
 
-      var currentCardInput = currentSyn.select('.syn .card-input')
-
-
       var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
         .attr('x', -(cardExpandedWidth +15))
         .attr('y', -(cardExpandedHeight +15))
@@ -331,7 +321,22 @@ function restart() {
         .on('click', synCollapse)
         ;
 
-      function synCollapse() {
+      function synCollapse(d) {
+
+        
+        var currentValue = this.parentNode.querySelector('.card-input').value;
+        var currentNode = JSON.stringify(nodes[d.id]);
+
+        // push content to node
+        var currentNodeValue = currentNode.content = currentValue;
+
+        console.log(currentNode)
+        console.log(nodes)
+        console.log(currentNodeValue)
+
+        localStorage.setItem("nodeValue", currentNodeValue);
+
+        //
 
         currentSyn = d3.select(this.parentNode)
           .classed('syn-expanded', false)
@@ -369,16 +374,17 @@ function restart() {
       }
 
     }
-
-  function createCardNode() {
-
+    
     var cardNode = g.append('svg:circle')
       .attr('class', 'card-node')
       .attr('r', 10)
       .attr('cx', 0)
       .attr('cy', 0)
       .style('fill', '#35649C')
-      // .classed('fab', function(d) { return d.reflexive; })
+      .on('click', function(d) {
+        console.log(d.id);
+      })
+
 
       .on('mouseover', function(d) {
         if(!mousedown_node || d === mousedown_node) return;
@@ -455,12 +461,6 @@ function restart() {
     }
     createCardNode();
 
-  // show node IDs
-  // g.append('svg:text')
-  //     .attr('x', 0)
-  //     .attr('y', 4)
-  //     .attr('class', 'id')
-  //     .text(function(d) { return d.id; });
 
   // remove old nodes
   circle.exit().remove();

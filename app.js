@@ -28,6 +28,12 @@ var container = d3.select('svg')
 
 var currentSynColor = '#4A90E2'
 
+var filter = svg.append("defs")
+  .append("filter")
+  .attr("id", "blur")
+  .append("feGaussianBlur")
+  .attr("stdDeviation", 5)
+  ;
 
 // set up initial nodes and links
 //  - nodes are known by 'id', not by index in array.
@@ -47,6 +53,8 @@ var nodes = [
       {source: nodes[0], target: nodes[1], left: false, right: true },
       {source: nodes[1], target: nodes[2], left: false, right: true }
     ];
+
+localStorage.setItem("nodeValue", JSON.stringify(nodes))
 
 // init D3 force layout
 var force = d3.layout.force()
@@ -70,7 +78,9 @@ svg.append('svg:defs').append('svg:marker')
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M0,-5L10,0L0,5')
-    .attr('fill', currentSynColor);
+    .attr('fill', currentSynColor)
+    .style('cursor', '-webkit-grabbing')
+    ;
 
 svg.append('svg:defs').append('svg:marker')
     .attr('id', 'start-arrow')
@@ -182,15 +192,8 @@ function restart() {
     .classed('syn', true)
     ;
 
-
   function createCardNode() {
 
-  var filter = svg.append("defs")
-    .append("filter")
-    .attr("id", "blur")
-    .append("feGaussianBlur")
-    .attr("stdDeviation", 5)
-    ;
 
   var cardWidth = 186,
       cardHeight = 100
@@ -199,6 +202,14 @@ function restart() {
   var cardOffsetX = -cardWidth -15,
       cardOffsetY = -cardHeight -15
       ;
+
+  var cardExpander = g.append('svg:rect')
+    .attr('height', 190)
+    .attr('width', 290)
+    .attr('x', -270)
+    .attr('y', -160)
+    .attr('fill', 'rgba(0,0,0,0)')
+    ;
 
   var shadowCard = g.append('svg:rect')
     .attr('fill', 'rgba(0, 17, 49, 0.1)')
@@ -406,7 +417,6 @@ function restart() {
         
         drag_line
           .style('marker-end', 'url(#end-arrow)')
-          .style('cursor', '-webkit-grabbing')
           .classed('hidden', false)
           .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
 

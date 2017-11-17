@@ -28,9 +28,6 @@ path.link {
 	cursor: default;
 }
 
-.canvas:not(.active):not(.ctrl) path.link {
-	cursor: pointer;
-}
 
 path.link.selected {
 	stroke-dasharray: 10,2;
@@ -50,28 +47,48 @@ path.link.hidden {
 	cursor: -webkit-grabbing;
 }
 
-.card-node {
-	cursor: pointer!important;
-}
-
-.syn,
-.card-input {
-	cursor: pointer;
-}
-
-.syn:active,
-.syn:active .card-input {
+.syn:active .card-input,
+.syn:active .card,
+.syn:active .card-node,
+.syn:active .card-node-shadow,  
+.syn:active .dragline {
 	cursor: -webkit-grabbing;
-}
-
-.card-input:focus {
-	cursor: text;
 }
 
 .card-node:active,
-.dragline:active {
+.dragline:active,
+.dragline {
 	cursor: -webkit-grabbing;
 }
+
+.card-node:hover,
+.card-node-shadow:hover,
+.card-node,
+.card-node-shadow,
+.card-action {
+	cursor: pointer;
+}
+
+.card-input,
+.card,
+.card-html-wrap,
+.card-html-wrap:hover {
+	cursor: -webkit-grab;
+}
+
+.card-input {
+	pointer-events: none;
+}
+
+.syn-expanded .card-input {
+	pointer-events: all;
+}
+
+.syn-expanded .card-input {
+	cursor: text;
+}
+
+/**/
 
 .blurred {
 	filter: blur(5px);

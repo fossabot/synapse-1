@@ -255,8 +255,12 @@ function restart() {
     .classed('card-input', true)
     ;
 
-  var cardCorner = cardHTMLWrap.append('xhtml:div')
-    .classed('card-corner', true)
+  var cardCorner = g.append('svg:rect')
+    .attr('width', 11)
+    .attr('height', 11)
+    .attr('x', -26)
+    .attr('y', -26)
+    .attr('fill', '#fff')
     ;
 
   var cardAction = g.append('svg:rect')

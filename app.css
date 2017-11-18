@@ -117,6 +117,16 @@ path.link.hidden {
 	animation: card-appear 0.3s;
 }
 
+.syn:active .card,
+.syn:active .card-html-wrap {
+	transform: scale(0.95);
+}
+
+.syn-expanded.syn:active .card,
+.syn-expanded.syn:active .card-html-wrap {
+	transform: scale(1);
+}
+
 .card {
 	
 }
@@ -125,7 +135,6 @@ path.link.hidden {
 	transition: 0.3s;
 	transform-origin: center;
 }
-
 
 .card-node {
 	transform: scale(0);
@@ -142,13 +151,17 @@ path.link.hidden {
 
 .card,
 .card-shadow,
-.card-input-wrap,
+.card-html-wrap,
 .card-input {
 	transition: 0.3s;
 }
 
 .card-html-wrap {
 	position: relative;
+}
+
+.syn-expanded .card-html-wrap {
+	animation: card-flick 0.3s;
 }
 
 .card-input {
@@ -164,7 +177,6 @@ path.link.hidden {
 	border: none;
 	font-weight: 300;
 	transition: 0.3s;
-	transition-delay: 0.1s;
 }
 
 .syn-expanded .card-input {
@@ -177,19 +189,6 @@ path.link.hidden {
 
 .card-input:focus {
 	outline: none;
-}
-
-.card-corner {
-	width: 10px;
-	height: 10px;
-	background: #fff;
-	float: right;
-	margin-top: 90px;
-	box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2);
-}
-
-.syn-expanded .card-corner {
-	margin-top: 250px;
 }
 
 .card-action {
@@ -205,11 +204,6 @@ path.link.hidden {
 	opacity: 0;
 }
 
-.syn:hover .card-action-square {
-	transform-origin: center;
-	transform: rotate(65deg) scale(1) translate(0px, 0px);
-	opacity: 1;
-}
 
 .card-action-circle {
 	transform-origin: center;
@@ -222,10 +216,29 @@ path.link.hidden {
 	transform: scale(1) translate(0px, 0px);
 	opacity: 1;
 }
-
+/*
+.syn:hover:active .card-action-circle {
+	transform: scale(0.95) translate(15px, 10px);
+}
+*/
 .syn:hover .card-action {
 	transform: scaleY(1.5) scaleX(1.5) translate(-10px, -10px) rotate(223deg);
 }
+
+/*.syn:hover:active .card-action {
+	transform: scaleY(1.7) scaleX(1.7) translate(-10px, -5px) rotate(223deg);
+}*/
+
+.syn:hover .card-action-square {
+	transform-origin: center;
+	transform: rotate(65deg) scale(1) translate(-10px, 0px);
+	opacity: 1;
+}
+
+/*.syn:hover:active .card-action-square {
+	transform: rotate(65deg) scale(0.85) translate(5px, -5px);
+}*/
+
 
 .syn-expanded .card-action,
 .syn-expanded.syn:hover .card-action {
@@ -238,13 +251,27 @@ path.link.hidden {
 	transform: scale(0) translate(-300px, -300px);
 }
 
+@keyframes card-flick {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
 @keyframes card-appear {
 	0% {
 		opacity: 0;
 	}
 
 	100% {
-		opacity: 1);
+		opacity: 1;
 	}
 
 }

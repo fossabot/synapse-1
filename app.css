@@ -160,10 +160,6 @@ path.link.hidden {
 	position: relative;
 }
 
-.syn-expanded .card-html-wrap {
-	animation: card-flick 0.3s;
-}
-
 .card-input {
 	background: rgba(0,0,0,0);
 	margin-left: 20px;
@@ -177,6 +173,7 @@ path.link.hidden {
 	border: none;
 	font-weight: 300;
 	transition: 0.3s;
+	animation: card-flick 0.3s;
 }
 
 .syn-expanded .card-input {
@@ -184,6 +181,8 @@ path.link.hidden {
     line-height: 45px;
     width: 340px;
     height: 220px;
+    animation: card-flick 0.3s;
+    font-weight: 200;
 }
 
 

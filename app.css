@@ -50,7 +50,7 @@ path.link.hidden {
 .syn:active .card-input,
 .syn:active .card,
 .syn:active .card-node,
-.syn:active .card-node-shadow,  
+.syn:active .card-node-shadow,
 .syn:active .dragline {
 	cursor: -webkit-grabbing;
 }
@@ -127,8 +127,12 @@ path.link.hidden {
 	transform: scale(1);
 }
 
+.card-save {
+	transition-delay: 0.3s;
+}
+
 .card {
-	
+
 }
 .card-node,
 .card-node-shadow {
@@ -274,5 +278,3 @@ path.link.hidden {
 	}
 
 }
-
-

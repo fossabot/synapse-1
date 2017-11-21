@@ -332,12 +332,10 @@ function restart() {
         .on('click', synCollapse)
         ;
 
-
       var saveGroup = currentSyn.append('svg:g')
         .classed('card-save', true)
-        .attr('transform', 'translate(-443, -248)')
+        .attr('transform', 'translate(-443, -248) scale(1)')
         .on('click', synCollapse)
-
         ;
 
       var saveRect1 = saveGroup.append('svg:rect')
@@ -353,6 +351,7 @@ function restart() {
         .attr('x', 3).attr('y',12)
         .attr('width', 20).attr('height', 11)
         .attr('rx', 2)
+        ;
 
       var savePath = saveGroup.append('svg:path')
         .attr('d', 'M9,0 L23,0 L23,6 L23,6 C23,7.1045695 22.1045695,8 21,8 L11,8 L11,8 C9.8954305,8 9,7.1045695 9,6 L9,0 Z')
@@ -376,20 +375,7 @@ function restart() {
         ;
 
 
-
-        //
-        // <g id="Group-2-Copy-3" transform="translate(84.000000, 348.000000)">
-        //     <rect id="Rectangle-11" fill="#FFFFFF" x="0" y="0" width="26" height="26" rx="3"></rect>
-        //     <rect id="Rectangle-2-Copy" fill="#4A90E2" opacity="0.664345562" x="3" y="12" width="20" height="11" rx="2"></rect>
-        //     <path d="M9,0 L23,0 L23,6 L23,6 C23,7.1045695 22.1045695,8 21,8 L11,8 L11,8 C9.8954305,8 9,7.1045695 9,6 L9,0 Z" id="Rectangle-12" fill="#4A90E2" opacity="0.664345562"></path>
-        //     <rect id="Rectangle-2" fill="#FFFFFF" x="18" y="1" width="3" height="6" rx="1.5"></rect>
-        //     <rect id="Rectangle-13-Copy-2" fill="#4A90E2" opacity="0.664345562" x="3" y="3" width="3" height="3" rx="1.5"></rect>
-        // </g>
-
-
-
       function synCollapse(d) {
-
 
         var currentValue = this.parentNode.querySelector('.card-input').value;
         var currentNode = JSON.stringify(nodes[d.id]);
@@ -405,16 +391,16 @@ function restart() {
 
         //
 
-
         currentSyn = d3.select(this.parentNode)
           .classed('syn-expanded', false)
           ;
-          saveGroup.remove();
 
         d3.selectAll(".syn")
           .attr("filter", false)
           .attr("fill-opacity", 1)
           ;
+
+        saveGroup.remove();
 
         currentCard
           .attr('width', cardWidth)

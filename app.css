@@ -128,7 +128,28 @@ path.link.hidden {
 }
 
 .card-save {
-	transition-delay: 0.3s;
+	transform-origin: center;
+	/*transform: translate(-443px, -248px) scale(1);*/
+	cursor: pointer;
+	animation: card-save 0.30s;
+}
+
+@keyframes card-save {
+	0% {
+		transform: translate(0px, 0px) scale(0);
+	}
+
+	80% {
+		transform: translate(-443px, -248px) scale(0);
+	}
+/*
+	90% {
+		transform: translate(-443px, -248px) scale(1.2)
+	}*/
+
+	100% {
+		transform: translate(-443px, -248px) scale(1);
+	}
 }
 
 .card {

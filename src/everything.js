@@ -1,3 +1,7 @@
+import d3 from 'd3';
+
+import './app.css';
+
 
 // set up the SVG
 

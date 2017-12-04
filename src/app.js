@@ -57,7 +57,7 @@ var nodes = [
       {source: nodes[1], target: nodes[2], left: false, right: true }
     ];
 
-localStorage.setItem("nodeValue", JSON.stringify(nodes))
+// localStorage.setItem("nodeValue", JSON.stringify(nodes))
 
 // init D3 force layout
 var force = d3.layout.force()
@@ -184,9 +184,8 @@ function restart() {
   circle.selectAll('circle')
     .classed('reflexive', function(d) { return d.reflexive; });
 
-  // add new nodes
-
-  var g = circle.enter().append('svg:g')
+  // create syn group
+  var synGroup = circle.enter().append('svg:g')
     .call(drag)
     // .on('click', synExpand)
     .on('mousedown', function() {
@@ -195,255 +194,111 @@ function restart() {
     .classed('syn', true)
     ;
 
-  function createCardNode() {
+  function createSyn() {
 
+    var cardWidth = 186,
+        cardHeight = 100
+        ;
 
-  var cardWidth = 186,
-      cardHeight = 100
+    var cardOffsetX = -cardWidth -15,
+        cardOffsetY = -cardHeight -15
+        ;
+
+    var cardExpander = synGroup.append('svg:rect')
+      .attr('height', 190)
+      .attr('width', 290)
+      .attr('x', -270)
+      .attr('y', -160)
+      .attr('fill', 'rgba(0,0,0,0)')
       ;
 
-  var cardOffsetX = -cardWidth -15,
-      cardOffsetY = -cardHeight -15
+    var shadowCard = synGroup.append('svg:rect')
+      .attr('fill', 'rgba(0, 17, 49, 0.1)')
+      .attr('width', 194)
+      .attr('height', 108)
+      .attr('ry', 12)
+      .attr('rx', 12)
+      .attr('x', cardOffsetX - 4)
+      .attr('y', cardOffsetY - 4)
+      .classed('card-shadow', true)
       ;
 
-  var cardExpander = g.append('svg:rect')
-    .attr('height', 190)
-    .attr('width', 290)
-    .attr('x', -270)
-    .attr('y', -160)
-    .attr('fill', 'rgba(0,0,0,0)')
-    ;
+    var cardNodeShadow = synGroup.append('svg:circle')
+      .attr('r', 10)
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .style('fill', currentSynColor)
+      .classed('card-node-shadow', true)
+      ;
 
-  var shadowCard = g.append('svg:rect')
-    .attr('fill', 'rgba(0, 17, 49, 0.1)')
-    .attr('width', 194)
-    .attr('height', 108)
-    .attr('ry', 12)
-    .attr('rx', 12)
-    .attr('x', cardOffsetX - 4)
-    .attr('y', cardOffsetY - 4)
-    .classed('card-shadow', true)
-    ;
+    var card = synGroup.append('svg:rect')
+      .attr('fill', 'rgba(255,255,255,1')
+      .attr('width', cardWidth)
+      .attr('height', cardHeight)
+      .attr('x', cardOffsetX)
+      .attr('y', cardOffsetY)
+      .attr('rx', 10)
+      .attr('ry', 10)
+      .classed('card', true)
+      ;
 
-  var cardNodeShadow = g.append('svg:circle')
-    .attr('r', 10)
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .style('fill', currentSynColor)
-    .classed('card-node-shadow', true)
-    ;
+    var cardHTMLWrap = synGroup.append('svg:foreignObject')
+      .attr('width', cardWidth)
+      .attr('height', cardHeight)
+      .attr('x', cardOffsetX)
+      .attr('y', cardOffsetY)
+      .classed('card-html-wrap', true)
+      ;
 
-  var card = g.append('svg:rect')
-    .attr('fill', 'rgba(255,255,255,1')
-    .attr('width', cardWidth)
-    .attr('height', cardHeight)
-    .attr('x', cardOffsetX)
-    .attr('y', cardOffsetY)
-    .attr('rx', 10)
-    .attr('ry', 10)
-    .classed('card', true)
-    ;
+    var cardInput = cardHTMLWrap.append('xhtml:textarea')
+      .attr('type', 'text')
+      .attr('spellcheck', false)
+      .classed('card-input', true)
+      ;
 
-  var cardHTMLWrap = g.append('svg:foreignObject')
-    .attr('width', cardWidth)
-    .attr('height', cardHeight)
-    .attr('x', cardOffsetX)
-    .attr('y', cardOffsetY)
-    .classed('card-html-wrap', true)
-    ;
+    var cardCorner = synGroup.append('svg:rect')
+      .attr('width', 11)
+      .attr('height', 11)
+      .attr('x', -26)
+      .attr('y', -26)
+      .attr('fill', '#fff')
+      ;
 
-  var cardInput = cardHTMLWrap.append('xhtml:textarea')
-    .attr('type', 'text')
-    .attr('spellcheck', false)
-    .classed('card-input', true)
-    ;
+    var cardAction = synGroup.append('svg:rect')
+      .attr('width', 25)
+      .attr('height', 25)
+      .attr('fill', currentSynColor)
+      .attr('x', -215)
+      .attr('y', -105)
+      .classed('card-action', true)
+      .on('click', synExpand)
+      ;
 
-  var cardCorner = g.append('svg:rect')
-    .attr('width', 11)
-    .attr('height', 11)
-    .attr('x', -26)
-    .attr('y', -26)
-    .attr('fill', '#fff')
-    ;
+    var cardActionCircle = synGroup.append('svg:circle')
+      .attr('r', 12)
+      .attr('cx', -255)
+      .attr('cy', -140)
+      .attr('fill', '#FF5E9C')
+      .classed('card-action-circle', true)
+      ;
 
-  var cardAction = g.append('svg:rect')
-    .attr('width', 25)
-    .attr('height', 25)
-    .attr('fill', currentSynColor)
-    .attr('x', -215)
-    .attr('y', -105)
-    .classed('card-action', true)
-    .on('click', synExpand)
-    ;
-
-  var cardActionCircle =g.append('svg:circle')
-    .attr('r', 12)
-    .attr('cx', -255)
-    .attr('cy', -140)
-    .attr('fill', '#FF5E9C')
-    .classed('card-action-circle', true)
-    ;
-
-  var cardActionSquare = g.append('svg:rect')
-    .attr('width', 9)
-    .attr('height', 9)
-    .attr('x', -200)
-    .attr('y', -150)
-    .attr('fill', '#ffffff')
-    .classed('card-action-square', true)
-    ;
+    var cardActionSquare = synGroup.append('svg:rect')
+      .attr('width', 9)
+      .attr('height', 9)
+      .attr('x', -200)
+      .attr('y', -150)
+      .attr('fill', '#ffffff')
+      .classed('card-action-square', true)
+      ;
 
     document.querySelector('.card-input').value = localStorage.getItem("nodeValue");
 
-    function synExpand(d) {
-
-      var cardExpandedWidth = 380,
-          cardExpandedHeight = 260
-          ;
-
-      var currentCardAction = d3.select(this);
-
-      d3.selectAll(".syn")
-        .attr("filter", "url(#blur)")
-        .attr("fill-opacity", 0.9)
-        ;
-
-      var currentSyn = d3.select(this.parentNode)
-          .classed('syn-expanded', true)
-          .attr("filter", false)
-          .attr("fill-opacity", 1)
-          ;
-
-      var currentCard = currentSyn.select('.syn .card')
-        .attr('x', -(cardExpandedWidth +15))
-        .attr('y', -(cardExpandedHeight +15))
-        .attr('width', cardExpandedWidth)
-        .attr('height', cardExpandedHeight)
-        ;
-
-      var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-        .attr('x', -(cardExpandedWidth +15))
-        .attr('y', -(cardExpandedHeight +15))
-        .attr('width', cardExpandedWidth)
-        .attr('height', cardExpandedHeight)
-        ;
-
-      var currentAction = currentSyn.select('.syn .card-action')
-        .attr('width', 50).attr('height', 50)
-        .attr('x', -455).attr('y', -260)
-        .attr('rx', 50).attr('ry', 50)
-        .on('click', synCollapse)
-        ;
-
-      var saveGroup = currentSyn.append('svg:g')
-        .classed('card-save', true)
-        .attr('transform', 'translate(-443, -248) scale(1)')
-        .on('click', synCollapse)
-        ;
-
-      var saveRect1 = saveGroup.append('svg:rect')
-        .attr('fill', '#ffffff')
-        .attr('x', 0).attr('y',0)
-        .attr('width', 26).attr('height', 26)
-        .attr('rx', 3)
-        ;
-
-      var saveRect2 = saveGroup.append('svg:rect')
-        .attr('fill', '#4A90E2')
-        .attr('opacity', 0.65)
-        .attr('x', 3).attr('y',12)
-        .attr('width', 20).attr('height', 11)
-        .attr('rx', 2)
-        ;
-
-      var savePath = saveGroup.append('svg:path')
-        .attr('d', 'M9,0 L23,0 L23,6 L23,6 C23,7.1045695 22.1045695,8 21,8 L11,8 L11,8 C9.8954305,8 9,7.1045695 9,6 L9,0 Z')
-        .attr('fill', '#4A90E2')
-        .attr('opacity', '0.65')
-        ;
-
-      var saveRect3 = saveGroup.append('svg:rect')
-        .attr('fill', '#ffffff')
-        .attr('x', 18).attr('y', 1)
-        .attr('width', 3).attr('height', 6)
-        .attr('rx', 1.5)
-        ;
-
-      var saveRect4 = saveGroup.append('svg:rect')
-        .attr('fill', '#4A90E2')
-        .attr('opacity', 0.65)
-        .attr('x', 3).attr('y', 3)
-        .attr('width', 3).attr('height', 3)
-        .attr('rx', 1.5)
-        ;
-
-
-      function synCollapse(d) {
-
-        var currentValue = this.parentNode.querySelector('.card-input').value;
-        var currentNode = JSON.stringify(nodes[d.id]);
-
-        // push content to node
-        var currentNodeValue = currentNode.content = currentValue;
-
-        console.log(currentNode)
-        console.log(nodes)
-        console.log(currentNodeValue)
-
-        localStorage.setItem("nodeValue", currentNodeValue);
-
-        //
-
-        currentSyn = d3.select(this.parentNode)
-          .classed('syn-expanded', false)
-          ;
-
-        d3.selectAll(".syn")
-          .attr("filter", false)
-          .attr("fill-opacity", 1)
-          ;
-
-        saveGroup.remove();
-
-        currentCard
-          .attr('width', cardWidth)
-          .attr('height', cardHeight)
-          .attr('x', cardOffsetX)
-          .attr('y', cardOffsetY)
-          ;
-
-        currentCardHTMLWrap
-          .attr('width', cardWidth)
-          .attr('height', cardHeight)
-          .attr('x', cardOffsetX)
-          .attr('y', cardOffsetY)
-          ;
-
-        currentCardAction
-          .attr('width', 25)
-          .attr('height', 25)
-          .attr('fill', currentSynColor)
-          .attr('x', -215)
-          .attr('y', -105)
-          .attr('rx', 0)
-          .attr('ry', 0)
-          .classed('card-action', true)
-          .on('click', synExpand)
-      }
-
-    }
-
-    var cardNode = g.append('svg:circle')
+    var cardNode = synGroup.append('svg:circle')
       .attr('class', 'card-node')
       .attr('r', 10)
       .attr('cx', 0)
       .attr('cy', 0)
       .style('fill', '#35649C')
-      .on('click', function(d) {
-        console.log(d.id);
-      })
-
-
       .on('mouseover', function(d) {
         if(!mousedown_node || d === mousedown_node) return;
       })
@@ -515,8 +370,153 @@ function restart() {
 
         restart();
       });
-    }
-    createCardNode();
+      ;
+
+      function synExpand(d) {
+
+        var cardExpandedWidth = 380,
+            cardExpandedHeight = 260
+            ;
+
+        var currentCardAction = d3.select(this);
+
+        d3.selectAll(".syn")
+          .attr("filter", "url(#blur)")
+          .attr("fill-opacity", 0.9)
+          ;
+
+        var currentSyn = d3.select(this.parentNode)
+            .classed('syn-expanded', true)
+            .attr("filter", false)
+            .attr("fill-opacity", 1)
+            ;
+
+        var currentCard = currentSyn.select('.syn .card')
+          .attr('x', -(cardExpandedWidth +15))
+          .attr('y', -(cardExpandedHeight +15))
+          .attr('width', cardExpandedWidth)
+          .attr('height', cardExpandedHeight)
+          ;
+
+        var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
+          .attr('x', -(cardExpandedWidth +15))
+          .attr('y', -(cardExpandedHeight +15))
+          .attr('width', cardExpandedWidth)
+          .attr('height', cardExpandedHeight)
+          ;
+
+        var currentAction = currentSyn.select('.syn .card-action')
+          .attr('width', 50).attr('height', 50)
+          .attr('x', -455).attr('y', -260)
+          .attr('rx', 50).attr('ry', 50)
+          .on('click', synCollapse)
+          ;
+
+        var saveGroup = currentSyn.append('svg:g')
+          .classed('card-save', true)
+          .attr('transform', 'translate(-443, -248) scale(1)')
+          .on('click', synCollapse)
+          ;
+
+        var saveRect1 = saveGroup.append('svg:rect')
+          .attr('fill', '#ffffff')
+          .attr('x', 0).attr('y',0)
+          .attr('width', 26).attr('height', 26)
+          .attr('rx', 3)
+          ;
+
+        var saveRect2 = saveGroup.append('svg:rect')
+          .attr('fill', '#4A90E2')
+          .attr('opacity', 0.65)
+          .attr('x', 3).attr('y',12)
+          .attr('width', 20).attr('height', 11)
+          .attr('rx', 2)
+          ;
+
+        var savePath = saveGroup.append('svg:path')
+          .attr('d', 'M9,0 L23,0 L23,6 L23,6 C23,7.1045695 22.1045695,8 21,8 L11,8 L11,8 C9.8954305,8 9,7.1045695 9,6 L9,0 Z')
+          .attr('fill', '#4A90E2')
+          .attr('opacity', '0.65')
+          ;
+
+        var saveRect3 = saveGroup.append('svg:rect')
+          .attr('fill', '#ffffff')
+          .attr('x', 18).attr('y', 1)
+          .attr('width', 3).attr('height', 6)
+          .attr('rx', 1.5)
+          ;
+
+        var saveRect4 = saveGroup.append('svg:rect')
+          .attr('fill', '#4A90E2')
+          .attr('opacity', 0.65)
+          .attr('x', 3).attr('y', 3)
+          .attr('width', 3).attr('height', 3)
+          .attr('rx', 1.5)
+          ;
+
+
+          function synCollapse(d) {
+
+            var currentValue = this.parentNode.querySelector('.card-input').value;
+
+            // why stringfy here?
+            // var currentNode = JSON.stringify(nodes[d.id]);
+
+            var currentNode = nodes[d.id];
+
+            // push content to node
+            var currentNodeValue = currentNode.content = currentValue;
+
+            console.log(currentNode)
+            console.log(nodes)
+            console.log(currentNodeValue)
+
+            localStorage.setItem("nodeValue", currentNodeValue);
+
+            //
+
+            currentSyn = d3.select(this.parentNode)
+              .classed('syn-expanded', false)
+              ;
+
+            d3.selectAll(".syn")
+              .attr("filter", false)
+              .attr("fill-opacity", 1)
+              ;
+
+            saveGroup.remove();
+
+            currentCard
+              .attr('width', cardWidth)
+              .attr('height', cardHeight)
+              .attr('x', cardOffsetX)
+              .attr('y', cardOffsetY)
+              ;
+
+            currentCardHTMLWrap
+              .attr('width', cardWidth)
+              .attr('height', cardHeight)
+              .attr('x', cardOffsetX)
+              .attr('y', cardOffsetY)
+              ;
+
+            currentCardAction
+              .attr('width', 25)
+              .attr('height', 25)
+              .attr('fill', currentSynColor)
+              .attr('x', -215)
+              .attr('y', -105)
+              .attr('rx', 0)
+              .attr('ry', 0)
+              .classed('card-action', true)
+              .on('click', synExpand)
+          }
+      }
+  }
+    createSyn();
+
+
+
 
 
   // remove old nodes
@@ -538,6 +538,7 @@ function mousedown() {
 
 function mousemove(e) {
 
+  // scale clusterfuck mouse fix
   var adjustedMouseX = (d3.mouse(this)[0] - zoomTranslateX) / zoomScale;
   var adjustedMouseY = (d3.mouse(this)[1] - zoomTranslateY) / zoomScale;
 

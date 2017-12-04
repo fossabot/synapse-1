@@ -1,6 +1,6 @@
 console.log("double working");
-
-import * as d3 from 'd3';
+import './d3.js';
+// import * as d3 from 'd3';
 
 // set up the SVG
 

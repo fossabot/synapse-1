@@ -1,4 +1,3 @@
-console.log("double working");
 import './d3.js';
 // import * as d3 from 'd3';
 

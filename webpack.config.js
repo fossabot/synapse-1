@@ -11,5 +11,17 @@ module.exports = {
     path: path.resolve('dist'),
     filename: 'index_bundle.js'
   },
+
+   module: {
+     rules: [
+       {
+         test: /\.css$/,
+         use: [
+           'style-loader',
+           'css-loader'
+         ]
+       }
+     ]
+   },
   plugins: [HtmlWebpackPluginConfig]
 }

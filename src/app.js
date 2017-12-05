@@ -1,4 +1,5 @@
 import './d3.js';
+import './app.css';
 // import * as d3 from 'd3';
 
 // set up the SVG

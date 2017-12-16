@@ -1,0 +1,18 @@
+.syn-ui-logout {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: hotpink;
+    top: 10px;
+    right: 10px;
+    transition: 0.35s;
+}
+
+.syn-ui-logout:hover {
+    cursor: pointer;
+}
+
+.syn-ui-logout:active {
+    transform: scale(.8);
+}

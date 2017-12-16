@@ -35,29 +35,3 @@ module.exports = {
       })
   ]
 }
-// },
-// module.exports = {
-//   entry: './src/components/auth/login/login.js',
-//   output: {
-//     path: path.resolve('dist'),
-//     filename: 'login.js'
-//   },
-//   module: {
-//      rules: [
-//        {
-//          test: /\.css$/,
-//          use: [
-//            'style-loader',
-//            'css-loader'
-//          ]
-//        }
-//      ]
-//    },
-//   plugins: [
-//       new HtmlWebpackPlugin({
-//           template: './src/components/auth/login/login.html',
-//           filename: 'login.html',
-//           inject: 'body'
-//       })
-//   ]
-// }

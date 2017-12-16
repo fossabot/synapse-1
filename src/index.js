@@ -1,1 +1,1 @@
-import './app.js';
+import './components/synapse-core/synapse-core.js';

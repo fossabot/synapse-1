@@ -69,10 +69,7 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__firebase_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__firebase_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__firebase_js__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_synapse_core_synapse_core_js__ = __webpack_require__(1);
 
 
 
@@ -83,25 +80,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__d3_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__d3_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__d3_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_css__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__app_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__synapse_core_css__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__synapse_core_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__synapse_core_css__);
 
 
-// import * as d3 from 'd3';
 
 // set up the SVG
 
+
 var width = window.innerWidth,
-    height = window.innerHeight;
+    height = window.innerHeight
+    ;
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.25, 1])
-    .on("zoom", zoomed);
+    .on("zoom", zoomed)
+    ;
 
 var body = d3.select('body')
-  .call(zoom)
+    .call(zoom)
+    ;
 
-var fullNode = document.querySelector('.full-node')
+var fullNode = document.querySelector('.full-node');
 
 var svg = d3.select('body')
   .append('svg:svg')
@@ -109,14 +109,16 @@ var svg = d3.select('body')
   .attr('width', width)
   .attr('height', height)
   .classed('canvas', true)
+  ;
 
 var container = d3.select('svg')
   .append("svg:g")
   .attr('width', width)
   .attr('height', height)
   .classed('container', true)
+  ;
 
-var currentSynColor = '#4A90E2'
+var currentSynColor = '#4A90E2';
 
 var filter = svg.append("defs")
   .append("filter")
@@ -130,21 +132,32 @@ var filter = svg.append("defs")
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
 
+// var nodes = JSON.parse(localStorage.getItem('nodes'));
+// var links = JSON.parse(localStorage.getItem('links'));
 
-var nodes = [
-      {id: 0, reflexive: false},
-      {id: 1, reflexive: false},
-      {id: 2, reflexive: false}
-    ],
+// if (nodes === null) {
+    var nodes = [
+          {id: 0, reflexive: false},
+          {id: 1, reflexive: false},
+          {id: 2, reflexive: false}
+      ];
+    var lastNodeId = 2;
 
-    lastNodeId = 2,
+    var links = [
+        {source: nodes[0], target: nodes[1], left: false, right: true },
+        {source: nodes[1], target: nodes[2], left: false, right: true }
+      ];
+// }
+//
+// else {
+//     var nodes = JSON.parse(localStorage.getItem('nodes'));
+//     var links = JSON.parse(localStorage.getItem('links'));
+// }
 
-    links = [
-      {source: nodes[0], target: nodes[1], left: false, right: true },
-      {source: nodes[1], target: nodes[2], left: false, right: true }
-    ];
 
 // localStorage.setItem("nodeValue", JSON.stringify(nodes))
+
+
 
 // init D3 force layout
 var force = d3.layout.force()
@@ -154,6 +167,7 @@ var force = d3.layout.force()
     .linkDistance(550)
     .charge(-500)
     .on('tick', tick)
+    ;
 
 var drag = force.drag()
   .on("dragstart", dragstart);
@@ -187,10 +201,13 @@ svg.append('svg:defs').append('svg:marker')
 var drag_line = container.append('svg:path')
   .attr('class', 'link dragline hidden')
   .attr('d', 'M0,0L0,0')
+  ;
 
 // handles to link and node element groups
 var path = container.append('svg:g').selectAll('path'),
     circle = container.append('svg:g').selectAll('g');
+
+console.log(path);
 
 // fix mouse coordinates transform issue
 var zoomTranslateX = 0;
@@ -241,7 +258,8 @@ function restart() {
   // update existing links
   path.classed('selected', function(d) { return d === selected_link; })
     .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
-    .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; });
+    .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
+    ;
 
   // add new links
   path.enter().append('svg:path')
@@ -281,7 +299,7 @@ function restart() {
     .classed('syn', true)
     ;
 
-  function createSyn() {
+    function createSyn() {
 
     var cardWidth = 186,
         cardHeight = 100
@@ -378,7 +396,7 @@ function restart() {
       .classed('card-action-square', true)
       ;
 
-    document.querySelector('.card-input').value = localStorage.getItem("nodeValue");
+    // document.querySelector('.card-input').value = localStorage.getItem("nodeValue");
 
     var cardNode = synGroup.append('svg:circle')
       .attr('class', 'card-node')
@@ -407,7 +425,8 @@ function restart() {
         drag_line
           .style('marker-end', 'url(#end-arrow)')
           .classed('hidden', false)
-          .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+          .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
+          ;
 
       })
       .on('mouseup', function(d) {
@@ -603,13 +622,14 @@ function restart() {
     createSyn();
 
 
-
-
-
   // remove old nodes
   circle.exit().remove();
 
   // set the graph in motion
+
+  // localStorage.setItem('links', JSON.stringify(links));
+  // localStorage.setItem('nodes', JSON.stringify(nodes));
+
   force.start();
 }
 
@@ -10278,8 +10298,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!./app.css", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!./app.css");
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./synapse-core.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./synapse-core.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -10849,12 +10869,6 @@ module.exports = function (css) {
 	// send back the fixed css
 	return fixedCss;
 };
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
 
 
 /***/ })

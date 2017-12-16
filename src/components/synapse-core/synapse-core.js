@@ -1,5 +1,5 @@
 import './d3.js';
-import './styles/app.css';
+import './synapse-core.css';
 
 // set up the SVG
 
@@ -48,10 +48,10 @@ var filter = svg.append("defs")
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
 
-var nodes = JSON.parse(localStorage.getItem('nodes'));
-var links = JSON.parse(localStorage.getItem('links'));
+// var nodes = JSON.parse(localStorage.getItem('nodes'));
+// var links = JSON.parse(localStorage.getItem('links'));
 
-if (nodes === null) {
+// if (nodes === null) {
     var nodes = [
           {id: 0, reflexive: false},
           {id: 1, reflexive: false},
@@ -63,14 +63,12 @@ if (nodes === null) {
         {source: nodes[0], target: nodes[1], left: false, right: true },
         {source: nodes[1], target: nodes[2], left: false, right: true }
       ];
-}
-
-else {
-    var nodes = JSON.parse(localStorage.getItem('nodes'));
-    var links = JSON.parse(localStorage.getItem('links'));
-    console.log(links);
-    restart();
-}
+// }
+//
+// else {
+//     var nodes = JSON.parse(localStorage.getItem('nodes'));
+//     var links = JSON.parse(localStorage.getItem('links'));
+// }
 
 
 // localStorage.setItem("nodeValue", JSON.stringify(nodes))
@@ -545,8 +543,8 @@ function restart() {
 
   // set the graph in motion
 
-  localStorage.setItem('links', JSON.stringify(links));
-  localStorage.setItem('nodes', JSON.stringify(nodes));
+  // localStorage.setItem('links', JSON.stringify(links));
+  // localStorage.setItem('nodes', JSON.stringify(nodes));
 
   force.start();
 }

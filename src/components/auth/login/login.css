@@ -46,5 +46,13 @@ h2 {
 	border-radius: 10px;
 	text-align: center;
 	display: inline-block;
+	transition: 0.4s;
+}
 
+.log-in-button:hover {
+	cursor: pointer;
+}
+
+.log-in-button:active {
+	transform: scale(0.8);
 }

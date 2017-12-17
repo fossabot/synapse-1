@@ -3,18 +3,17 @@ import './synapse-core.css';
 import * as firebase from 'firebase';
 import '../firebase-config.js';
 
-// sync attempt
+
 
 var synUISync = document.querySelector('.syn-ui-sync');
-
 var userId;
 
-// WHY ISNT THIS WORKING
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
       userId = firebase.auth().currentUser.uid;
-  } else {
-    // No user is signed in.
+  }
+  else {
+
   }
 });
 
@@ -25,6 +24,38 @@ synUISync.addEventListener('click', e => {
       links
     });
 })
+
+var dbRef = firebase.database().ref();
+
+
+// var nodes = [
+//       {id: 0, reflexive: false},
+//       {id: 1, reflexive: false},
+//       {id: 2, reflexive: false}
+//   ];
+// var lastNodeId = 2;
+//
+// console.log(nodes);
+//
+// var links = [
+//     {source: nodes[0], target: nodes[1], left: false, right: true },
+//     {source: nodes[1], target: nodes[2], left: false, right: true }
+//   ];
+
+var nodes,
+    lastNodeId,
+    links;
+
+dbRef.once('value').then(function(snapshot) {
+  nodes = snapshot.child(userId).val().nodes;
+  console.log(nodes);
+  lastNodeId = snapshot.child(userId).val().lastNodeId;
+  links = snapshot.child(userId).val().links;
+
+  appStart();
+});
+
+function appStart() {
 
 
 // set up the SVG
@@ -73,44 +104,9 @@ var filter = svg.append("defs")
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
 
-var baseRef = firebase.database().ref();
+if (nodes === null || links === null || lastNodeId === null) {
 
-var nodes;
-
-baseRef.once('value').then(function(snapshot) {
-  nodes = snapshot.child(userId).val().nodes;
-  console.log(nodes);
-});
-
-
-var lastNodeId = firebase.database().ref('lastNodeId');
-var links = firebase.database().ref('links');
-
-
-console.log("nodes:" + nodes);
-
-// if (nodes === null) {
-    // var nodes = [
-    //       {id: 0, reflexive: false},
-    //       {id: 1, reflexive: false},
-    //       {id: 2, reflexive: false}
-    //   ];
-    // var lastNodeId = 2;
-    //
-    // var links = [
-    //     {source: nodes[0], target: nodes[1], left: false, right: true },
-    //     {source: nodes[1], target: nodes[2], left: false, right: true }
-    //   ];
-// }
-//
-// else {
-//     var nodes = JSON.parse(localStorage.getItem('nodes'));
-//     var links = JSON.parse(localStorage.getItem('links'));
-// }
-
-
-// localStorage.setItem("nodeValue", JSON.stringify(nodes))
-
+}
 
 
 // init D3 force layout
@@ -667,3 +663,5 @@ svg.on('mousedown', mousedown)
 
 
 restart();
+
+}

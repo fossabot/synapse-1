@@ -3,8 +3,9 @@ import './synapse-core.css';
 import * as firebase from 'firebase';
 import '../firebase-config.js';
 
+// FIREBASE SYNC
 
-
+// <-- write data
 var synUISync = document.querySelector('.syn-ui-sync');
 var userId;
 
@@ -24,42 +25,60 @@ synUISync.addEventListener('click', e => {
       links
     });
 })
+// -->
+
+// <-- read data
 
 var dbRef = firebase.database().ref();
 
-
-// var nodes = [
-//       {id: 0, reflexive: false},
-//       {id: 1, reflexive: false},
-//       {id: 2, reflexive: false}
-//   ];
-// var lastNodeId = 2;
-//
-// console.log(nodes);
-//
-// var links = [
-//     {source: nodes[0], target: nodes[1], left: false, right: true },
-//     {source: nodes[1], target: nodes[2], left: false, right: true }
-//   ];
-
+// init empty placeholders
 var nodes,
     lastNodeId,
     links;
 
+// get nodes and links from db and init force layout
 dbRef.once('value').then(function(snapshot) {
-  nodes = snapshot.child(userId).val().nodes;
-  console.log(nodes);
-  lastNodeId = snapshot.child(userId).val().lastNodeId;
-  links = snapshot.child(userId).val().links;
 
-  appStart();
+  // get nodes
+  nodes = snapshot.child(userId + "/nodes").val();
+
+  // if nodes are empty (first time login) – init started nodes
+  if (nodes === null) {
+        nodes = [
+            {id: 0, reflexive: false},
+            {id: 1, reflexive: false},
+            {id: 2, reflexive: false}
+        ];
+  }
+
+  // get last node id
+  lastNodeId = snapshot.child(userId + "/lastNodeId").val();
+
+  // if lastnodeid is empty (first time login) – init started lastnodeid for starter nodes
+  if (lastNodeId === null) {
+      lastNodeId = 2;
+  }
+
+  // get links
+  links = snapshot.child(userId + "/links").val();
+
+  // if links are empty (first time login) – init started links for starter nodes
+  if (links === null) {
+      links = [
+          {source: nodes[0], target: nodes[1], left: false, right: true },
+          {source: nodes[1], target: nodes[2], left: false, right: true }
+        ];
+  }
+
+  // init app
+  forceInit();
 });
+// --> 
 
-function appStart() {
-
+// d3 force layout core (app core)
+function forceInit() {
 
 // set up the SVG
-
 var width = window.innerWidth,
     height = window.innerHeight
     ;
@@ -103,11 +122,6 @@ var filter = svg.append("defs")
 //  - nodes are known by 'id', not by index in array.
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
-
-if (nodes === null || links === null || lastNodeId === null) {
-
-}
-
 
 // init D3 force layout
 var force = d3.layout.force()

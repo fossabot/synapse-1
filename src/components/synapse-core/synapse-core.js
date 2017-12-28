@@ -32,6 +32,7 @@ var dbRef = firebase.database().ref();
 dbRef.once('value').then(function(snapshot) {
   // get nodes
   var nodes = snapshot.child(userId + "/nodes").val();
+  var nodesMap = {};
 
   // if nodes are empty (first time login) – init started nodes
   if (nodes === null) {
@@ -40,6 +41,10 @@ dbRef.once('value').then(function(snapshot) {
             {id: 1, reflexive: false},
             {id: 2, reflexive: false}
         ];
+  } else {
+      for(var n in nodes) {
+          nodesMap[nodes[n].id] = nodes[n];
+      }
   }
 
   // get last node id
@@ -56,9 +61,25 @@ dbRef.once('value').then(function(snapshot) {
   // if links are empty (first time login) – init started links for starter nodes
   if (links === null) {
       links = [
-          {source: nodes[0], target: nodes[1], left: false, right: true },
-          {source: nodes[1], target: nodes[2], left: false, right: true }
+          {
+              source: nodes[0],
+              target: nodes[1]
+              // left: false,
+              // right: true
+          },
+          {
+              source: nodes[1],
+              target: nodes[2]
+              // left: false,
+              // right: true
+          }
         ];
+  } else {
+      var tempLinks = [];
+      for (var l in links) {
+          tempLinks.push({source: nodesMap[links[l].source.id], target: nodesMap[links[l].target.id]})
+      }
+      links = tempLinks;
   }
 
   // init app
@@ -75,10 +96,7 @@ synUISync.addEventListener('click', e => {
       links
     });
 })
-window.nodes = nodes;
-window.links = links;
 
-console.log(nodes, links);
 
 // d3 force layout core (app core)
 function forceInit() {
@@ -136,9 +154,9 @@ var force = d3.layout.force()
     .linkDistance(550)
     .charge(-500)
     .on('tick', tick)
+    .start()
     ;
-
-window.force = force;
+    window.force = force;
 
 var drag = force.drag()
   .on("dragstart", dragstart);
@@ -604,11 +622,6 @@ function restart() {
 
   // localStorage.setItem('links', JSON.stringify(links));
   // localStorage.setItem('nodes', JSON.stringify(nodes));
-
-  force
-    .nodes(nodes)
-    .links(links)
-    ;
 
   force.start();
 }

@@ -3,6 +3,14 @@ import './synapse-core.css';
 import * as firebase from 'firebase';
 import '../firebase-config.js';
 
+// Global data vars
+
+var nodes,
+    lastNodeId,
+    links;
+
+var nodesMap = {};
+
 // FIREBASE SYNC
 
 // <-- write data
@@ -10,13 +18,19 @@ var synUISync = document.querySelector('.syn-ui-sync');
 var userId;
 
 firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-      userId = firebase.auth().currentUser.uid;
-  }
-  else {
+    if (user) {
+        userId = firebase.auth().currentUser.uid;
+    }
+    else {}
+});
 
-  }
- });
+synUISync.addEventListener('click', e => {
+    firebase.database().ref().child(userId).set({
+        nodes,
+        lastNodeId,
+        links
+    });
+})
 // -->
 
 // <-- read data
@@ -31,72 +45,60 @@ var dbRef = firebase.database().ref();
 // get nodes and links from db and init force layout
 dbRef.once('value').then(function(snapshot) {
   // get nodes
-  var nodes = snapshot.child(userId + "/nodes").val();
-  var nodesMap = {};
+    nodes = snapshot.child(userId + "/nodes").val();
+    lastNodeId = snapshot.child(userId + "/lastNodeId").val();
+    links = snapshot.child(userId + "/links").val();
 
-  // if nodes are empty (first time login) – init started nodes
-  if (nodes === null) {
+    // if there are no nodes first time login) – init starter data
+    if (nodes === null) {
         nodes = [
             {id: 0, reflexive: false},
             {id: 1, reflexive: false},
             {id: 2, reflexive: false}
         ];
+
+        lastNodeId = 2;
+
+        links = [
+            {
+                source: nodes[0],
+                target: nodes[1],
+                left: false,
+                right: true
+            },
+            {
+                source: nodes[1],
+                target: nodes[2],
+                left: false,
+                right: true
+            }
+          ];
+
   } else {
       for(var n in nodes) {
           nodesMap[nodes[n].id] = nodes[n];
       }
-  }
-
-  // get last node id
-  var lastNodeId = snapshot.child(userId + "/lastNodeId").val();
-
-  // if lastnodeid is empty (first time login) – init started lastnodeid for starter nodes
-  if (lastNodeId === null) {
-      lastNodeId = 2;
-  }
-
-  // get links
-  var links = snapshot.child(userId + "/links").val();
-
-  // if links are empty (first time login) – init started links for starter nodes
-  if (links === null) {
-      links = [
-          {
-              source: nodes[0],
-              target: nodes[1]
-              // left: false,
-              // right: true
-          },
-          {
-              source: nodes[1],
-              target: nodes[2]
-              // left: false,
-              // right: true
-          }
-        ];
-  } else {
       var tempLinks = [];
       for (var l in links) {
-          tempLinks.push({source: nodesMap[links[l].source.id], target: nodesMap[links[l].target.id]})
+          links.push({
+              source: nodesMap[links[l].source.id],
+              target: nodesMap[links[l].target.id]
+          })
       }
       links = tempLinks;
-  }
+    }
+
 
   // init app
-  console.log(nodes, links);
   forceInit();
 
 // -->
 
 
-synUISync.addEventListener('click', e => {
-    firebase.database().ref().child(userId).set({
-      nodes,
-      lastNodeId,
-      links
-    });
-})
+});
 
+window.links = links;
+window.nodesMap = nodesMap;
 
 // d3 force layout core (app core)
 function forceInit() {
@@ -724,6 +726,4 @@ svg.on('mousedown', mousedown)
 
 
 restart();
-
 }
-});

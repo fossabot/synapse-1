@@ -37,19 +37,15 @@ synUISync.addEventListener('click', e => {
 
 var dbRef = firebase.database().ref();
 
-// init empty placeholders
-// var nodes,
-//     lastNodeId,
-//     links;
-
 // get nodes and links from db and init force layout
 dbRef.once('value').then(function(snapshot) {
-  // get nodes
+
+    // get nodes
     nodes = snapshot.child(userId + "/nodes").val();
     lastNodeId = snapshot.child(userId + "/lastNodeId").val();
     links = snapshot.child(userId + "/links").val();
 
-    // if there are no nodes first time login) – init starter data
+    // if there are no nodes (first time login) – init starter data
     if (nodes === null) {
         nodes = [
             {id: 0, reflexive: false},
@@ -74,31 +70,35 @@ dbRef.once('value').then(function(snapshot) {
             }
           ];
 
-  } else {
-      for(var n in nodes) {
-          nodesMap[nodes[n].id] = nodes[n];
-      }
-      var tempLinks = [];
-      for (var l in links) {
-          links.push({
-              source: nodesMap[links[l].source.id],
-              target: nodesMap[links[l].target.id]
-          })
-      }
-      links = tempLinks;
+    } else {
+
+    // Ivo's fix for mapping the right nodes to links
+    for (var n in nodes) {
+        nodesMap[nodes[n].id] = nodes[n];
     }
 
+    var tempLinks = [];
 
-  // init app
-  forceInit();
+    for (var l in links) {
+        tempLinks.push({
+            source: nodesMap[links[l].source.id],
+            target: nodesMap[links[l].target.id]
+        })
+    }
+
+    // TODO: looped tempLinks override left & right key-values, thus arrows are lost
+    links = tempLinks;
+
+    // links appears to be an object, despite it being an array
+    console.log(typeof(links));
+    }
+
+    // init force layout
+    forceInit();
 
 // -->
 
-
 });
-
-window.links = links;
-window.nodesMap = nodesMap;
 
 // d3 force layout core (app core)
 function forceInit() {
@@ -159,6 +159,7 @@ var force = d3.layout.force()
     .start()
     ;
     window.force = force;
+    window.links = links;
 
 var drag = force.drag()
   .on("dragstart", dragstart);

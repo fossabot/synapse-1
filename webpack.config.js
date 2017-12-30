@@ -1,36 +1,47 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  entry: {
-      index: './src/index.js',
-      login: './src/components/auth/login/login.js'
-  },
-  output: {
-    path: path.resolve('dist'),
-    filename: '[name]_bundle.js'
-  },
-  devServer: {
-      contentBase: './dist'
-  },
-  module: {
-     rules: [
-        {
-            test: /\.css$/,
-            use: [
-                'style-loader',
-                'css-loader'
-            ]
-        },
-        {
-            test: /\.scss$/,
-            use: [
-                {loader: 'style-loader'},
-                {loader: 'css-loader'},
-                {loader: 'sass-loader'}
-            ]
-        }
-     ]
-   },
+    entry: {
+        index: './src/index.js',
+        login: './src/components/auth/login/login.js'
+    },
+    output: {
+        path: path.resolve('dist'),
+        filename: '[name]_bundle.js'
+    },
+    devServer: {
+        contentBase: './dist'
+    },
+    devtool: 'inline-source-map',
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    {loader: 'style-loader'},
+                    {loader: 'css-loader'},
+                    {loader: 'sass-loader'}
+                ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            Components: path.resolve(__dirname, 'src/components/')
+            }
+    },
   plugins: [
       new HtmlWebpackPlugin({
           template: './src/index.html',

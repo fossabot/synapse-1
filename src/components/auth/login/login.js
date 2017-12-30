@@ -1,6 +1,6 @@
-import './login.scss';
-import * as firebase from 'firebase';
-import '../../firebase-config.js';
+import 'Components/auth/login/login.scss';
+import firebase from 'firebase';
+import 'Components/firebase-config';
 
 var auth = firebase.auth();
 

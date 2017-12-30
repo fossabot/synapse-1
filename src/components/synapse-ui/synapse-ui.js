@@ -1,6 +1,6 @@
-import './synapse-ui.scss';
-import * as firebase from 'firebase';
-import '../firebase-config.js';
+import 'Components/synapse-ui/synapse-ui.scss';
+import 'Components/firebase-config.js';
+import firebase from 'firebase';
 
 // <-- sign out module
 var auth = firebase.auth();

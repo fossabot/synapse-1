@@ -1,4 +1,4 @@
-import './login.css';
+import './login.scss';
 import * as firebase from 'firebase';
 import '../../firebase-config.js';
 

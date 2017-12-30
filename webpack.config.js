@@ -9,15 +9,26 @@ module.exports = {
     path: path.resolve('dist'),
     filename: '[name]_bundle.js'
   },
+  devServer: {
+      contentBase: './dist'
+  },
   module: {
      rules: [
-       {
-         test: /\.css$/,
-         use: [
-           'style-loader',
-           'css-loader'
-         ]
-       }
+        {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        },
+        {
+            test: /\.scss$/,
+            use: [
+                {loader: 'style-loader'},
+                {loader: 'css-loader'},
+                {loader: 'sass-loader'}
+            ]
+        }
      ]
    },
   plugins: [

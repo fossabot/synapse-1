@@ -1,10 +1,11 @@
 import './d3.js';
-import './synapse-core.css';
+// import './synapse-core.css';
+import './synapse-core.scss';
 import * as firebase from 'firebase';
 import '../firebase-config.js';
 
 // Global data vars
-
+ 
 var nodes,
     lastNodeId,
     links;

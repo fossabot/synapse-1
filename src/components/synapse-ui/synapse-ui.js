@@ -1,4 +1,4 @@
-import './synapse-ui.css';
+import './synapse-ui.scss';
 import * as firebase from 'firebase';
 import '../firebase-config.js';
 

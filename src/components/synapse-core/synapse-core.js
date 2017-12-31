@@ -50,9 +50,9 @@ dbRef.once('value').then(function(snapshot) {
     // if there are no nodes (first time login) – init starter data
     if (nodes === null) {
         nodes = [
-            {id: 0, reflexive: false},
-            {id: 1, reflexive: false},
-            {id: 2, reflexive: false}
+            {id: 0, reflexive: false, content: ''},
+            {id: 1, reflexive: false, content: ''},
+            {id: 2, reflexive: false, content: ''}
         ];
 
         lastNodeId = 2;
@@ -97,8 +97,6 @@ dbRef.once('value').then(function(snapshot) {
 
     // init force layout
     forceInit();
-
-// -->
 
 });
 
@@ -394,8 +392,6 @@ function forceInit() {
               .classed('card-action-square', true)
               ;
 
-            // document.querySelector('.card-input').value = localStorage.getItem("nodeValue");
-
             var cardNode = synGroup.append('svg:circle')
               .attr('class', 'card-node')
               .attr('r', 10)
@@ -562,22 +558,11 @@ function forceInit() {
                   function synCollapse(d) {
 
                     var currentValue = this.parentNode.querySelector('.card-input').value;
-
-                    // why stringfy here?
-                    // var currentNode = JSON.stringify(nodes[d.id]);
-
                     var currentNode = nodes[d.id];
 
-                    // push content to node
-                    var currentNodeValue = currentNode.content = currentValue;
+                    // push card content to node object
 
-                    // console.log(currentNode)
-                    // console.log(nodes)
-                    // console.log(currentNodeValue)
-
-                    localStorage.setItem("nodeValue", currentNodeValue);
-
-                    //
+                    currentNode.content = currentValue;
 
                     currentSyn = d3.select(this.parentNode)
                       .classed('syn-expanded', false)
@@ -624,9 +609,6 @@ function forceInit() {
       circle.exit().remove();
 
       // set the graph in motion
-
-      // localStorage.setItem('links', JSON.stringify(links));
-      // localStorage.setItem('nodes', JSON.stringify(nodes));
 
       force.start();
     }
@@ -687,6 +669,7 @@ function forceInit() {
         var node = {
             id: ++lastNodeId,
             reflexive: false,
+            content: ''
             // fixed: true
         };
         node.x = adjustedMouseX;
@@ -721,7 +704,17 @@ function forceInit() {
       d3.select(this).classed("fixed", d.fixed = true);
     }
 
-    // app starts here
+    function getCardContents() {
+
+        var nodeCards = document.getElementsByClassName('card-input');
+
+        for (var i = 0; i < nodeCards.length; i++) {
+            nodeCards[i].value = nodes[i].content;
+        }
+
+    }
+
+    // force starts here
     svg.on('mousedown', mousedown)
       .on('mousemove', mousemove)
       .on('mouseup', mouseup)
@@ -730,4 +723,5 @@ function forceInit() {
 
     restart();
 
+    getCardContents();
 }

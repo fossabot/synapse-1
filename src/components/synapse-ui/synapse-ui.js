@@ -1,5 +1,4 @@
 import 'Components/synapse-ui/synapse-ui.scss';
-import 'Components/firebase-config.js';
 import firebase from 'firebase';
 
 // <-- sign out module

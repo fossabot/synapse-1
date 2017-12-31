@@ -11,12 +11,6 @@ module.exports = {
         path: path.resolve('dist'),
         filename: '[name]_bundle.js'
     },
-    devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        compress: true,
-        port: 9000
-    },
-    devtool: 'inline-source-map',
     module: {
         rules: [
             {

@@ -1,5 +1,6 @@
 import 'Components/auth/login/login.scss';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import 'Components/firebase-config';
 
 var auth = firebase.auth();

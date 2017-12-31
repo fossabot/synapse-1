@@ -1,5 +1,6 @@
 import 'Components/synapse-ui/synapse-ui.scss';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 // <-- sign out module
 var auth = firebase.auth();

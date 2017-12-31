@@ -1,6 +1,8 @@
 import 'Components/synapse-core/synapse-core.scss';
 import d3 from 'd3';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import 'Components/firebase-config';
 
 // Global data vars

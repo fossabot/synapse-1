@@ -294,52 +294,53 @@ function forceInit() {
         })
         .classed('syn', true)
         .on('mouseup', function(d) {
-          if(!mousedown_node) return;
+            if(!mousedown_node) return;
 
           // needed by FF
-          drag_line
-            .classed('hidden', true)
-            .style('marker-end', '');
+            drag_line
+                .classed('hidden', true)
+                .style('marker-end', '');
 
-          // check for drag-to-self
-          mouseup_node = d;
-          if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
+            // check for drag-to-self
+            mouseup_node = d;
+            if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
 
-          // unenlarge target node
-          d3.select(this).attr('transform', '');
+            // unenlarge target node
+            d3.select(this).attr('transform', '');
 
-          // add link to graph (update if exists)
-          // NB: links are strictly source < target; arrows separately specified by booleans
-          var source, target, direction;
-          if(mousedown_node.id < mouseup_node.id) {
-            source = mousedown_node;
-            target = mouseup_node;
-            direction = 'right';
-          } else {
-            source = mouseup_node;
-            target = mousedown_node;
-            direction = 'left';
-          }
+            // add link to graph (update if exists)
+            // NB: links are strictly source < target; arrows separately specified by booleans
+            var source, target, direction;
+            if(mousedown_node.id < mouseup_node.id) {
+                source = mousedown_node;
+                target = mouseup_node;
+                direction = 'right';
+            } else {
+                source = mouseup_node;
+                target = mousedown_node;
+                direction = 'left';
+            }
 
-          var link;
-          link = links.filter(function(l) {
-            return (l.source === source && l.target === target);
-          })[0];
+            var link;
+            link = links.filter(function(l) {
+                return (l.source === source && l.target === target);
+            })[0];
 
-          if(link) {
-            link[direction] = true;
-          } else {
-            link = {source: source, target: target, left: false, right: false};
-            link[direction] = true;
-            links.push(link);
-          }
+            if(link) {
+                link[direction] = true;
+            } else {
+                link = {source: source, target: target, left: false, right: false};
+                link[direction] = true;
+                links.push(link);
+            }
 
-          // select new link
-          selected_link = link;
-          selected_node = null;
+            // select new link
+            selected_link = link;
+            selected_node = null;
 
-          restart();
-        });
+
+            restart();
+            });
         ;
 
         function createSyn() {
@@ -385,8 +386,8 @@ function forceInit() {
               .attr('height', cardHeight)
               .attr('x', cardOffsetX)
               .attr('y', cardOffsetY)
-              .attr('rx', 10)
-              .attr('ry', 10)
+              .attr('rx', 5)
+              .attr('ry', 5)
               .classed('card', true)
               ;
 
@@ -404,39 +405,13 @@ function forceInit() {
               .classed('card-input', true)
               ;
 
-            var cardCorner = synGroup.append('svg:rect')
-              .attr('width', 11)
-              .attr('height', 11)
-              .attr('x', -26)
-              .attr('y', -26)
-              .attr('fill', '#fff')
-              ;
-
-            var cardAction = synGroup.append('svg:rect')
-              .attr('width', 25)
-              .attr('height', 25)
+            var cardAction = synGroup.append('svg:circle')
+              .attr('r', 10)
               .attr('fill', currentSynColor)
-              .attr('x', -215)
-              .attr('y', -105)
+              // .attr('cx', -200)
+              // .attr('cy', -90)
               .classed('card-action', true)
               .on('click', synExpand)
-              ;
-
-            var cardActionCircle = synGroup.append('svg:circle')
-              .attr('r', 12)
-              .attr('cx', -255)
-              .attr('cy', -140)
-              .attr('fill', '#FF5E9C')
-              .classed('card-action-circle', true)
-              ;
-
-            var cardActionSquare = synGroup.append('svg:rect')
-              .attr('width', 9)
-              .attr('height', 9)
-              .attr('x', -200)
-              .attr('y', -150)
-              .attr('fill', '#ffffff')
-              .classed('card-action-square', true)
               ;
 
             var cardNode = synGroup.append('svg:circle')
@@ -444,7 +419,6 @@ function forceInit() {
               .attr('r', 10)
               .attr('cx', 0)
               .attr('cy', 0)
-              .style('fill', '#35649C')
               .on('mouseover', function(d) {
                 if(!mousedown_node || d === mousedown_node) return;
               })
@@ -468,10 +442,17 @@ function forceInit() {
                   .classed('hidden', false)
                   .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
                   ;
-
+                svg.classed('linking', true);
               })
-
               ;
+
+              var cardCorner = synGroup.append('svg:rect')
+                .attr('width', 11)
+                .attr('height', 11)
+                .attr('x', -26)
+                .attr('y', -26)
+                .attr('fill', '#fff')
+                ;
 
               function synExpand(d) {
 
@@ -507,9 +488,8 @@ function forceInit() {
                   ;
 
                 var currentAction = currentSyn.select('.syn .card-action')
-                  .attr('width', 50).attr('height', 50)
-                  .attr('x', -455).attr('y', -260)
-                  .attr('rx', 50).attr('ry', 50)
+                  .attr('r', 30)
+                  .attr('x', -430).attr('cy', -235)
                   .on('click', synCollapse)
                   ;
 
@@ -655,6 +635,7 @@ function forceInit() {
       }
 
       svg.classed('active', false);
+      svg.classed('linking', false);
 
       // clear mouse event vars
       resetMouseVars();
@@ -721,6 +702,8 @@ function forceInit() {
       .on('mouseup', mouseup)
       .on('contextmenu', rightclick);
 
+
+      console.log(nodes);
 
     restart();
 

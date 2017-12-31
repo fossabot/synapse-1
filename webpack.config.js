@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     entry: {
         index: './src/index.js',
@@ -19,18 +21,17 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'postcss-loader']
+                })
             },
             {
                 test: /\.scss$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {loader: 'css-loader'},
-                    {loader: 'sass-loader'}
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'postcss-loader', 'sass-loader']
+                })
             },
             {
                 test: /\.js$/,
@@ -45,16 +46,15 @@ module.exports = {
             }
     },
   plugins: [
+      new ExtractTextPlugin("[name].css"),
       new HtmlWebpackPlugin({
           template: './src/index.html',
           filename: 'index.html',
-          inject: 'body',
           chunks: ['index']
       }),
       new HtmlWebpackPlugin({
           template: './src/components/auth/login/login.html',
           filename: 'login.html',
-          inject: 'body',
           chunks: ['login']
       })
   ]

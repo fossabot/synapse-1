@@ -1,7 +1,7 @@
+import 'Components/synapse-core/synapse-core.scss';
 import d3 from 'd3';
 import firebase from 'firebase';
 import 'Components/firebase-config';
-import 'Components/synapse-core/synapse-core.scss';
 
 // Global data vars
 

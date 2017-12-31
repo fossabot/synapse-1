@@ -293,6 +293,53 @@ function forceInit() {
           d3.event.stopPropagation();
         })
         .classed('syn', true)
+        .on('mouseup', function(d) {
+          if(!mousedown_node) return;
+
+          // needed by FF
+          drag_line
+            .classed('hidden', true)
+            .style('marker-end', '');
+
+          // check for drag-to-self
+          mouseup_node = d;
+          if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
+
+          // unenlarge target node
+          d3.select(this).attr('transform', '');
+
+          // add link to graph (update if exists)
+          // NB: links are strictly source < target; arrows separately specified by booleans
+          var source, target, direction;
+          if(mousedown_node.id < mouseup_node.id) {
+            source = mousedown_node;
+            target = mouseup_node;
+            direction = 'right';
+          } else {
+            source = mouseup_node;
+            target = mousedown_node;
+            direction = 'left';
+          }
+
+          var link;
+          link = links.filter(function(l) {
+            return (l.source === source && l.target === target);
+          })[0];
+
+          if(link) {
+            link[direction] = true;
+          } else {
+            link = {source: source, target: target, left: false, right: false};
+            link[direction] = true;
+            links.push(link);
+          }
+
+          // select new link
+          selected_link = link;
+          selected_node = null;
+
+          restart();
+        });
         ;
 
         function createSyn() {
@@ -423,53 +470,7 @@ function forceInit() {
                   ;
 
               })
-              .on('mouseup', function(d) {
-                if(!mousedown_node) return;
 
-                // needed by FF
-                drag_line
-                  .classed('hidden', true)
-                  .style('marker-end', '');
-
-                // check for drag-to-self
-                mouseup_node = d;
-                if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
-
-                // unenlarge target node
-                d3.select(this).attr('transform', '');
-
-                // add link to graph (update if exists)
-                // NB: links are strictly source < target; arrows separately specified by booleans
-                var source, target, direction;
-                if(mousedown_node.id < mouseup_node.id) {
-                  source = mousedown_node;
-                  target = mouseup_node;
-                  direction = 'right';
-                } else {
-                  source = mouseup_node;
-                  target = mousedown_node;
-                  direction = 'left';
-                }
-
-                var link;
-                link = links.filter(function(l) {
-                  return (l.source === source && l.target === target);
-                })[0];
-
-                if(link) {
-                  link[direction] = true;
-                } else {
-                  link = {source: source, target: target, left: false, right: false};
-                  link[direction] = true;
-                  links.push(link);
-                }
-
-                // select new link
-                selected_link = link;
-                selected_node = null;
-
-                restart();
-              });
               ;
 
               function synExpand(d) {

@@ -23,9 +23,9 @@ body {
 
 path.link {
 	fill: none;
-	stroke: #4A90E2;
+	stroke: rgba(#4A90E2, 0.7);
 	stroke-width: 4px;
-	cursor: default;
+	cursor: -webkit-grabbing;
 }
 
 
@@ -89,11 +89,11 @@ path.link.hidden {
 	cursor: text;
 }
 
-.linking .syn:hover .card-shadow {
-	fill: #fff;
-	opacity: .5;
-	filter: url('#blur');
-}
+// .linking .syn:hover .card-shadow {
+// 	fill: #fff;
+// 	opacity: .5;
+// 	filter: url('#blur');
+// }
 
 .linking .syn:hover,
 .linking .syn:hover .card-input,
@@ -131,9 +131,21 @@ path.link.hidden {
 	animation: card-appear 0.3s;
 }
 
+.card-corner {
+	transition: 0.35s;
+}
+
 .syn:active .card,
 .syn:active .card-html-wrap {
 	transform: scale(0.95);
+}
+
+.linking .syn:hover .card {
+	transform: scale(1.02);
+}
+
+.linking .syn:hover .card-corner {
+	transform: scale(1.02);
 }
 
 .syn-expanded.syn:active .card,

@@ -454,6 +454,7 @@ function forceInit() {
                 .attr('x', -26)
                 .attr('y', -26)
                 .attr('fill', '#fff')
+                .classed('card-corner', true)
                 ;
 
               function synExpand(d) {

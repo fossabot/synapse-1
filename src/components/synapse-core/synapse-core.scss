@@ -1,3 +1,7 @@
+$synBlue: #4A90E2;
+$synRed: #50E3C2;
+$bodyColor: #192946;
+
 html,
 body {
 	padding: 0;
@@ -9,12 +13,8 @@ body {
 }
 
 .canvas {
-	background-color: #001134;
+	background-color: $bodyColor;
 	cursor: default;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
 	user-select: none;
 	overflow: visible;
 	display: block;
@@ -90,7 +90,7 @@ path.link.hidden {
 }
 
 .linking .syn:hover .card-shadow {
-	fill: #FFF;
+	fill: #fff;
 	opacity: .5;
 	filter: url('#blur');
 }
@@ -160,28 +160,60 @@ path.link.hidden {
 	}
 }
 
-.card {
-
-}
 .card-node,
 .card-node-shadow {
 	transition: 0.3s;
-	// transform-origin: center;
+}
+
+.card-node-tri {
+	fill: $bodyColor;
+	transition: 0.35s;
+}
+
+.syn:hover .card-node-tri {
+	transform: translate(-10px, -8px) scale(1);
+}
+
+// hide on default
+.card-node-tri,
+// hide on expaned state
+.syn.syn-expanded:hover .card-node-tri,
+// hide when linking
+.linking .syn:hover .card-node-tri  {
+	transform: translate(0px, 0px) scale(0);
 }
 
 .card-node {
 	transform: scale(0);
+	fill: rgba(0,0,0,0);
 }
 
 .syn:hover .card-node {
 	transform: scale(2.75);
-	fill: #F75166;
 }
 
 .syn:hover .card-node-shadow {
 	transform: scale(2.5);
+	fill: $synRed;
 }
 
+.syn.syn-expanded:hover .card-node {
+	transform: scale(0);
+}
+
+.card-node-shadow {
+	fill: $synBlue;
+}
+
+.syn.syn-expanded:hover .card-node-shadow {
+	transform: scale(1);
+	fill: $synBlue;
+}
+
+.linking .syn:hover .card-node-shadow {
+	transform: scale(1);
+	fill: $synRed;
+}
 
 .card,
 .card-shadow,
@@ -219,46 +251,33 @@ path.link.hidden {
     font-weight: 200;
 }
 
-
 .card-input:focus {
 	outline: none;
 }
 
-.card-action {
-	transition: 0.3s;
+.card-action,
+.linking .syn:hover .card-action {
 	transform: translate(-200px, -90px) scale(1);
+	transition: 0.35s;
+	fill: $synBlue;
+	stroke-width: 3px;
+	stroke: $bodyColor;
 }
-
 
 .syn:hover .card-action {
-	// transform-origin: center;
-	transform: translate(-240px, -90px) scale(2);
-	animation: card-action 0.30s;
+	transform: translate(-230px, -90px) scale(1.3);
 	animation-timing-function: linear;
-	fill: #F75166;
-}
-
-@keyframes card-action {
-	0% {
-		transform: translate(-200px, -90px) scale(1);
-	}
-
-	45% {
-		transform: translate(-240px, -90px) scale(1);
-	}
-
-	75% {
-		transform: translate(-240px, -90px) scale(2.5);
-	}
-
-	100% {
-		transform: translate(-240px, -90px) scale(2);
-	}
+	fill: $bodyColor;
+	stroke-width: 7px;
+	stroke: $synRed;
 }
 
 .syn-expanded .card-action,
-.syn-expanded.syn:hover .card-action {
-	transform: none;
+.syn-expanded:hover .card-action  {
+	transform: translate(-440px,-235px) scale(1);
+	animation: none;
+	fill: $synBlue;
+	stroke: none;
 }
 
 @keyframes card-flick {

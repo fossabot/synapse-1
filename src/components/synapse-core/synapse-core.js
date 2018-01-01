@@ -372,14 +372,6 @@ function forceInit() {
               .classed('card-shadow', true)
               ;
 
-            var cardNodeShadow = synGroup.append('svg:circle')
-              .attr('r', 10)
-              .attr('cx', 0)
-              .attr('cy', 0)
-              .style('fill', currentSynColor)
-              .classed('card-node-shadow', true)
-              ;
-
             var card = synGroup.append('svg:rect')
               .attr('fill', 'rgba(255,255,255,1')
               .attr('width', cardWidth)
@@ -407,12 +399,22 @@ function forceInit() {
 
             var cardAction = synGroup.append('svg:circle')
               .attr('r', 10)
-              .attr('fill', currentSynColor)
-              // .attr('cx', -200)
-              // .attr('cy', -90)
               .classed('card-action', true)
               .on('click', synExpand)
               ;
+
+            var cardNodeShadow = synGroup.append('svg:circle')
+              .attr('r', 10)
+              .attr('cx', 0)
+              .attr('cy', 0)
+              .classed('card-node-shadow', true)
+              ;
+
+            var cardNodeTri = synGroup.append('svg:polygon')
+              .attr('points', '-0.0104805453 7.14973725 19.387564 0.603895056 13.4614341 19.8422849')
+              .classed('card-node-tri', true)
+              ;
+
 
             var cardNode = synGroup.append('svg:circle')
               .attr('class', 'card-node')
@@ -489,13 +491,12 @@ function forceInit() {
 
                 var currentAction = currentSyn.select('.syn .card-action')
                   .attr('r', 30)
-                  .attr('x', -430).attr('cy', -235)
                   .on('click', synCollapse)
                   ;
 
                 var saveGroup = currentSyn.append('svg:g')
                   .classed('card-save', true)
-                  .attr('transform', 'translate(-443, -248) scale(1)')
+                  .attr('transform', 'translate(-452, -248) scale(1)')
                   .on('click', synCollapse)
                   ;
 
@@ -535,7 +536,6 @@ function forceInit() {
                   .attr('rx', 1.5)
                   ;
 
-
                   function synCollapse(d) {
 
                     var currentValue = this.parentNode.querySelector('.card-input').value;
@@ -547,7 +547,7 @@ function forceInit() {
 
                     currentSyn = d3.select(this.parentNode)
                       .classed('syn-expanded', false)
-                      ;
+                    ;
 
                     d3.selectAll(".syn")
                       .attr("filter", false)
@@ -571,15 +571,10 @@ function forceInit() {
                       ;
 
                     currentCardAction
-                      .attr('width', 25)
-                      .attr('height', 25)
-                      .attr('fill', currentSynColor)
-                      .attr('x', -215)
-                      .attr('y', -105)
-                      .attr('rx', 0)
-                      .attr('ry', 0)
-                      .classed('card-action', true)
-                      .on('click', synExpand)
+                        .attr('r', 10)
+                        .classed('card-action', true)
+                        .on('click', synExpand)
+                        ;
                   }
               }
           }

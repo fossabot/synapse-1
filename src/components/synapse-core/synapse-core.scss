@@ -23,7 +23,7 @@ body {
 
 path.link {
 	fill: none;
-	stroke: rgba(#4A90E2, 0.7);
+	stroke: rgba($synBlue, 0.7);
 	stroke-width: 4px;
 	cursor: -webkit-grabbing;
 }
@@ -89,12 +89,6 @@ path.link.hidden {
 	cursor: text;
 }
 
-// .linking .syn:hover .card-shadow {
-// 	fill: #fff;
-// 	opacity: .5;
-// 	filter: url('#blur');
-// }
-
 .linking .syn:hover,
 .linking .syn:hover .card-input,
 .linking .syn:hover .card,
@@ -102,14 +96,8 @@ path.link.hidden {
 .linking .syn:hover .card-html-wrap:hover {
 	cursor: pointer;
 }
-
 /**/
 
-.blurred {
-	filter: blur(5px);
-	opacity: 0.9;
-	transition: .5s;
-}
 
 .full-node {
 	width: 200px;
@@ -217,9 +205,10 @@ path.link.hidden {
 	fill: $synBlue;
 }
 
+.syn.syn-expanded .card-node-shadow,
 .syn.syn-expanded:hover .card-node-shadow {
 	transform: scale(1);
-	fill: $synBlue;
+	fill: rgba($synBlue, 0.7);
 }
 
 .linking .syn:hover .card-node-shadow {
@@ -286,10 +275,12 @@ path.link.hidden {
 
 .syn-expanded .card-action,
 .syn-expanded:hover .card-action  {
-	transform: translate(-440px,-235px) scale(1);
+	transform: translate(-440px,-235px) scale(1.5);
 	animation: none;
-	fill: $synBlue;
+	fill: #fff;
 	stroke: none;
+	stroke-width: 10px;
+	stroke: $synBlue;
 }
 
 @keyframes card-flick {

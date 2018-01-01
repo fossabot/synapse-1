@@ -415,7 +415,6 @@ function forceInit() {
               .classed('card-node-tri', true)
               ;
 
-
             var cardNode = synGroup.append('svg:circle')
               .attr('class', 'card-node')
               .attr('r', 10)
@@ -470,6 +469,11 @@ function forceInit() {
                   .attr("fill-opacity", 0.9)
                   ;
 
+                  d3.selectAll(".link")
+                    .attr("filter", "url(#blur)")
+                    .attr("fill-opacity", 0.9)
+                    ;
+
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
                     .attr("filter", false)
@@ -491,50 +495,7 @@ function forceInit() {
                   ;
 
                 var currentAction = currentSyn.select('.syn .card-action')
-                  .attr('r', 30)
                   .on('click', synCollapse)
-                  ;
-
-                var saveGroup = currentSyn.append('svg:g')
-                  .classed('card-save', true)
-                  .attr('transform', 'translate(-452, -248) scale(1)')
-                  .on('click', synCollapse)
-                  ;
-
-                var saveRect1 = saveGroup.append('svg:rect')
-                  .attr('fill', '#ffffff')
-                  .attr('x', 0).attr('y',0)
-                  .attr('width', 26).attr('height', 26)
-                  .attr('rx', 3)
-                  ;
-
-                var saveRect2 = saveGroup.append('svg:rect')
-                  .attr('fill', '#4A90E2')
-                  .attr('opacity', 0.65)
-                  .attr('x', 3).attr('y',12)
-                  .attr('width', 20).attr('height', 11)
-                  .attr('rx', 2)
-                  ;
-
-                var savePath = saveGroup.append('svg:path')
-                  .attr('d', 'M9,0 L23,0 L23,6 L23,6 C23,7.1045695 22.1045695,8 21,8 L11,8 L11,8 C9.8954305,8 9,7.1045695 9,6 L9,0 Z')
-                  .attr('fill', '#4A90E2')
-                  .attr('opacity', '0.65')
-                  ;
-
-                var saveRect3 = saveGroup.append('svg:rect')
-                  .attr('fill', '#ffffff')
-                  .attr('x', 18).attr('y', 1)
-                  .attr('width', 3).attr('height', 6)
-                  .attr('rx', 1.5)
-                  ;
-
-                var saveRect4 = saveGroup.append('svg:rect')
-                  .attr('fill', '#4A90E2')
-                  .attr('opacity', 0.65)
-                  .attr('x', 3).attr('y', 3)
-                  .attr('width', 3).attr('height', 3)
-                  .attr('rx', 1.5)
                   ;
 
                   function synCollapse(d) {
@@ -543,7 +504,6 @@ function forceInit() {
                     var currentNode = nodes[d.id];
 
                     // push card content to node object
-
                     currentNode.content = currentValue;
 
                     currentSyn = d3.select(this.parentNode)
@@ -554,8 +514,10 @@ function forceInit() {
                       .attr("filter", false)
                       .attr("fill-opacity", 1)
                       ;
-
-                    saveGroup.remove();
+                      d3.selectAll(".link")
+                        .attr("filter", false)
+                        .attr("fill-opacity", 1)
+                        ;
 
                     currentCard
                       .attr('width', cardWidth)
@@ -579,14 +541,14 @@ function forceInit() {
                   }
               }
           }
-            createSyn();
+
+          createSyn();
 
 
       // remove old nodes
       circle.exit().remove();
 
-      // set the graph in motion
-
+      // set the force in motion
       force.start();
     }
 

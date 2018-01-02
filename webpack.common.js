@@ -31,13 +31,22 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
-            }
+            },
+            {
+                test: /\.(png|jpg|gif|mp4)$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {}
+                  }
+                ]
+              }
         ]
     },
     resolve: {
         alias: {
             Components: path.resolve(__dirname, 'src/components/'),
-            Utilities: :path.resolve(__dirname, 'src/utilities/')
+            Utilities: path.resolve(__dirname, 'src/utilities/')
             }
     },
   plugins: [

@@ -2,6 +2,7 @@ import 'Components/auth/login/login.scss';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'Components/firebase-config';
+import 'Components/auth/login/prev.mp4'
 
 var auth = firebase.auth();
 

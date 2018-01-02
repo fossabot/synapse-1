@@ -1,6 +1,9 @@
+// @import "~src/utilities/utils.scss";
+
 $synBlue: #4A90E2;
-$synRed: #50E3C2;
+$synTurqoise: #50E3C2;
 $bodyColor: #192946;
+
 
 html,
 body {
@@ -194,7 +197,7 @@ path.link.hidden {
 
 .syn:hover .card-node-shadow {
 	transform: scale(2.5);
-	fill: $synRed;
+	fill: $synTurqoise;
 }
 
 .syn.syn-expanded:hover .card-node {
@@ -213,7 +216,7 @@ path.link.hidden {
 
 .linking .syn:hover .card-node-shadow {
 	transform: scale(1);
-	fill: $synRed;
+	fill: $synTurqoise;
 }
 
 .card,
@@ -270,7 +273,7 @@ path.link.hidden {
 	animation-timing-function: linear;
 	fill: $bodyColor;
 	stroke-width: 7px;
-	stroke: $synRed;
+	stroke: $synTurqoise;
 }
 
 .syn-expanded .card-action,

@@ -33,14 +33,42 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.(png|jpg|gif|mp4)$/,
+                test: /\.(png|jpg|gif)$/,
                 use: [
                   {
                     loader: 'file-loader',
-                    options: {}
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/',    // where the fonts will go
+                    }
                   }
                 ]
-              }
+            },
+            {
+                test: /\.(mp4)$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'videos/',    // where the fonts will go
+                    }
+                  }
+                ]
+            },
+            {
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/',    // where the fonts will go
+                        publicPath: '../'       // override the default path
+                    }
+                  }
+                ]
+            },
         ]
     },
     resolve: {

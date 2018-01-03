@@ -1,18 +1,43 @@
-.syn-ui-logout {
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+
+$synBlue: #4A90E2;
+$synTurqoise: #50E3C2;
+$synTurqoiseL: #4AD2B6;
+$bodyColor: #192946;
+
+
+.syn-ui-cbutton {
     position: absolute;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: hotpink;
-    top: 10px;
+    background: $synTurqoise;
     right: 10px;
-    transition: 0.35s;
+    text-align: center;
 }
 
-.syn-ui-logout:hover {
+.syn-ui-cbutton .fa {
+    font-size: 18px;
+    color: $bodyColor;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.syn-ui-logout {
+    top: 10px;
+}
+
+.syn-ui-cbutton:hover {
     cursor: pointer;
+    background-color: $synTurqoiseL;
 }
 
-.syn-ui-logout:active {
+.syn-ui-cbutton:active {
     transform: scale(.8);
+}
+
+.syn-ui-sync {
+    top: 60px;
+    right: 10px;
 }

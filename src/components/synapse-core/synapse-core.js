@@ -140,7 +140,7 @@ function forceInit() {
       .append("filter")
       .attr("id", "blur")
       .append("feGaussianBlur")
-      .attr("stdDeviation", 5)
+      .attr("stdDeviation", 2)
       ;
 
     // set up initial nodes and links
@@ -367,8 +367,8 @@ function forceInit() {
               .attr('height', 108)
               .attr('ry', 12)
               .attr('rx', 12)
-              .attr('x', cardOffsetX - 4)
-              .attr('y', cardOffsetY - 4)
+              // .attr('x', cardOffsetX - 4)
+              // .attr('y', cardOffsetY - 4)
               .classed('card-shadow', true)
               ;
 
@@ -376,8 +376,8 @@ function forceInit() {
               .attr('fill', 'rgba(255,255,255,1')
               .attr('width', cardWidth)
               .attr('height', cardHeight)
-              .attr('x', cardOffsetX)
-              .attr('y', cardOffsetY)
+              // .attr('x', cardOffsetX)
+              // .attr('y', cardOffsetY)
               .attr('rx', 5)
               .attr('ry', 5)
               .classed('card', true)
@@ -386,8 +386,8 @@ function forceInit() {
             var cardHTMLWrap = synGroup.append('svg:foreignObject')
               .attr('width', cardWidth)
               .attr('height', cardHeight)
-              .attr('x', cardOffsetX)
-              .attr('y', cardOffsetY)
+              // .attr('x', cardOffsetX)
+              // .attr('y', cardOffsetY)
               .classed('card-html-wrap', true)
               ;
 
@@ -450,8 +450,6 @@ function forceInit() {
               var cardCorner = synGroup.append('svg:rect')
                 .attr('width', 11)
                 .attr('height', 11)
-                .attr('x', -26)
-                .attr('y', -26)
                 .attr('fill', '#fff')
                 .classed('card-corner', true)
                 ;
@@ -466,33 +464,37 @@ function forceInit() {
 
                 d3.selectAll(".syn")
                   .attr("filter", "url(#blur)")
-                  .attr("fill-opacity", 0.9)
+                  // .attr("fill-opacity", 0.5)
                   ;
 
                   d3.selectAll(".link")
                     .attr("filter", "url(#blur)")
-                    .attr("fill-opacity", 0.9)
+                    // .attr("fill-opacity", 0.5)
                     ;
 
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
                     .attr("filter", false)
-                    .attr("fill-opacity", 1)
+                    // .attr("fill-opacity", 1)
                     ;
 
                 var currentCard = currentSyn.select('.syn .card')
-                  .attr('x', -(cardExpandedWidth +15))
-                  .attr('y', -(cardExpandedHeight +15))
+                  // .attr('x', -(cardExpandedWidth +15))
+                  // .attr('y', -(cardExpandedHeight +15))
                   .attr('width', cardExpandedWidth)
                   .attr('height', cardExpandedHeight)
                   ;
 
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-                  .attr('x', -(cardExpandedWidth +15))
-                  .attr('y', -(cardExpandedHeight +15))
+                  // .attr('x', -(cardExpandedWidth +15))
+                  // .attr('y', -(cardExpandedHeight +15))
                   .attr('width', cardExpandedWidth)
                   .attr('height', cardExpandedHeight)
                   ;
+
+                // focus input on expand
+                var currentCardInput = currentSyn.select('.syn .card-input')[0][0]
+                    .focus();
 
                 var currentAction = currentSyn.select('.syn .card-action')
                   .on('click', synCollapse)
@@ -512,25 +514,25 @@ function forceInit() {
 
                     d3.selectAll(".syn")
                       .attr("filter", false)
-                      .attr("fill-opacity", 1)
+                      // .attr("fill-opacity", 1)
                       ;
                       d3.selectAll(".link")
                         .attr("filter", false)
-                        .attr("fill-opacity", 1)
+                        // .attr("fill-opacity", 1)
                         ;
 
                     currentCard
                       .attr('width', cardWidth)
                       .attr('height', cardHeight)
-                      .attr('x', cardOffsetX)
-                      .attr('y', cardOffsetY)
+                      // .attr('x', cardOffsetX)
+                      // .attr('y', cardOffsetY)
                       ;
 
                     currentCardHTMLWrap
                       .attr('width', cardWidth)
                       .attr('height', cardHeight)
-                      .attr('x', cardOffsetX)
-                      .attr('y', cardOffsetY)
+                      // .attr('x', cardOffsetX)
+                      // .attr('y', cardOffsetY)
                       ;
 
                     currentCardAction

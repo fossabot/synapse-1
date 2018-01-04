@@ -4,6 +4,20 @@ $synBlue: #4A90E2;
 $synTurqoise: #50E3C2;
 $bodyColor: #192946;
 
+$cardWidth: 186px;
+$cardHeight: 100px;
+
+$cardOffsetX: -calc($cardWidth +15px);
+$cardOffsetY: -calc($cardHeight +15px);
+
+$cardShadowOffsetX: -calc($cardWidth +19px);
+$cardShadowOffsetY: -calc($cardHeight +19px);
+
+$cardExpandedWidth: 380px;
+$cardExpandedHeight: 260px;
+
+$cardExpandedWidthOffsetX: -calc($cardExpandedWidth +15px);
+$cardExpandedWidthOffsetY: -calc($cardExpandedHeight +15px);
 
 html,
 body {
@@ -23,6 +37,9 @@ body {
 	display: block;
 }
 
+.blurred {
+	filter: url('#blur');
+}
 
 path.link {
 	fill: none;
@@ -119,49 +136,26 @@ path.link.hidden {
 }
 
 .syn {
-	animation: card-appear 0.3s;
+	// animation: card-appear 0.3s;
+}
+
+.card {
+	transform: translate($cardOffsetX, $cardOffsetY) scale(1);
+}
+
+.card-html-wrap {
+	transform: translate($cardOffsetX, $cardOffsetY);
+}
+
+.card-shadow {
+	transform: translate($cardShadowOffsetX, $cardShadowOffsetY);
 }
 
 .card-corner {
-	transition: 0.35s;
+	transition: 0.30s;
+	transform: translate(-26px, -26px);
 }
 
-.syn:active .card,
-.syn:active .card-html-wrap {
-	transform: scale(0.95);
-}
-
-.linking .syn:hover .card {
-	transform: scale(1.02);
-}
-
-.linking .syn:hover .card-corner {
-	transform: scale(1.02);
-}
-
-.syn-expanded.syn:active .card,
-.syn-expanded.syn:active .card-html-wrap {
-	transform: scale(1);
-}
-
-.card-save {
-	cursor: pointer;
-	animation: card-save 0.30s;
-}
-
-@keyframes card-save {
-	0% {
-		transform: translate(0px, 0px) scale(0);
-	}
-
-	80% {
-		transform: translate(-443px, -248px) scale(0);
-	}
-
-	100% {
-		transform: translate(-443px, -248px) scale(1);
-	}
-}
 
 .card-node,
 .card-node-shadow {
@@ -173,31 +167,108 @@ path.link.hidden {
 	transition: 0.35s;
 }
 
-.syn:hover .card-node-tri {
-	transform: translate(-10px, -8px) scale(1);
+// synapse hover state
+.syn:hover {
+
+	& .card-node {
+		transform: scale(2.75);
+	}
+
+	& .card-node-shadow {
+		transform: scale(2.5);
+		fill: $synTurqoise;
+	}
+
+	& .card-action {
+		transform: translate(-230px, -90px) scale(1.3);
+		animation-timing-function: linear;
+		fill: $bodyColor;
+		stroke-width: 7px;
+		stroke: $synTurqoise;
+	}
+
+	& .card-node-tri {
+		transform: translate(-10px, -8px) scale(1);
+	}
+
 }
 
-// hide on default
-.card-node-tri,
-// hide on expaned state
-.syn.syn-expanded:hover .card-node-tri,
-// hide when linking
-.linking .syn:hover .card-node-tri  {
-	transform: translate(0px, 0px) scale(0);
+// synapse pressing state
+.syn:active  {
+	& .card {
+		transform: translate($cardOffsetX, $cardOffsetY) scale(0.95);
+	}
+
+	& .card-html-wrap {
+		transform: translate($cardOffsetX, $cardOffsetY) scale(0.95);
+	}
+
+	& .card-shadow {
+		transform: translate($cardShadowOffsetX, $cardShadowOffsetY) scale(0.95);
+	}
+
+	& .card-corner {
+		transform: translate(-35px,-31px);
+	}
 }
+
+// synapse expanded state
+.syn-expanded {
+
+	& .card,
+	&.syn:active .card {
+		transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
+	}
+
+	& .card-html-wrap,
+	&.syn:active .card-html-wrap {
+		transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
+	}
+
+	&.syn:active .card-corner {
+		transform: translate(-26px, -26px);
+	}
+
+	&:hover {
+		& .card-node-tri {
+			transform: translate(0px, 0px) scale(0);
+		}
+	}
+
+	& .card-action,
+	&:hover .card-action  {
+		transform: translate(-440px,-235px) scale(1.5);
+		animation: none;
+		fill: #fff;
+		stroke: none;
+		stroke-width: 10px;
+		stroke: $synBlue;
+	}
+}
+
+// synapse linking state
+.linking {
+
+	& .syn:hover .card {
+		transform: scale(1.02);
+	}
+
+	& .syn:hover {
+
+		& .card-corner {
+			transform: scale(1.02);
+		}
+
+		& .card-node-tri  {
+			transform: translate(0px, 0px) scale(0);
+		}
+	}
+}
+
 
 .card-node {
 	transform: scale(0);
 	fill: rgba(0,0,0,0);
-}
-
-.syn:hover .card-node {
-	transform: scale(2.75);
-}
-
-.syn:hover .card-node-shadow {
-	transform: scale(2.5);
-	fill: $synTurqoise;
 }
 
 .syn.syn-expanded:hover .card-node {
@@ -208,8 +279,8 @@ path.link.hidden {
 	fill: $synBlue;
 }
 
-.syn.syn-expanded .card-node-shadow,
-.syn.syn-expanded:hover .card-node-shadow {
+.syn-expanded .card-node-shadow,
+.syn-expanded:hover .card-node-shadow {
 	transform: scale(1);
 	fill: rgba($synBlue, 0.7);
 }
@@ -231,7 +302,7 @@ path.link.hidden {
 }
 
 .card-input {
-	background: rgba(0,0,0,0);
+	background: rgba(255,255,255,1);
 	margin-left: 20px;
 	margin-top: 10px;
 	height: 71px;
@@ -266,14 +337,6 @@ path.link.hidden {
 	fill: $synBlue;
 	stroke-width: 3px;
 	stroke: $bodyColor;
-}
-
-.syn:hover .card-action {
-	transform: translate(-230px, -90px) scale(1.3);
-	animation-timing-function: linear;
-	fill: $bodyColor;
-	stroke-width: 7px;
-	stroke: $synTurqoise;
 }
 
 .syn-expanded .card-action,

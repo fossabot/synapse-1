@@ -255,7 +255,7 @@ path.link.hidden {
 	}
 
 	& .card-corner {
-		transform: translate(-35px,-31px);
+		transform: translate(-35px,-31px) scale(1);
 	}
 }
 
@@ -333,14 +333,14 @@ path.link.hidden {
 // synapse linking state
 .linking {
 
-	& .syn:hover .card {
-		transform: scale(1.02);
-	}
-
 	& .syn:hover {
 
+		& .card {
+			transform: translate($cardOffsetX, $cardOffsetY) scale(1.02);
+		}
+
 		& .card-corner {
-			transform: scale(1.02);
+			transform: translate(-22px,-24px) scale(1);
 		}
 
 		& .card-node-tri  {

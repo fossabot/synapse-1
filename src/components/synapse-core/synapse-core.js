@@ -367,34 +367,20 @@ function forceInit() {
               .attr('height', 108)
               .attr('ry', 12)
               .attr('rx', 12)
-              // .attr('x', cardOffsetX - 4)
-              // .attr('y', cardOffsetY - 4)
               .classed('card-shadow', true)
               ;
 
-            var card = synGroup.append('svg:rect')
-              .attr('fill', 'rgba(255,255,255,1')
-              .attr('width', cardWidth)
-              .attr('height', cardHeight)
-              // .attr('x', cardOffsetX)
-              // .attr('y', cardOffsetY)
-              .attr('rx', 5)
-              .attr('ry', 5)
-              .classed('card', true)
-              ;
 
             var cardHTMLWrap = synGroup.append('svg:foreignObject')
               .attr('width', cardWidth)
               .attr('height', cardHeight)
-              // .attr('x', cardOffsetX)
-              // .attr('y', cardOffsetY)
               .classed('card-html-wrap', true)
               ;
 
-            var cardInput = cardHTMLWrap.append('xhtml:textarea')
+            var card = cardHTMLWrap.append('xhtml:textarea')
               .attr('type', 'text')
               .attr('spellcheck', false)
-              .classed('card-input', true)
+              .classed('card', true)
               ;
 
             var cardAction = synGroup.append('svg:circle')
@@ -447,13 +433,6 @@ function forceInit() {
               })
               ;
 
-              var cardCorner = synGroup.append('svg:rect')
-                .attr('width', 11)
-                .attr('height', 11)
-                .attr('fill', '#fff')
-                .classed('card-corner', true)
-                ;
-
               function synExpand(d) {
 
                 var cardExpandedWidth = 380,
@@ -464,37 +443,27 @@ function forceInit() {
 
                 d3.selectAll(".syn")
                   .attr("filter", "url(#blur)")
-                  // .attr("fill-opacity", 0.5)
                   ;
 
                   d3.selectAll(".link")
                     .attr("filter", "url(#blur)")
-                    // .attr("fill-opacity", 0.5)
                     ;
 
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
                     .attr("filter", false)
-                    // .attr("fill-opacity", 1)
                     ;
 
-                var currentCard = currentSyn.select('.syn .card')
-                  // .attr('x', -(cardExpandedWidth +15))
-                  // .attr('y', -(cardExpandedHeight +15))
-                  .attr('width', cardExpandedWidth)
-                  .attr('height', cardExpandedHeight)
-                  ;
-
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-                  // .attr('x', -(cardExpandedWidth +15))
-                  // .attr('y', -(cardExpandedHeight +15))
+                  // DUE TO FIREFOX FUCKERY
                   .attr('width', cardExpandedWidth)
                   .attr('height', cardExpandedHeight)
                   ;
 
                 // focus input on expand
-                var currentCardInput = currentSyn.select('.syn .card-input')[0][0]
-                    .focus();
+                currentSyn
+                  .select('.syn .card')[0][0]
+                  .focus();
 
                 var currentAction = currentSyn.select('.syn .card-action')
                   .on('click', synCollapse)
@@ -502,7 +471,7 @@ function forceInit() {
 
                   function synCollapse(d) {
 
-                    var currentValue = this.parentNode.querySelector('.card-input').value;
+                    var currentValue = this.parentNode.querySelector('.card').value;
                     var currentNode = nodes[d.id];
 
                     // push card content to node object
@@ -514,25 +483,10 @@ function forceInit() {
 
                     d3.selectAll(".syn")
                       .attr("filter", false)
-                      // .attr("fill-opacity", 1)
                       ;
-                      d3.selectAll(".link")
-                        .attr("filter", false)
-                        // .attr("fill-opacity", 1)
-                        ;
-
-                    currentCard
-                      .attr('width', cardWidth)
-                      .attr('height', cardHeight)
-                      // .attr('x', cardOffsetX)
-                      // .attr('y', cardOffsetY)
-                      ;
-
-                    currentCardHTMLWrap
-                      .attr('width', cardWidth)
-                      .attr('height', cardHeight)
-                      // .attr('x', cardOffsetX)
-                      // .attr('y', cardOffsetY)
+                      
+                    d3.selectAll(".link")
+                      .attr("filter", false)
                       ;
 
                     currentCardAction
@@ -648,7 +602,7 @@ function forceInit() {
 
     function getCardContents() {
 
-        var nodeCards = document.getElementsByClassName('card-input');
+        var nodeCards = document.getElementsByClassName('card');
 
         for (var i = 0; i < nodeCards.length; i++) {
             nodeCards[i].value = nodes[i].content;

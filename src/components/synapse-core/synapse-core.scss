@@ -41,7 +41,7 @@ body {
 	filter: url('#blur');
 }
 
-path.link {
+.link {
 	fill: none;
 	stroke: rgba($synBlue, 0.7);
 	stroke-width: 4px;
@@ -49,15 +49,15 @@ path.link {
 }
 
 
-path.link.selected {
+.link.selected {
 	stroke-dasharray: 10,2;
 }
 
-path.link.dragline {
+.link.dragline {
 	pointer-events: none;
 }
 
-path.link.hidden {
+.link.hidden {
 	stroke-width: 0;
 }
 
@@ -97,17 +97,6 @@ path.link.hidden {
 	cursor: -webkit-grab;
 }
 
-.card-input {
-	pointer-events: none;
-}
-
-.syn-expanded .card-input {
-	pointer-events: all;
-}
-
-.syn-expanded .card-input {
-	cursor: text;
-}
 
 .linking .syn:hover,
 .linking .syn:hover .card-input,
@@ -117,23 +106,6 @@ path.link.hidden {
 	cursor: pointer;
 }
 /**/
-
-
-// .full-node {
-// 	width: 200px;
-// 	height: 300px;
-// 	background: #fff;
-// 	transform: scale(0);
-// 	opacity: 0;
-// 	position: absolute;
-// 	z-index: 100;
-// 	transition: 0.5s;
-// }
-
-// .full-node.full-node-expanded {
-// 	transform: scale(1);
-// 	opacity: 1;
-// }
 
 
 .card,
@@ -151,16 +123,14 @@ path.link.hidden {
 	// animation: card-appear 0.3s;
 }
 
-.card {
-	transform: translate($cardOffsetX, $cardOffsetY) scale(1);
-}
-
 .card-html-wrap {
-	transform: translate($cardOffsetX, $cardOffsetY);
+	transform: translate($cardOffsetX, $cardOffsetY) scale(1);
+	width: $cardWidth;
+	height: $cardHeight;	
 }
 
 .card-shadow {
-	transform: translate($cardShadowOffsetX, $cardShadowOffsetY);
+	transform: translate($cardShadowOffsetX, $cardShadowOffsetY) scale(1);;
 }
 
 .card-corner {
@@ -171,7 +141,6 @@ path.link.hidden {
 	transform: scale(0);
 	fill: rgba(0,0,0,0);
 }
-
 
 .card-node-shadow {
 	fill: $synBlue;
@@ -186,23 +155,26 @@ path.link.hidden {
 	position: relative;
 }
 
-.card-input {
+.card {
 	background: rgba(255,255,255,1);
-	margin-left: 20px;
-	margin-top: 10px;
-	height: 71px;
-	width: 150px;
+	margin: 0;
+	padding-left: 20px;
+	padding-top: 10px;
+	width: $cardWidth;
+	height: $cardHeight;	
 	resize: none;
 	font-size: 18px;
 	line-height: 24px;
 	overflow: hidden;
 	border: none;
 	font-weight: 300;
-	transition: 0.3s;
-	animation: card-flick 0.3s;
+	box-sizing: border-box;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
-.card-input:focus {
+.card:focus {
 	outline: none;
 }
 
@@ -242,9 +214,6 @@ path.link.hidden {
 
 // synapse pressing state
 .syn:active  {
-	& .card {
-		transform: translate($cardOffsetX, $cardOffsetY) scale(0.95);
-	}
 
 	& .card-html-wrap {
 		transform: translate($cardOffsetX, $cardOffsetY) scale(0.95);
@@ -262,12 +231,17 @@ path.link.hidden {
 // synapse expanded state
 .syn-expanded {
 
-	& .card {
-		transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
-	}
-
 	& .card-html-wrap {
 		transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
+		width: $cardExpandedWidth;
+		height: $cardExpandedHeight;
+	}
+
+	& .card {
+		width: $cardExpandedWidth;
+		height: $cardExpandedHeight;
+		font-size: 33px;
+	    line-height: 45px;
 	}
 
 	& .card-node-shadow {
@@ -276,10 +250,6 @@ path.link.hidden {
 	}
 
 	&:active {
-		& .card {
-			transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
-		}
-
 		& .card-html-wrap {
 			transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
 		}
@@ -317,15 +287,6 @@ path.link.hidden {
 		stroke: none;
 		stroke-width: 10px;
 		stroke: $synBlue;
-	}
-
-	& .card-input {
-		font-size: 33px;
-	    line-height: 45px;
-	    width: 340px;
-	    height: 220px;
-	    animation: card-flick 0.3s;
-	    font-weight: 200;
 	}
 
 }

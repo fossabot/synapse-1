@@ -361,18 +361,12 @@ function forceInit() {
               .attr('fill', 'rgba(0,0,0,0)')
               ;
 
-            var shadowCard = synGroup.append('svg:rect')
-              .attr('fill', 'rgba(0, 17, 49, 0.1)')
-              .attr('width', 194)
-              .attr('height', 108)
-              .attr('ry', 12)
-              .attr('rx', 12)
-              .classed('card-shadow', true)
-              ;
-
             var cardHTMLWrap = synGroup.append('svg:foreignObject')
-              // .attr('width', cardWidth)
-              // .attr('height', cardHeight)
+              .attr('width', cardWidth)
+              .attr('height', cardHeight)
+              .attr('x', cardOffsetX)
+              .attr('y', cardOffsetY)
+              .attr('scale', 1)
               .classed('card-html-wrap', true)
               ;
 
@@ -440,24 +434,32 @@ function forceInit() {
 
                 var currentCardAction = d3.select(this);
 
-                // d3.selectAll(".syn")
-                //   .attr("filter", "url(#blur)")
-                //   ;
+                d3.selectAll(".syn")
+                  .attr("filter", "url(#blur)")
+                  ;
 
-                //   d3.selectAll(".link")
-                //     .attr("filter", "url(#blur)")
-                //     ;
+                  d3.selectAll(".link")
+                    .attr("filter", "url(#blur)")
+                    ;
 
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
-                    // .attr("filter", false)
+                    .attr("filter", false)
                     ;
 
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
                   // DUE TO FIREFOX FUCKERY
                   // .attr('width', cardExpandedWidth)
                   // .attr('height', cardExpandedHeight)
+                  .attr('x', -(cardExpandedWidth + 15))
+                  .attr('y', -(cardExpandedHeight + 15))
+                  .attr('scale', 2)
                   ;
+
+                // var currentCard = currentSyn.select('.syn .card')
+                //     .attr('width', cardExpandedWidth)
+                //     .attr('height', cardExpandedHeight)
+                //     ;
 
                 // focus input on expand
                 currentSyn
@@ -491,6 +493,14 @@ function forceInit() {
                     // d3.selectAll(".link")
                     //   .attr("filter", false)
                     //   ;
+
+                    currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
+                    // DUE TO FIREFOX FUCKERY
+                    .attr('width', cardWidth)
+                    .attr('height', cardHeight)
+                    .attr('x', cardOffsetX)
+                    .attr('y', cardOffsetY)
+                      ;
 
                     currentCardAction
                         .attr('r', 10)

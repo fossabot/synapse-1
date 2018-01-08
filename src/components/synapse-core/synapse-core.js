@@ -370,10 +370,9 @@ function forceInit() {
               .classed('card-shadow', true)
               ;
 
-
             var cardHTMLWrap = synGroup.append('svg:foreignObject')
-              .attr('width', cardWidth)
-              .attr('height', cardHeight)
+              // .attr('width', cardWidth)
+              // .attr('height', cardHeight)
               .classed('card-html-wrap', true)
               ;
 
@@ -441,23 +440,23 @@ function forceInit() {
 
                 var currentCardAction = d3.select(this);
 
-                d3.selectAll(".syn")
-                  .attr("filter", "url(#blur)")
-                  ;
+                // d3.selectAll(".syn")
+                //   .attr("filter", "url(#blur)")
+                //   ;
 
-                  d3.selectAll(".link")
-                    .attr("filter", "url(#blur)")
-                    ;
+                //   d3.selectAll(".link")
+                //     .attr("filter", "url(#blur)")
+                //     ;
 
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
-                    .attr("filter", false)
+                    // .attr("filter", false)
                     ;
 
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
                   // DUE TO FIREFOX FUCKERY
-                  .attr('width', cardExpandedWidth)
-                  .attr('height', cardExpandedHeight)
+                  // .attr('width', cardExpandedWidth)
+                  // .attr('height', cardExpandedHeight)
                   ;
 
                 // focus input on expand
@@ -471,23 +470,27 @@ function forceInit() {
 
                   function synCollapse(d) {
 
+
+                    // select current card value
                     var currentValue = this.parentNode.querySelector('.card').value;
+
+                    // find current card node
                     var currentNode = nodes[d.id];
 
-                    // push card content to node object
+                    // push current card content to current node (in object)
                     currentNode.content = currentValue;
 
                     currentSyn = d3.select(this.parentNode)
                       .classed('syn-expanded', false)
                     ;
 
-                    d3.selectAll(".syn")
-                      .attr("filter", false)
-                      ;
+                    // d3.selectAll(".syn")
+                    //   .attr("filter", false)
+                    //   ;
                       
-                    d3.selectAll(".link")
-                      .attr("filter", false)
-                      ;
+                    // d3.selectAll(".link")
+                    //   .attr("filter", false)
+                    //   ;
 
                     currentCardAction
                         .attr('r', 10)

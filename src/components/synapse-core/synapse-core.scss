@@ -123,10 +123,35 @@ body {
 	// animation: card-appear 0.3s;
 }
 
+.card {
+	pointer-events: none;
+	background: rgba(255,255,255,1);
+	margin: 0;
+	padding-left: 20px;
+	padding-top: 10px;
+	width: $cardWidth;
+	height: $cardHeight;	
+	resize: none;
+	font-size: 18px;
+	line-height: 24px;
+	overflow: hidden;
+	border: none;
+	font-weight: 300;
+	box-sizing: border-box;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.card:focus {
+	outline: none;
+}
+
 .card-html-wrap {
 	transform: translate($cardOffsetX, $cardOffsetY) scale(1);
 	width: $cardWidth;
-	height: $cardHeight;	
+	height: $cardHeight;
+	overflow: visible;
 }
 
 .card-shadow {
@@ -151,32 +176,7 @@ body {
 	transform: translate(0px, 0px) scale(0);
 }
 
-.card-html-wrap {
-	position: relative;
-}
 
-.card {
-	background: rgba(255,255,255,1);
-	margin: 0;
-	padding-left: 20px;
-	padding-top: 10px;
-	width: $cardWidth;
-	height: $cardHeight;	
-	resize: none;
-	font-size: 18px;
-	line-height: 24px;
-	overflow: hidden;
-	border: none;
-	font-weight: 300;
-	box-sizing: border-box;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-
-.card:focus {
-	outline: none;
-}
 
 .card-action {
 	transform: translate(-200px, -90px) scale(1);
@@ -296,9 +296,10 @@ body {
 
 	& .syn:hover {
 
-		& .card {
-			transform: translate($cardOffsetX, $cardOffsetY) scale(1.02);
+		& .card-html-wrap {
+			transform: translate($cardOffsetX, $cardOffsetY) scale(1.03);
 		}
+
 
 		& .card-corner {
 			transform: translate(-22px,-24px) scale(1);

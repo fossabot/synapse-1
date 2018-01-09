@@ -140,7 +140,7 @@ function forceInit() {
       .append("filter")
       .attr("id", "blur")
       .append("feGaussianBlur")
-      .attr("stdDeviation", 2)
+      .attr("stdDeviation", 6)
       ;
 
     // set up initial nodes and links
@@ -438,10 +438,6 @@ function forceInit() {
                   .attr("filter", "url(#blur)")
                   ;
 
-                  d3.selectAll(".link")
-                    .attr("filter", "url(#blur)")
-                    ;
-
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
                     .attr("filter", false)
@@ -449,17 +445,12 @@ function forceInit() {
 
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
                   // DUE TO FIREFOX FUCKERY
-                  // .attr('width', cardExpandedWidth)
-                  // .attr('height', cardExpandedHeight)
+                  .attr('width', cardExpandedWidth)
+                  .attr('height', cardExpandedHeight)
                   .attr('x', -(cardExpandedWidth + 15))
                   .attr('y', -(cardExpandedHeight + 15))
                   .attr('scale', 2)
                   ;
-
-                // var currentCard = currentSyn.select('.syn .card')
-                //     .attr('width', cardExpandedWidth)
-                //     .attr('height', cardExpandedHeight)
-                //     ;
 
                 // focus input on expand
                 currentSyn
@@ -486,13 +477,9 @@ function forceInit() {
                       .classed('syn-expanded', false)
                     ;
 
-                    // d3.selectAll(".syn")
-                    //   .attr("filter", false)
-                    //   ;
-                      
-                    // d3.selectAll(".link")
-                    //   .attr("filter", false)
-                    //   ;
+                    d3.selectAll(".syn")
+                      .attr("filter", false)
+                      ;
 
                     currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
                     // DUE TO FIREFOX FUCKERY

@@ -29,6 +29,13 @@ body {
 	background-color: $bodyColor;
 }
 
+.circle-bg {
+	background: rgba($bodyColor, 5%);
+	height: 100vh;
+	width: 100vw;
+	border-radius: 50%;
+}
+
 .canvas {
 	background-color: $bodyColor;
 	cursor: default;
@@ -64,15 +71,17 @@ body {
 /* cursors */
 
 .dragline:hover {
+	cursor: pointer;
+}
+
+.syn:active,
+.syn:active:hover {
 	cursor: -webkit-grabbing;
 }
 
-.syn:active .card-input,
-.syn:active .card,
-.syn:active .card-node,
-.syn:active .card-node-shadow,
-.syn:active .dragline {
-	cursor: -webkit-grabbing;
+.syn.syn-expanded:active,
+.syn.syn-expanded:active:hover  {
+	cursor: text;
 }
 
 .card-node:active,
@@ -90,13 +99,10 @@ body {
 	cursor: pointer;
 }
 
-.card-input,
-.card,
-.card-html-wrap,
-.card-html-wrap:hover {
+
+.syn:hover {
 	cursor: -webkit-grab;
 }
-
 
 .linking .syn:hover,
 .linking .syn:hover .card-input,
@@ -110,16 +116,15 @@ body {
 
 .card,
 .card-html-wrap,
-.card-input,
 .card-node,
 .card-node-shadow,
 .card-corner,
 .card-node-tri  {
-	// transition: 0.3s;
+	transition: 0.3s;
 }
 
 .syn {
-	// animation: card-appear 0.3s;
+
 }
 
 .card {
@@ -148,9 +153,6 @@ body {
 }
 
 .card-html-wrap {
-	// transform: translate($cardOffsetX, $cardOffsetY) scale(1);
-	// width: $cardWidth;
-	// height: $cardHeight;
 	overflow: visible;
 }
 
@@ -173,7 +175,7 @@ body {
 }
 
 .card-action {
-	transform: translate(-200px, -90px) scale(1);
+	transform: translate(-200px, -93px) scale(1);
 	transition: 0.35s;
 	fill: $synBlue;
 	stroke-width: 3px;
@@ -193,7 +195,7 @@ body {
 	}
 
 	& .card-action {
-		transform: translate(-230px, -90px) scale(1.3);
+		transform: translate(-230px, -93px) scale(1.3);
 		animation-timing-function: linear;
 		fill: $bodyColor;
 		stroke-width: 7px;
@@ -219,9 +221,7 @@ body {
 .syn-expanded {
 
 	& .card-html-wrap {
-		// transform: translate($cardExpandedWidthOffsetX, $cardExpandedWidthOffsetY) scale(1);
-		// width: $cardExpandedWidth;
-		// height: $cardExpandedHeight;
+
 	}
 
 	& .card {
@@ -244,7 +244,6 @@ body {
 		& .card-html-wrap {
 			transform: scale(1);
 		}
-
 	}
 
 
@@ -302,7 +301,7 @@ body {
 		}
 
 		& .card-action {
-			transform: translate(-200px, -90px) scale(1);
+			transform: translate(-205px, -95px) scale(1);
 			transition: 0.35s;
 			fill: $synBlue;
 			stroke-width: 3px;
@@ -317,22 +316,6 @@ body {
 			stroke-width: 10px;
 			stroke: $synBlue;
 		}
-	}
-
-}
-
-
-@keyframes card-flick {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
 	}
 }
 

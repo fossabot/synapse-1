@@ -9,7 +9,9 @@ import 'Components/firebase-config';
 
 var nodes,
     lastNodeId,
-    links;
+    links
+    // viewportSnapXY,
+    // viewportSnapScale;
 
 var nodesMap = {};
 
@@ -27,10 +29,28 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 synUISync.addEventListener('click', e => {
+
+  // TODO: get viewport snapshot
+
+  // let viewportSnapXY = document.querySelector('.container')
+  //   .getAttribute('transform')
+  //   .match(/translate\((.*),(.*)\)[^]/)
+  //   ;
+
+  // let viewportSnapScale = document.querySelector('.container')
+  //   .getAttribute('transform')
+  //   .match(/scale\((.*)\)/)
+  //   ;
+
+  // console.log(viewportSnapXY[1], viewportSnapXY[2], viewportSnapScale[1]);
+
+  // write to firebase
     firebase.database().ref().child(userId).set({
         nodes,
         lastNodeId,
         links
+        // viewportSnapXY,
+        // viewportSnapScale
     });
 })
 // -->
@@ -46,7 +66,7 @@ dbRef.once('value').then(function(snapshot) {
     nodes = snapshot.child(userId + "/nodes").val();
     lastNodeId = snapshot.child(userId + "/lastNodeId").val();
     links = snapshot.child(userId + "/links").val();
-
+    // viewportSnapXY = snapshot.child(userId + "/viewportSnap").val();
     // if there are no nodes (first time login) – init starter data
     if (nodes === null) {
         nodes = [
@@ -131,6 +151,7 @@ function forceInit() {
       .append("svg:g")
       .attr('width', width)
       .attr('height', height)
+      // .attr('transform', 'translate(' + viewportSnapXY[1] + ',' + viewportSnapXY[2] + ') scale(' + viewportSnapScale[1] + ')'
       .classed('container', true)
       ;
 
@@ -586,7 +607,10 @@ function forceInit() {
 
     function zoomed() {
 
-        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        // do getCurrentTransform operation here, not in the sync module
+
+        container
+          .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 
         // fix mouse position offset by transform
         zoomTranslateX = d3.event.translate[0];

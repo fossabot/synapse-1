@@ -124,8 +124,9 @@ body {
 }
 
 .syn {
-
 }
+
+
 
 .card {
 	border: none;
@@ -149,12 +150,17 @@ body {
 	box-sizing: border-box;
 }
 
+.appear .card {
+	transform: scale(2);
+}
+
 .card:focus {
 	outline: none;
 }
 
 .card-html-wrap {
 	overflow: visible;
+
 }
 
 .card-corner {
@@ -320,13 +326,3 @@ body {
 	}
 }
 
-@keyframes card-appear {
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
-
-}

@@ -314,6 +314,7 @@ function forceInit() {
           d3.event.stopPropagation();
         })
         .classed('syn', true)
+
         .on('mouseup', function(d) {
             if(!mousedown_node) return;
 
@@ -576,7 +577,7 @@ function forceInit() {
       resetMouseVars();
     }
 
-    function rightclick() {
+    function newNode() {
 
         // zoom / scale fix
         var adjustedMouseX = (d3.mouse(this)[0] - zoomTranslateX) / zoomScale;
@@ -586,14 +587,16 @@ function forceInit() {
         var node = {
             id: ++lastNodeId,
             reflexive: false,
-            content: ''
-            // fixed: true
+            content: '',
+            x: adjustedMouseX,
+            y: adjustedMouseY,
+            fixed: true
         };
-        node.x = adjustedMouseX;
-        node.y = adjustedMouseY;
-        nodes.push(node);
 
+        nodes.push(node);
+        
       restart();
+
     }
 
     function spliceLinksForNode(node) {
@@ -638,7 +641,7 @@ function forceInit() {
     svg.on('mousedown', mousedown)
       .on('mousemove', mousemove)
       .on('mouseup', mouseup)
-      .on('contextmenu', rightclick);
+      .on('contextmenu', newNode);
 
 
       console.log(nodes);

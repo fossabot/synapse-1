@@ -463,7 +463,52 @@ function forceInit() {
                 var currentSyn = d3.select(this.parentNode)
                     .classed('syn-expanded', true)
                     .attr("filter", false)
+                    .on('keydown', enterCollapse)
                     ;
+
+                function enterCollapse() {
+                  
+                    // TO DO: prevent shift+enter collapse
+                    // if (d3.event.keyCode === 13 && d3.event.keyCode != 16) {
+                    //   console.log('test')
+                    // }
+
+                    if (d3.event.keyCode === 13) {
+                      
+                      // select current card value
+                      var currentValue = this.querySelector('.card').value;
+  
+                      // find current card node
+                      var currentNode = nodes[d.id];
+
+                      // push current card content to current node (in object)
+                      currentNode.content = currentValue;
+
+                      currentSyn
+                        .classed('syn-expanded', false)
+                        .select('.syn .card')[0][0]
+                        .blur()
+                      ;
+
+                      d3.selectAll(".syn")
+                        .attr("filter", false)
+                      ;
+
+                      currentCardHTMLWrap = currentSyn.select('.card-html-wrap')
+                        // DUE TO FIREFOX FUCKERY
+                        .attr('width', cardWidth)
+                        .attr('height', cardHeight)
+                        .attr('x', cardOffsetX)
+                        .attr('y', cardOffsetY)
+                      ;
+
+                      currentSyn.select('.card-action')
+                        .attr('r', 10)
+                        .classed('card-action', true)
+                        .on('click', synExpand)
+                      ;
+                    }
+                }
 
                 var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
                   // DUE TO FIREFOX FUCKERY
@@ -477,7 +522,8 @@ function forceInit() {
                 // focus input on expand
                 currentSyn
                   .select('.syn .card')[0][0]
-                  .focus();
+                  .focus()
+                  ;
 
                 var currentAction = currentSyn.select('.syn .card-action')
                   .on('click', synCollapse)
@@ -495,21 +541,22 @@ function forceInit() {
                     // push current card content to current node (in object)
                     currentNode.content = currentValue;
 
+                    // remove expanded state styles from synapse
                     currentSyn = d3.select(this.parentNode)
                       .classed('syn-expanded', false)
                     ;
 
                     d3.selectAll(".syn")
                       .attr("filter", false)
-                      ;
+                    ;
 
                     currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-                    // DUE TO FIREFOX FUCKERY
-                    .attr('width', cardWidth)
-                    .attr('height', cardHeight)
-                    .attr('x', cardOffsetX)
-                    .attr('y', cardOffsetY)
-                      ;
+                      // DUE TO FIREFOX FUCKERY
+                      .attr('width', cardWidth)
+                      .attr('height', cardHeight)
+                      .attr('x', cardOffsetX)
+                      .attr('y', cardOffsetY)
+                    ;
 
                     currentCardAction
                         .attr('r', 10)

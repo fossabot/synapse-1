@@ -13,12 +13,14 @@ var formButtonLogin = document.querySelector('.log-in-button');
 
 // log in on button press
 formButtonLogin.addEventListener('click', e => {
-    var email = formEmail.value;
-    var pass = formPassword.value;
-    var promise = auth.signInWithEmailAndPassword(email, pass);
+    tryToLogin();
+});
 
-    // must do validation
-    promise.catch(e => console.log(e.message));
+window.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+        tryToLogin();
+        formButtonLogin.focus();
+    }
 });
 
 auth.onAuthStateChanged(firebaseUser => {
@@ -30,3 +32,12 @@ auth.onAuthStateChanged(firebaseUser => {
         console.log('not logged in');
     }
 });
+
+function tryToLogin() {
+    var email = formEmail.value;
+    var pass = formPassword.value;
+    var promise = auth.signInWithEmailAndPassword(email, pass);
+
+    // TODO: validation
+    promise.catch(e => console.log(e.message));
+}

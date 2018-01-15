@@ -310,6 +310,7 @@ function forceInit() {
         .call(drag)
         // future interaction
         // .on('click', synExpand)
+
         .on('mousedown', function() {
           d3.event.stopPropagation();
         })
@@ -466,6 +467,61 @@ function forceInit() {
                     .on('keydown', enterCollapse)
                     ;
 
+                var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
+                  // DUE TO FIREFOX FUCKERY
+                  .attr('width', cardExpandedWidth)
+                  .attr('height', cardExpandedHeight)
+                  .attr('x', -(cardExpandedWidth + 15))
+                  .attr('y', -(cardExpandedHeight + 15))
+                  .attr('scale', 2)
+                  ;
+
+                // focus input on expand
+                currentSyn
+                  .select('.syn .card')[0][0]
+                  .focus()
+                  ;
+
+                var currentAction = currentSyn.select('.syn .card-action')
+                  .on('click', synCollapse)
+                  ;
+
+                function synCollapse(d) {
+
+
+                  // select current card value
+                  var currentValue = this.parentNode.querySelector('.card').value;
+
+                  // find current card node
+                  var currentNode = nodes[d.id];
+
+                  // push current card content to current node (in object)
+                  currentNode.content = currentValue;
+
+                  // remove expanded state styles from synapse
+                  currentSyn = d3.select(this.parentNode)
+                    .classed('syn-expanded', false)
+                  ;
+
+                  d3.selectAll(".syn")
+                    .attr("filter", false)
+                  ;
+
+                  currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
+                    // DUE TO FIREFOX FUCKERY
+                    .attr('width', cardWidth)
+                    .attr('height', cardHeight)
+                    .attr('x', cardOffsetX)
+                    .attr('y', cardOffsetY)
+                  ;
+
+                  currentCardAction
+                      .attr('r', 10)
+                      .classed('card-action', true)
+                      .on('click', synExpand)
+                      ; 
+                }
+
                 function enterCollapse() {
                   
                     // TO DO: prevent shift+enter collapse
@@ -509,61 +565,6 @@ function forceInit() {
                       ;
                     }
                 }
-
-                var currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-                  // DUE TO FIREFOX FUCKERY
-                  .attr('width', cardExpandedWidth)
-                  .attr('height', cardExpandedHeight)
-                  .attr('x', -(cardExpandedWidth + 15))
-                  .attr('y', -(cardExpandedHeight + 15))
-                  .attr('scale', 2)
-                  ;
-
-                // focus input on expand
-                currentSyn
-                  .select('.syn .card')[0][0]
-                  .focus()
-                  ;
-
-                var currentAction = currentSyn.select('.syn .card-action')
-                  .on('click', synCollapse)
-                  ;
-
-                  function synCollapse(d) {
-
-
-                    // select current card value
-                    var currentValue = this.parentNode.querySelector('.card').value;
-
-                    // find current card node
-                    var currentNode = nodes[d.id];
-
-                    // push current card content to current node (in object)
-                    currentNode.content = currentValue;
-
-                    // remove expanded state styles from synapse
-                    currentSyn = d3.select(this.parentNode)
-                      .classed('syn-expanded', false)
-                    ;
-
-                    d3.selectAll(".syn")
-                      .attr("filter", false)
-                    ;
-
-                    currentCardHTMLWrap = currentSyn.select('.syn .card-html-wrap')
-                      // DUE TO FIREFOX FUCKERY
-                      .attr('width', cardWidth)
-                      .attr('height', cardHeight)
-                      .attr('x', cardOffsetX)
-                      .attr('y', cardOffsetY)
-                    ;
-
-                    currentCardAction
-                        .attr('r', 10)
-                        .classed('card-action', true)
-                        .on('click', synExpand)
-                        ;
-                  }
               }
           }
 

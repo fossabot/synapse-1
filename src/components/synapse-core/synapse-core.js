@@ -504,19 +504,17 @@ function forceInit() {
 
                 function synRemove(d) {
                   var currentNodeId = nodes[d.id];
+                  console.log(nodes.indexOf(d))
 
-                  console.log(nodes.indexOf(currentNodeId))
-
-                  nodes.splice(nodes.indexOf(currentNodeId), 1);
-                  spliceLinksForNode(currentNodeId);
+                  nodes.splice(nodes.indexOf(d), 1);
+                  spliceLinksForNode(d);
 
                   d3.selectAll(".syn")
                     .attr("filter", false)
                   ;
 
-                  console.log(nodes)
-                  restart();
-                  console.log(nodes)
+                  force.start();
+                  // restart();
 
                 }
 

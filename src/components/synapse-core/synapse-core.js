@@ -446,6 +446,7 @@ function forceInit() {
                   .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
                   ;
                 svg.classed('linking', true);
+
               })
               ;
 
@@ -477,8 +478,7 @@ function forceInit() {
                   ;
 
                 // focus input on expand
-                currentSyn
-                  .select('.syn .card')[0][0]
+                currentSyn.select('.syn .card')[0][0]
                   .focus()
                   ;
 
@@ -486,8 +486,41 @@ function forceInit() {
                   .on('click', synCollapse)
                   ;
 
-                function synCollapse(d) {
+                var synRemover = currentSyn.append('svg:g')
+                  .classed('card-remover', true)
+                  .on('click', synRemove)
+                  ;
 
+                var synRemoverCircle = synRemover.append('svg:circle')
+                  .attr('r', 15)
+                  .attr('fill', '#F75166')
+                  ;
+
+                var synRemoverRect = synRemover.append('svg:rect')
+                  .attr('width', 13)
+                  .attr('height', 6)
+                  .classed('card-remover-rect', true)
+                  ;
+
+                function synRemove(d) {
+                  var currentNodeId = nodes[d.id];
+
+                  console.log(nodes.indexOf(currentNodeId))
+
+                  nodes.splice(nodes.indexOf(currentNodeId), 1);
+                  spliceLinksForNode(currentNodeId);
+
+                  d3.selectAll(".syn")
+                    .attr("filter", false)
+                  ;
+
+                  console.log(nodes)
+                  restart();
+                  console.log(nodes)
+
+                }
+
+                function synCollapse(d) {
 
                   // select current card value
                   var currentValue = this.parentNode.querySelector('.card').value;
@@ -519,7 +552,9 @@ function forceInit() {
                       .attr('r', 10)
                       .classed('card-action', true)
                       .on('click', synExpand)
-                      ; 
+                      ;
+
+                  synRemover.remove();
                 }
 
                 function enterCollapse() {
@@ -563,6 +598,8 @@ function forceInit() {
                         .classed('card-action', true)
                         .on('click', synExpand)
                       ;
+
+                      synRemover.remove();
                     }
                 }
               }

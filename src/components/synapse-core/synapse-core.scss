@@ -124,6 +124,7 @@ body {
 }
 
 .syn {
+
 }
 
 
@@ -139,7 +140,8 @@ body {
 	margin: 0;
 	padding-left: 20px;
 	padding-top: 10px;
-	padding-right: 10px;
+	padding-right: 15px;
+	padding-bottom: 10px;
 	width: $cardWidth;
 	height: $cardHeight;	
 	resize: none;
@@ -187,6 +189,22 @@ body {
 	fill: $synBlue;
 	stroke-width: 3px;
 	stroke: $bodyColor;
+}
+
+.card-remover {
+	transition: 0.35s;
+
+	&::after {
+		content: '';
+		width: 10px;
+		height: 10px;
+		background: red;
+	}
+}
+
+.card-remover-rect {
+	fill: $bodyColor;
+	transform: rotate(-45deg) translate(-7px, -3px);
 }
 
 // synapse hover state
@@ -237,6 +255,9 @@ body {
 		font-size: 33px;
 	    line-height: 45px;
 	    pointer-events: all;
+    	border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+		border-bottom-left-radius: 15px;
 	}
 
 	& .card-node-shadow {
@@ -244,7 +265,7 @@ body {
 	}
 
 	& .card-node {
-		display: none;
+		// display: none;
 	}
 
 	&:active {

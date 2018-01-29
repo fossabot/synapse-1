@@ -451,6 +451,11 @@ function forceInit() {
 
               function synExpand(d) {
 
+                // TO DO: explore merging drag and expand interactions:
+                // var currentCoords = currentSyn[0][0].getAttribute('transform');
+                // get the coords difference in conditional to avoid false expanse
+ 
+
                 var cardExpandedWidth = 380,
                     cardExpandedHeight = 260
                     ;
@@ -642,7 +647,7 @@ function forceInit() {
         };
 
         nodes.push(node);
-        
+
       restart();
 
     }

@@ -286,21 +286,21 @@ body {
 		}
 
 		& .card-action  {
-			transform: translate(-440px,-235px) scale(1.5);
+			transform: translate(-440px,-235px) scale(2);
 			animation: none;
 			fill: #fff;
 			stroke: none;
-			stroke-width: 10px;
+			stroke-width: 4px;
 			stroke: $synBlue;
 		}
 	}
 
 	& .card-action  {
-		transform: translate(-440px,-235px) scale(1.5);
+		transform: translate(-440px,-235px) scale(2);
 		animation: none;
 		fill: #fff;
 		stroke: none;
-		stroke-width: 10px;
+		stroke-width: 4px;
 		stroke: $synBlue;
 	}
 

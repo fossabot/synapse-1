@@ -505,6 +505,8 @@ function forceInit() {
                 function synRemove(d) {
                   var currentNodeId = nodes[d.id];
                   console.log(nodes.indexOf(d))
+                  console.log(nodes)
+                  console.log(this.parentNode.querySelector('.card').value)
 
                   nodes.splice(nodes.indexOf(d), 1);
                   spliceLinksForNode(d);
@@ -513,8 +515,7 @@ function forceInit() {
                     .attr("filter", false)
                   ;
 
-                  force.start();
-                  // restart();
+                  restart();
 
                 }
 
@@ -523,8 +524,11 @@ function forceInit() {
                   // select current card value
                   var currentValue = this.parentNode.querySelector('.card').value;
 
+
                   // find current card node
                   var currentNode = nodes[d.id];
+                  
+                  console.log(currentNode);
 
                   // push current card content to current node (in object)
                   currentNode.content = currentValue;
@@ -726,8 +730,6 @@ function forceInit() {
       .on('mouseup', mouseup)
       .on('contextmenu', newNode);
 
-
-      console.log(nodes);
 
     restart();
 

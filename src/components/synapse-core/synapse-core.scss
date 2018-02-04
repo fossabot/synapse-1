@@ -52,7 +52,7 @@ body {
 	fill: none;
 	stroke: rgba($synBlue, 0.7);
 	stroke-width: 4px;
-	cursor: -webkit-grabbing;
+	cursor: url(remove.svg) 15 15, auto;
 }
 
 
@@ -127,8 +127,6 @@ body {
 .syn {
 
 }
-
-
 
 .card {
 	border: none;

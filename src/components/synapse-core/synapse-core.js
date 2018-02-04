@@ -285,7 +285,7 @@ function forceInit() {
         .classed('selected', function(d) { return d === selected_link; })
         .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
         .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
-        .on('mousedown', function(d) {
+        .on('click', function(d) {
           if(d3.event.ctrlKey) return;
 
           // select link
@@ -293,6 +293,9 @@ function forceInit() {
           if (mousedown_link === selected_link) selected_link = null;
           else selected_link = mousedown_link;
           selected_node = null;
+
+          links.splice(links.indexOf(selected_link), 1);
+
           restart();
       });
 
@@ -301,7 +304,7 @@ function forceInit() {
 
 
       // circle (node) group
-      // NB: the function arg is crucial here! nodes are known by id, not by index!
+      // NB: the function arg is crucial here, nodes are known by id, not by index!
       circle = circle.data(nodes, function(d) { return d.id; });
 
       // update existing nodes (reflexive & selected visual states)
@@ -610,7 +613,7 @@ function forceInit() {
               }
           }
 
-          createSyn();
+        createSyn();
 
 
       // remove old nodes

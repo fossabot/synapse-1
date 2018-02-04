@@ -13,6 +13,8 @@ var nodes,
     // viewportSnapXY,
     // viewportSnapScale;
 
+window.nodes = nodes;
+
 var nodesMap = {};
 
 // FIREBASE SYNC
@@ -181,6 +183,7 @@ function forceInit() {
         ;
         window.force = force;
         window.links = links;
+        window.nodes = nodes;
 
     var drag = force.drag()
       .on("dragstart", dragstart);
@@ -377,10 +380,10 @@ function forceInit() {
                 ;
 
             var cardExpander = synGroup.append('svg:rect')
-              .attr('height', 190)
+              .attr('height', 180)
               .attr('width', 290)
-              .attr('x', -270)
-              .attr('y', -160)
+              .attr('x', -260)
+              .attr('y', -150)
               .attr('fill', 'rgba(0,0,0,0)')
               ;
 
@@ -399,8 +402,9 @@ function forceInit() {
               .classed('card', true)
               ;
 
-            var cardAction = synGroup.append('svg:circle')
-              .attr('r', 10)
+            var cardAction = synGroup.append('svg:rect')
+              .attr('width', 30)
+              .attr('height', 30)
               .classed('card-action', true)
               .on('click', synExpand)
               ;
@@ -503,10 +507,8 @@ function forceInit() {
                   ;
 
                 function synRemove(d) {
+
                   var currentNodeId = nodes[d.id];
-                  console.log(nodes.indexOf(d))
-                  console.log(nodes)
-                  console.log(this.parentNode.querySelector('.card').value)
 
                   nodes.splice(nodes.indexOf(d), 1);
                   spliceLinksForNode(d);
@@ -516,6 +518,7 @@ function forceInit() {
                   ;
 
                   restart();
+                  console.log(nodes)
 
                 }
 
@@ -526,7 +529,7 @@ function forceInit() {
 
 
                   // find current card node
-                  var currentNode = nodes[d.id];
+                  var currentNode = nodes[d.index];
                   
                   console.log(currentNode);
 
@@ -673,8 +676,7 @@ function forceInit() {
         // insert a new node at mouse position
         var node = {
             id: ++lastNodeId,
-            reflexive: false,
-            content: '',
+            content: "",
             x: adjustedMouseX,
             y: adjustedMouseY,
             fixed: true
@@ -684,6 +686,8 @@ function forceInit() {
         
       restart();
 
+      console.log(nodes)
+      console.log(node)
     }
 
     function spliceLinksForNode(node) {

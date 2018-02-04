@@ -13,6 +13,8 @@ var nodes,
     // viewportSnapXY,
     // viewportSnapScale;
 
+window.nodes = nodes;
+
 var nodesMap = {};
 
 // FIREBASE SYNC
@@ -181,6 +183,7 @@ function forceInit() {
         ;
         window.force = force;
         window.links = links;
+        window.nodes = nodes;
 
     var drag = force.drag()
       .on("dragstart", dragstart);
@@ -282,7 +285,7 @@ function forceInit() {
         .classed('selected', function(d) { return d === selected_link; })
         .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
         .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
-        .on('mousedown', function(d) {
+        .on('click', function(d) {
           if(d3.event.ctrlKey) return;
 
           // select link
@@ -290,6 +293,9 @@ function forceInit() {
           if (mousedown_link === selected_link) selected_link = null;
           else selected_link = mousedown_link;
           selected_node = null;
+
+          links.splice(links.indexOf(selected_link), 1);
+
           restart();
       });
 
@@ -298,7 +304,7 @@ function forceInit() {
 
 
       // circle (node) group
-      // NB: the function arg is crucial here! nodes are known by id, not by index!
+      // NB: the function arg is crucial here, nodes are known by id, not by index!
       circle = circle.data(nodes, function(d) { return d.id; });
 
       // update existing nodes (reflexive & selected visual states)
@@ -377,10 +383,10 @@ function forceInit() {
                 ;
 
             var cardExpander = synGroup.append('svg:rect')
-              .attr('height', 190)
+              .attr('height', 180)
               .attr('width', 290)
-              .attr('x', -270)
-              .attr('y', -160)
+              .attr('x', -260)
+              .attr('y', -150)
               .attr('fill', 'rgba(0,0,0,0)')
               ;
 
@@ -399,8 +405,9 @@ function forceInit() {
               .classed('card', true)
               ;
 
-            var cardAction = synGroup.append('svg:circle')
-              .attr('r', 10)
+            var cardAction = synGroup.append('svg:rect')
+              .attr('width', 30)
+              .attr('height', 30)
               .classed('card-action', true)
               .on('click', synExpand)
               ;
@@ -446,6 +453,7 @@ function forceInit() {
                   .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
                   ;
                 svg.classed('linking', true);
+
               })
               ;
 
@@ -482,8 +490,7 @@ function forceInit() {
                   ;
 
                 // focus input on expand
-                currentSyn
-                  .select('.syn .card')[0][0]
+                currentSyn.select('.syn .card')[0][0]
                   .focus()
                   ;
 
@@ -491,14 +498,48 @@ function forceInit() {
                   .on('click', synCollapse)
                   ;
 
-                function synCollapse(d) {
+                var synRemover = currentSyn.append('svg:g')
+                  .classed('card-remover', true)
+                  .on('click', synRemove)
+                  ;
 
+                var synRemoverCircle = synRemover.append('svg:circle')
+                  .attr('r', 15)
+                  .attr('fill', '#F75166')
+                  ;
+
+                var synRemoverRect = synRemover.append('svg:rect')
+                  .attr('width', 13)
+                  .attr('height', 6)
+                  .classed('card-remover-rect', true)
+                  ;
+
+                function synRemove(d) {
+
+                  var currentNodeId = nodes[d.id];
+
+                  nodes.splice(nodes.indexOf(d), 1);
+                  spliceLinksForNode(d);
+
+                  d3.selectAll(".syn")
+                    .attr("filter", false)
+                  ;
+
+                  restart();
+                  console.log(nodes)
+
+                }
+
+                function synCollapse(d) {
 
                   // select current card value
                   var currentValue = this.parentNode.querySelector('.card').value;
 
+
                   // find current card node
-                  var currentNode = nodes[d.id];
+                  var currentNode = nodes[d.index];
+                  
+                  console.log(currentNode);
 
                   // push current card content to current node (in object)
                   currentNode.content = currentValue;
@@ -524,7 +565,9 @@ function forceInit() {
                       .attr('r', 10)
                       .classed('card-action', true)
                       .on('click', synExpand)
-                      ; 
+                      ;
+
+                  synRemover.remove();
                 }
 
                 function enterCollapse() {
@@ -568,12 +611,14 @@ function forceInit() {
                         .classed('card-action', true)
                         .on('click', synExpand)
                       ;
+
+                      synRemover.remove();
                     }
                 }
               }
           }
 
-          createSyn();
+        createSyn();
 
 
       // remove old nodes
@@ -639,8 +684,7 @@ function forceInit() {
         // insert a new node at mouse position
         var node = {
             id: ++lastNodeId,
-            reflexive: false,
-            content: '',
+            content: "",
             x: adjustedMouseX,
             y: adjustedMouseY,
             fixed: true
@@ -650,6 +694,8 @@ function forceInit() {
 
       restart();
 
+      console.log(nodes)
+      console.log(node)
     }
 
     function spliceLinksForNode(node) {
@@ -696,8 +742,6 @@ function forceInit() {
       .on('mouseup', mouseup)
       .on('contextmenu', newNode);
 
-
-      console.log(nodes);
 
     restart();
 

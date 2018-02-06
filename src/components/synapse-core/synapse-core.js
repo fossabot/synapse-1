@@ -583,7 +583,7 @@ function forceInit() {
                       var currentValue = this.querySelector('.card').value;
   
                       // find current card node
-                      var currentNode = nodes[d.id];
+                      var currentNode = nodes[d.index];
 
                       // push current card content to current node (in object)
                       currentNode.content = currentValue;

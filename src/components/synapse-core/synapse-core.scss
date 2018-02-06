@@ -27,6 +27,7 @@ body {
 
 body {
 	background-color: $bodyColor;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .circle-bg {
@@ -129,7 +130,10 @@ body {
 }
 
 .card {
-	border: none;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border-bottom-left-radius: 5px;
@@ -144,8 +148,9 @@ body {
 	width: $cardWidth;
 	height: $cardHeight;	
 	resize: none;
+	font-family: 'Montserrat', sans-serif;
 	font-size: 18px;
-	line-height: 24px;
+	line-height: 27px;
 	overflow: hidden;
 	font-weight: 300;
 	box-sizing: border-box;
@@ -257,6 +262,10 @@ body {
     	border-top-left-radius: 15px;
 		border-top-right-radius: 15px;
 		border-bottom-left-radius: 15px;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
 	}
 
 	& .card-node-shadow {

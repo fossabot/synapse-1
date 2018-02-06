@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'Components/firebase-config';
+import  { triggerSaveIndicator, triggerDeleteIndicator }
+        from 'Components/synapse-ui/synapse-ui';
 
 // Global data vars
 
@@ -54,6 +56,8 @@ synUISync.addEventListener('click', e => {
         // viewportSnapXY,
         // viewportSnapScale
     });
+
+    triggerSaveIndicator('Graph saved!')
 })
 // -->
 
@@ -296,6 +300,8 @@ function forceInit() {
 
           links.splice(links.indexOf(selected_link), 1);
 
+          triggerDeleteIndicator('Link destroyed!')
+
           restart();
       });
 
@@ -527,6 +533,8 @@ function forceInit() {
 
                   restart();
                   console.log(nodes)
+
+                  triggerDeleteIndicator('Node deleted!');
 
                 }
 

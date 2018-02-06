@@ -4,6 +4,8 @@ $fa-font-path: "~font-awesome/fonts";
 $synBlue: #4A90E2;
 $synTurqoise: #50E3C2;
 $synTurqoiseL: #4AD2B6;
+$synGreen: #B8E986;
+$synRed: #F75166;
 $bodyColor: #192946;
 
 
@@ -41,3 +43,78 @@ $bodyColor: #192946;
     top: 60px;
     right: 10px;
 }
+
+.syn-ui-indicator {
+    border-style: dashed;
+    border-width: 1px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    height: 34px;
+    width: 160px;
+    line-height: 34px;
+    position: absolute;
+    text-align: center;
+    background: darken($bodyColor, 3%);
+    z-index: 5000;
+    transform: scale(0);
+    opacity: 0;
+    & i {
+        font-size: 15px;
+        margin-right: 10px;
+    }
+}
+
+.syn-ui-indicator-save {
+    color: $synGreen;
+    border-color: $synGreen;
+    right: 60px;
+    top: 62px;
+    transform-origin: right;
+}
+
+.syn-ui-indicator-delete {
+    color: $synRed;
+    border-color: $synRed;
+    right: 50%;
+    margin-right: -80px;
+    top: 20px;
+} 
+
+.syn-ui-indicator-ani {
+    animation: indicator 3s;
+}
+
+@keyframes indicator {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        transform:  scale(1);
+        opacity: 1;
+    }
+
+    90% {
+        transform:  scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

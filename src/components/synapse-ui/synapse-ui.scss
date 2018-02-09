@@ -50,35 +50,32 @@ $bodyColor: #192946;
     border-radius: 10px;
     font-size: 13px;
     font-weight: 500;
-    height: 34px;
-    width: 160px;
-    line-height: 34px;
+    height: auto;
+    max-width: 300px;
     position: absolute;
     text-align: center;
+    padding: 10px 20px;
     background: darken($bodyColor, 3%);
     z-index: 5000;
-    transform: scale(0);
+    transform: translateX(50%) scale(0);
     opacity: 0;
+    right: 50%;
+    top: 20px;
+
     & i {
-        font-size: 15px;
+        font-size: 18px;
         margin-right: 10px;
     }
 }
 
-.syn-ui-indicator-save {
+.syn-ui-indicator-positive {
     color: $synGreen;
     border-color: $synGreen;
-    right: 60px;
-    top: 62px;
-    transform-origin: right;
 }
 
-.syn-ui-indicator-delete {
+.syn-ui-indicator-negative {
     color: $synRed;
     border-color: $synRed;
-    right: 50%;
-    margin-right: -80px;
-    top: 20px;
 } 
 
 .syn-ui-indicator-ani {
@@ -87,22 +84,22 @@ $bodyColor: #192946;
 
 @keyframes indicator {
     0% {
-        transform: scale(0);
+        transform:translateX(50%) scale(0);
         opacity: 0;
     }
 
     10% {
-        transform:  scale(1);
+        transform:translateX(50%) scale(1);
         opacity: 1;
     }
 
     90% {
-        transform:  scale(1);
+        transform:translateX(50%) scale(1);
         opacity: 1;
     }
 
     100% {
-        transform: scale(0);
+        transform:translateX(50%) scale(0);
         opacity: 0;
     }
 }

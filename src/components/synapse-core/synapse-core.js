@@ -4,10 +4,10 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'Components/firebase-config';
-import  { triggerSaveIndicator, triggerDeleteIndicator }
+import  { triggerPositiveIndicator, triggerNegativeIndicator }
         from 'Components/synapse-ui/synapse-ui';
 
-// Global data vars
+// data vars
 
 var nodes,
     lastNodeId,
@@ -18,6 +18,24 @@ var nodes,
 window.nodes = nodes;
 
 var nodesMap = {};
+var auth = firebase.auth();
+var synUILogout = document.querySelector('.syn-ui-logout');
+
+auth.onAuthStateChanged(firebaseUser => {
+    if (firebaseUser) {
+        console.log('hi there');
+    }
+    else {
+        window.location = './login.html';
+    }
+});
+
+synUILogout.addEventListener('click', e => {
+    auth.signOut();
+})
+
+var synUISync = document.querySelector('.syn-ui-sync');
+
 
 // FIREBASE SYNC
 
@@ -57,7 +75,7 @@ synUISync.addEventListener('click', e => {
         // viewportSnapScale
     });
 
-    triggerSaveIndicator('Graph saved!')
+    triggerPositiveIndicator('Graph saved!')
 })
 // -->
 
@@ -100,25 +118,25 @@ dbRef.once('value').then(function(snapshot) {
 
     } else {
 
-    // Ivo's fix for mapping the right nodes to links
-    for (var n in nodes) {
-        nodesMap[nodes[n].id] = nodes[n];
-    }
+      // Ivo's fix for mapping the right nodes to links
+      for (var n in nodes) {
+          nodesMap[nodes[n].id] = nodes[n];
+      }
 
-    var tempLinks = [];
+      var tempLinks = [];
 
-    for (var l in links) {
-        tempLinks.push({
-            source: nodesMap[links[l].source.id],
-            target: nodesMap[links[l].target.id]
-        })
-    }
+      for (var l in links) {
+          tempLinks.push({
+              source: nodesMap[links[l].source.id],
+              target: nodesMap[links[l].target.id]
+          })
+      }
 
-    // TODO: looped tempLinks override left & right key-values, thus arrows are lost
-    links = tempLinks;
+      // TODO: looped tempLinks override left & right key-values, thus arrows are lost
+      links = tempLinks;
 
-    // links appears to be an object, despite it being an array
-    console.log(typeof(links));
+      // links appears to be an object, despite it being an array
+      console.log(typeof(links));
     }
 
     // init force layout
@@ -126,7 +144,7 @@ dbRef.once('value').then(function(snapshot) {
 
 });
 
-// d3 force layout core (app core)
+// initialize d3 force layout core (app core)
 function forceInit() {
 
     // set up the SVG
@@ -300,7 +318,7 @@ function forceInit() {
 
           links.splice(links.indexOf(selected_link), 1);
 
-          triggerDeleteIndicator('Link destroyed!')
+          triggerPositiveIndicator('Link destroyed!')
 
           restart();
       });
@@ -534,7 +552,7 @@ function forceInit() {
                   restart();
                   console.log(nodes)
 
-                  triggerDeleteIndicator('Node deleted!');
+                  triggerPositiveIndicator('Node deleted!');
 
                 }
 

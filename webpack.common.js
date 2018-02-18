@@ -5,12 +5,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: {
         index: './src/index.js',
-        login: './src/components/auth/login/login.js'
+        login: './src/components/auth/login/login.js',
+        register: './src/components/auth/register/register.js'
     },
     output: {
         path: path.resolve('dist'),
         filename: '[name]_bundle.js'
-    },
+    }, 
     module: {
         rules: [
             {
@@ -33,13 +34,13 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [
                   {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: 'images/',    // where the fonts will go
+                        outputPath: 'images/', 
                     }
                   }
                 ]
@@ -51,13 +52,13 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: 'videos/',    // where the fonts will go
+                        outputPath: 'videos/', 
                     }
                   }
                 ]
             },
             {
-                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                test: /.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
                 use: [
                   {
                     loader: 'file-loader',
@@ -73,8 +74,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            Components: path.resolve(__dirname, 'src/components/'),
-            Utilities: path.resolve(__dirname, 'src/utilities/')
+              Components: path.resolve(__dirname, 'src/components/'),
+              Utilities: path.resolve(__dirname, 'src/utilities/')
             }
     },
   plugins: [
@@ -88,6 +89,11 @@ module.exports = {
           template: './src/components/auth/login/login.html',
           filename: 'login.html',
           chunks: ['login']
+      }),
+      new HtmlWebpackPlugin({
+          template: './src/components/auth/register/register.html',
+          filename: 'register.html',
+          chunks: ['register']
       })
   ]
 }

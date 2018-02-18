@@ -41,6 +41,5 @@ function tryToLogin() {
     var pass = formPassword.value;
     var promise = auth.signInWithEmailAndPassword(email, pass);
 
-    // TODO: validation
     promise.catch(e => triggerNegativeIndicator(e.message));
 }

@@ -18,7 +18,6 @@ body {
 body {
 	background-color: $synTurqoise;
 	font-family: 'Montserrat', sans-serif;
-	// background-image: url("reg-bg.svg");
 	background-repeat: no-repeat;
 	background-position: 60% 40px;
 }
@@ -218,7 +217,10 @@ label span {
 	border-radius: 50%;
 	position: absolute;
 	z-index: 1;
-	animation: ripple 8s linear;
+	// animation: ripple 8s linear;
+	// animation-name: dissapear;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
 	
 }
 
@@ -229,7 +231,7 @@ label span {
 	width: 80px;
 	animation-delay: 3.2s;
 	filter: blur(3px);
-	opacity: 0.8;
+	opacity: 0.5;
 }
 
 .dot2 {
@@ -250,16 +252,15 @@ label span {
 	animation-delay: 1.4s;
 }
 
-.dot4 {
-	height: 160px;
-	width: 160px;
-	bottom: -5%;
-	left: 5%;
-	animation-delay: 5s;
+@keyframes dissapear {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
-
-
-
 
 
 

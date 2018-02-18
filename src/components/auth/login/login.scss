@@ -19,17 +19,24 @@ body {
 	font-family: 'Montserrat', sans-serif;
 }
 
+h1 {
+	font-weight: 800;
+	font-size: 58px;
+	color: #FFFFFF;
+	text-shadow: 0 4px 0 rgba(0,0,0,0.06);
+	text-align: center;
+	margin-top: 80px;
+}
 
 input {
-	width: 320px;
+	width: 400px;
 	height: 55px;
-	margin: 10px 0;
+	margin: 10px 0 20px 0;
 	border: 1px dashed rgba($synTurqoiseL, 0);
 	padding: 15px;
 	border-radius: 5px;
 	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.09);
 	display: inline-block;
-
 }
 
 input:focus {
@@ -80,14 +87,20 @@ h2 {
 	width: 400px;;
 	display: inline-block;
 	margin: 0 100px;
+
+	& h1 {
+		text-align: left;
+		margin-top: 0;
+		margin-bottom: 10px;
+	}
 }
 
 .log-in-container p {
 	color: $synDark;
-	font-size: 14px;
+	font-size: 15px;
 	font-weight: 300;
 	text-align: left;
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 .log-in-container a {
@@ -104,23 +117,31 @@ h2 {
 	color: $synDark;
 }
 
-.log-in-button {
+.prime-button {
     padding: 20px 40px;
     color: #fff;
-	margin-top: 30px;
 	text-transform: uppercase;
-	font-weight: bold;
+	font-weight: 500;
+	font-size: 18px;
 	background: $synDark;
-	border-radius: 5px;
+	border-radius: 15px;
 	text-align: center;
 	display: inline-block;
-	transition: 0.4s;
+	transition: 0.25s;
+	box-shadow: 0 4px 0 2px rgba(19,31,52,0.10);
 }
 
-.log-in-button:hover {
+.prime-button:hover {
 	cursor: pointer;
+	background: lighten($synDark, 2%);
 }
 
-.log-in-button:active {
-	transform: scale(0.8);
+.prime-button:active {
+	transform: translateY(4px);
+	box-shadow: 0 0px 0 2px rgba(19,31,52,0.10);
+	background: darken($synDark, 2%);
+}
+
+.log-in-button {
+	margin-top: 30px;
 }

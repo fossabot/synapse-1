@@ -1,10 +1,5 @@
 import 'Components/synapse-ui/synapse-ui.scss';
 
-// import test
-console.log("what the shit evaluation");
-var evaluate = "such imports";
-
-
 // notifications
 function triggerPositiveIndicator(msg) {
 	var synUIIndicator = document.querySelector('.syn-ui-indicator');

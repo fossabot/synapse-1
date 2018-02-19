@@ -15,8 +15,6 @@ var nodes,
     // viewportSnapXY,
     // viewportSnapScale;
 
-window.nodes = nodes;
-
 var nodesMap = {};
 var auth = firebase.auth();
 var synUILogout = document.querySelector('.syn-ui-logout');
@@ -168,6 +166,7 @@ function forceInit() {
       .attr('oncontextmenu', 'return false;')
       .attr('width', width)
       .attr('height', height)
+      .attr('oncontextmenu', 'return false;')
       .classed('canvas', true)
       ;
 
@@ -203,9 +202,6 @@ function forceInit() {
         .on('tick', tick)
         .start()
         ;
-        window.force = force;
-        window.links = links;
-        window.nodes = nodes;
 
     var drag = force.drag()
       .on("dragstart", dragstart);
@@ -550,7 +546,6 @@ function forceInit() {
                   ;
 
                   restart();
-                  console.log(nodes)
 
                   triggerPositiveIndicator('Node deleted!');
 
@@ -564,9 +559,7 @@ function forceInit() {
 
                   // find current card node
                   var currentNode = nodes[d.index];
-                  
-                  console.log(currentNode);
-
+              
                   // push current card content to current node (in object)
                   currentNode.content = currentValue;
 
@@ -720,8 +713,10 @@ function forceInit() {
 
       restart();
 
-      console.log(nodes)
-      console.log(node)
+      document.oncontextmenu = function () { 
+        return false;
+      };
+
     }
 
     function spliceLinksForNode(node) {

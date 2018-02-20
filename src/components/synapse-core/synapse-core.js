@@ -32,9 +32,6 @@ synUILogout.addEventListener('click', e => {
     auth.signOut();
 })
 
-var synUISync = document.querySelector('.syn-ui-sync');
-
-
 // FIREBASE SYNC
 
 // <-- write data
@@ -45,7 +42,6 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         userId = firebase.auth().currentUser.uid;
     }
-    else {}
 });
 
 synUISync.addEventListener('click', e => {
@@ -126,7 +122,9 @@ dbRef.once('value').then(function(snapshot) {
       for (var l in links) {
           tempLinks.push({
               source: nodesMap[links[l].source.id],
-              target: nodesMap[links[l].target.id]
+              target: nodesMap[links[l].target.id],
+              right: links[l].right,
+              left: links[l].left
           })
       }
 
@@ -134,7 +132,7 @@ dbRef.once('value').then(function(snapshot) {
       links = tempLinks;
 
       // links appears to be an object, despite it being an array
-      console.log(typeof(links));
+      console.log(links);
     }
 
     // init force layout
@@ -166,7 +164,6 @@ function forceInit() {
       .attr('oncontextmenu', 'return false;')
       .attr('width', width)
       .attr('height', height)
-      .attr('oncontextmenu', 'return false;')
       .classed('canvas', true)
       ;
 
@@ -202,6 +199,10 @@ function forceInit() {
         .on('tick', tick)
         .start()
         ;
+
+        window.force = force;
+        window.links = links;
+        window.nodes = nodes;
 
     var drag = force.drag()
       .on("dragstart", dragstart);

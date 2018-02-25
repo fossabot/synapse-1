@@ -55,7 +55,8 @@ h2 {
 	border-radius: 50%;
 	background: $bodyColor;
 	border: 40px solid $synTurqoiseL;
-		overflow: hidden;
+	overflow: hidden;
+	transform: translate3d(0, 0, 0);
 }
 
 .preview-circle video {
@@ -75,10 +76,10 @@ h2 {
 	text-align: center;
 	width: auto;
 	overflow: hidden;
+	border-radius: 50%;
 }
 
 .preview-container video {
-	margin-top: 55px;
 	border: none;
 	box-shadow: none;
 }

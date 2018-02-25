@@ -92,7 +92,7 @@ module.exports = {
       }),
       new HtmlWebpackPlugin({
           template: './src/components/auth/register/register.html',
-          filename: 'register.html',
+          filename: 'super-secret-register-page.html',
           chunks: ['register']
       })
   ]

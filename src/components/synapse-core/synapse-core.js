@@ -88,9 +88,9 @@ dbRef.once('value').then(function(snapshot) {
     // if there are no nodes (first time login) – init starter data
     if (nodes === null) {
         nodes = [
-            {id: 0, reflexive: false, content: ''},
-            {id: 1, reflexive: false, content: ''},
-            {id: 2, reflexive: false, content: ''}
+            {id: 0, reflexive: false, content: 'Use the square & circle to edit nodes.'},
+            {id: 1, reflexive: false, content: 'Drag, pan & zoom to keep your graph tidy.'},
+            {id: 2, reflexive: false, content: 'Don\'t forget to save your work!'}
         ];
 
         lastNodeId = 2;
@@ -99,6 +99,12 @@ dbRef.once('value').then(function(snapshot) {
             {
                 source: nodes[0],
                 target: nodes[1],
+                left: false,
+                right: true
+            },
+            {
+                source: nodes[0],
+                target: nodes[2],
                 left: false,
                 right: true
             },
